@@ -48,7 +48,10 @@ function Cover() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="text" label="Name" variant="standard" fullWidth />
+              <MDInput type="text" label="First Name" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Last Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="email" label="Email" variant="standard" fullWidth />
@@ -56,7 +59,12 @@ function Cover() {
             <MDBox mb={2}>
               <MDInput type="password" label="Password" variant="standard" fullWidth />
             </MDBox>
-
+            <MDBox mb={2}>
+              <MDInput type="phone" label="Contact No" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Rights for Customer Account" variant="standard" fullWidth />
+            </MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth>
                 Create/Save User

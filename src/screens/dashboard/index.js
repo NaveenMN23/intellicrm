@@ -17,23 +17,23 @@ Coded by www.creative-tim.com
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "./../../components/MDBox";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import DashboardLayout from "./../../components/DashboardLayout";
+import DashboardNavbar from "./../../components/DashboardNavbar";
+import Footer from "./../../components/Footer";
+import ReportsBarChart from "./../../components/Charts/BarCharts/ReportsBarChart";
+import ReportsLineChart from "./../../components/Charts/LineCharts/ReportsLineChart";
+import ComplexStatisticsCard from "./../../components/Cards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+import reportsBarChartData from "./data/reportsBarChartData";
+import reportsLineChartData from "./data/reportsLineChartData";
 
 // Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
-import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import Projects from "./components/Projects";
+import OrdersOverview from "./components/OrdersOverview";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
@@ -62,7 +62,7 @@ function Dashboard() {
                 title="Order in progress"
                 count="2,300"
                 percentage={{
-                  
+
                 }}
               />
             </MDBox>
@@ -75,7 +75,7 @@ function Dashboard() {
                 title="Completed Order"
                 count="34k"
                 percentage={{
-                  
+
                 }}
               />
             </MDBox>
