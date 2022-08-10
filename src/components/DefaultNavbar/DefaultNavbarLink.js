@@ -35,8 +35,7 @@ function DefaultNavbarLink({ icon, name, route, light }) {
       p={1}
       display="flex"
       alignItems="center"
-      sx={{ cursor: "pointer", userSelect: "none" }}
-    >
+      sx={{ cursor: "pointer", userSelect: "none" }}>
       <Icon
         sx={{
           color: ({ palette: { white, secondary } }) => (light ? white.main : secondary.main),
@@ -50,8 +49,7 @@ function DefaultNavbarLink({ icon, name, route, light }) {
         fontWeight="regular"
         color={light ? "white" : "dark"}
         textTransform="capitalize"
-        sx={{ width: "100%", lineHeight: 0 }}
-      >
+        sx={{ width: "100%", lineHeight: 0 }}>
         &nbsp;{name}
       </MDTypography>
     </MDBox>

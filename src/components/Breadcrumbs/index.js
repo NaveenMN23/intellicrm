@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 
 // @mui material components
 import { Breadcrumbs as MuiBreadcrumbs } from "@mui/material";
-import Icon from "@mui/material/Icon";
+// import Icon from "@mui/material/Icon";
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 // Material Dashboard 2 React components
 import MDBox from "./../MDBox";
@@ -32,7 +33,7 @@ function Breadcrumbs({ icon, title, route, light }) {
             opacity={light ? 0.8 : 0.5}
             sx={{ lineHeight: 0 }}
           >
-            <Icon>{icon}</Icon>
+            <HomeOutlinedIcon>{icon}</HomeOutlinedIcon>
           </MDTypography>
         </Link>
         {routes.map((el) => (

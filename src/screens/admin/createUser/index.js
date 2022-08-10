@@ -65,6 +65,30 @@ function Cover() {
             <MDBox mb={2}>
               <MDInput type="text" label="Rights for Customer Account" variant="standard" fullWidth />
             </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Address" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="City" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="State" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Country" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Credit Limit" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Account Status" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Amount Recieved for SOA" variant="standard" fullWidth />
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Upload File" variant="standard" fullWidth />
+            </MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth>
                 Create/Save User

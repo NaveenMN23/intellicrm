@@ -3,17 +3,19 @@
 import Dashboard from "./../screens/dashboard";
 // import Tables from "./../screens/tables";
 import SignIn from "./../screens/signin";
-import SignUp from "./../screens/admin/createUser";
+import CreateUser from "./../screens/admin/createUser";
 
 // @mui icons
-import Icon from "@mui/material/Icon";
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 const routes = [
   {
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon: <DashboardOutlinedIcon fontSize="small">dashboard</DashboardOutlinedIcon>,
     route: "/dashboard",
     component: <Dashboard />,
   },
@@ -54,15 +56,23 @@ const routes = [
     type: "collapse",
     name: "Create User",
     key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
+    icon: <PersonAddAltOutlinedIcon fontSize="small">assignment</PersonAddAltOutlinedIcon>,
+    route: "/create-user",
+    component: <CreateUser />,
   },
   {
     // type: "collapse",
-    // name: "Sign In",
+    name: "Sign In",
     key: "sign-in",
     // icon: <Icon fontSize="small">login</Icon>,
+    route: "/authentication/sign-in",
+    component: <SignIn />,
+  },
+  {
+    type: "collapse",
+    name: "Log out",
+    key: "log-out",
+    icon: <LogoutOutlinedIcon fontSize="small">logout</LogoutOutlinedIcon>,
     route: "/authentication/sign-in",
     component: <SignIn />,
   },
