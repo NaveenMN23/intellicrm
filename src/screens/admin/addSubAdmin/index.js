@@ -42,7 +42,7 @@ function AddSubAdmin() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Add Sub-Admin
+            Save Sub-Admin
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>

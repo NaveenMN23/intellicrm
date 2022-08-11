@@ -39,6 +39,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useNavigate } from "react-router-dom";
 
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+
 interface StyledFormControlLabelProps extends FormControlLabelProps {
   checked: boolean;
 }
@@ -108,7 +111,7 @@ function AddCustomer() {
 
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const notify = () => toast("Customer details saved or updated successfully");
+  const notify = (message) => toast(message);
 
   // To get the props from previous page
   const { state } = useLocation();
@@ -166,34 +169,58 @@ function AddCustomer() {
   const handleFileUpload = (e) => {
     e.preventDefault();
     // Create an object of formData
-    const formData = new FormData();
-
-    // Update the formData object
-    formData.append(
-      "myFile",
-      selectedFile,
-      selectedFile.name
-    );
-
-    // Details of the uploaded file
-    console.log(selectedFile);
-    console.log(selectedFile.name);
+    // const formData = new FormData();
+    //
+    // // Update the formData object
+    // formData.append(
+    //   "myFile",
+    //   selectedFile,
+    //   selectedFile.name
+    // );
+    //
+    // // Details of the uploaded file
+    // console.log(selectedFile);
+    // console.log(selectedFile.name);
 
     setCustomerDetails({
       ...customerDetails,
-      "uploadFile" : formData,
+      "uploadFile" : selectedFile,
     });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const {firstName, lastName, email, contactNo, address, city, state, country,
       creditLimit, accountStatus, amountReceived, uploadFile} = customerDetails;
-    console.log(customerDetails);
-    notify();
-    setTimeout(() => {
-      navigate('/cusomerlist')
-    }, 2000);
+
+    const formData = new FormData();
+
+    formData.append("FirstName", firstName);
+    formData.append("LastName", lastName);
+    formData.append("Email", email);
+    formData.append("ContactNumber", contactNo);
+    formData.append("AccountStatus", accountStatus);
+    formData.append("Address", address);
+    formData.append("City", city);
+    formData.append("State", state);
+    formData.append("Country", country);
+    formData.append("AccountType", 1);
+    formData.append("CreditLimit", creditLimit);
+    formData.append("SoareceviedAmount", amountReceived);
+    formData.append("UploadFile", uploadFile);
+    formData.append("RequestedBy", "Admin");
+
+    console.log(formData)
+
+    // const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
+    if(true){
+      notify("Customer details saved or updated successfully");
+      setTimeout(() => {
+        navigate('/customerlist')
+      }, 2000);
+    } else {
+       notify("An error occured");
+    }
   }
 
   return (
@@ -218,7 +245,7 @@ function AddCustomer() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Add Customer
+            Save Customer
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>

@@ -28,7 +28,7 @@ const routes = [
     name: "Customer List",
     key: "customerlist",
     icon: <RecentActorsOutlinedIcon fontSize="small">table_view</RecentActorsOutlinedIcon>,
-    route: "/cusomerlist",
+    route: "/customerlist",
     component: <CustomerList />,
   },
   {
