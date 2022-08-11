@@ -13,14 +13,14 @@ import MDInput from "./../../../components/MDInput";
 import MDButton from "./../../../components/MDButton";
 
 // Authentication layout components
-import CoverLayout from "./components/CoverLayout";
+import CoverLayout from "./../components/CoverLayout";
 import DashboardLayout from "./../../../components/DashboardLayout";
 import DashboardNavbar from "./../../../components/DashboardNavbar";
 
 // Images
 import bgImage from "./../../../assets/images/bg-sign-up-cover.jpeg";
 
-function Cover() {
+function AddSubAdmin() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -42,7 +42,7 @@ function Cover() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Create User
+            Add Sub-Admin
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
@@ -64,30 +64,6 @@ function Cover() {
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" label="Rights for Customer Account" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="Address" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="City" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="State" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="Country" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="Credit Limit" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="Account Status" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="Amount Recieved for SOA" variant="standard" fullWidth />
-            </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="text" label="Upload File" variant="standard" fullWidth />
             </MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth>
@@ -120,4 +96,4 @@ function Cover() {
   );
 }
 
-export default Cover;
+export default AddSubAdmin;

@@ -52,7 +52,7 @@ function Basic() {
     console.debug(userData);
     const {userId, password} = userData;
     if(userId?.toString().toLowerCase() === 'admin' && password?.toString().toLowerCase() === 'password'){
-        navigate(`/create-user`, { state: "userId" })
+        navigate(`/Dashboard`, { state: "userId" })
     }
   };
 

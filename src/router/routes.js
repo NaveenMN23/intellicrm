@@ -3,12 +3,16 @@
 import Dashboard from "./../screens/dashboard";
 // import Tables from "./../screens/tables";
 import SignIn from "./../screens/signin";
-import CreateUser from "./../screens/admin/createUser";
+import AddCustomer from "./../screens/admin/addCustomer";
+import AddSubAdmin from "./../screens/admin/addSubAdmin";
+import CustomerList from "./../screens/listview/customer";
+import SubAdminList from "./../screens/listview/subadmin";
 
 // @mui icons
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import RecentActorsOutlinedIcon from '@mui/icons-material/RecentActorsOutlined';
 
 const routes = [
   {
@@ -19,14 +23,22 @@ const routes = [
     route: "/dashboard",
     component: <Dashboard />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "User List",
-  //   key: "tables",
-  //   icon: <Icon fontSize="small">table_view</Icon>,
-  //   route: "/tables",
-  //   component: <Tables />,
-  // },
+  {
+    type: "collapse",
+    name: "Customer List",
+    key: "customerlist",
+    icon: <RecentActorsOutlinedIcon fontSize="small">table_view</RecentActorsOutlinedIcon>,
+    route: "/cusomerlist",
+    component: <CustomerList />,
+  },
+  {
+    type: "collapse",
+    name: "Sub-Admin List",
+    key: "subadminlist",
+    icon: <RecentActorsOutlinedIcon fontSize="small">table_view</RecentActorsOutlinedIcon>,
+    route: "/subadminlist",
+    component: <SubAdminList />,
+  },
   // {
   //   type: "collapse",
   //   name: "Billing",
@@ -54,11 +66,19 @@ const routes = [
 
   {
     type: "collapse",
-    name: "Create User",
-    key: "sign-up",
+    name: "Add Customer",
+    key: "add-customer",
     icon: <PersonAddAltOutlinedIcon fontSize="small">assignment</PersonAddAltOutlinedIcon>,
-    route: "/create-user",
-    component: <CreateUser />,
+    route: "/add-customer",
+    component: <AddCustomer />,
+  },
+  {
+    type: "collapse",
+    name: "Add Sub-Admin",
+    key: "add-subadmin",
+    icon: <PersonAddAltOutlinedIcon fontSize="small">assignment</PersonAddAltOutlinedIcon>,
+    route: "/add-subadmin",
+    component: <AddSubAdmin />,
   },
   {
     // type: "collapse",
