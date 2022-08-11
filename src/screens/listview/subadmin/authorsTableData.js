@@ -17,6 +17,7 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 React components
 import MDBox from "./../../../components/MDBox";
+import MDButton from "./../../../components/MDButton";
 import MDTypography from "./../../../components/MDTypography";
 import MDAvatar from "./../../../components/MDAvatar";
 import MDBadge from "./../../../components/MDBadge";
@@ -26,7 +27,13 @@ import team2 from "./../../../assets/images/team-2.jpg";
 import team3 from "./../../../assets/images/team-3.jpg";
 import team4 from "./../../../assets/images/team-4.jpg";
 
-export default function data() {
+import { useNavigate } from "react-router-dom";
+
+export default function SubAdminData() {
+
+  // Navigate module
+  let navigate = useNavigate();
+
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <MDAvatar src={image} name={name} size="sm" />
@@ -48,72 +55,65 @@ export default function data() {
     </MDBox>
   );
 
-  return {
-    columns: [
-      { Header: "Name", accessor: "author", width: "45%", align: "left" },
-      { Header: "Status", accessor: "status", align: "center" },
-      { Header: "Type", accessor: "employed", align: "center" },
-      { Header: "action", accessor: "action", align: "center" },
-    ],
+  const columns = [
+    { Header: "Name", accessor: "author", width: "45%", align: "left" },
+    { Header: "Status", accessor: "status", align: "center" },
+    // { Header: "Type", accessor: "employed", align: "center" },
+    { Header: "action", accessor: "action", align: "center" },
+  ];
 
-    rows: [
-      {
-        author: <Author image={team2} name="John Michael" email="john@creative-tim.com" />,
-        function: <Job title="Manager" description="Organization" />,
+  let data =
+    [{
+      "id": 1,
+      "name": "John Michael",
+      "email":"john@creative-tim.com",
+      "image": {team2},
+      "accountStatus": "Active"
+    },
+    {
+      "id": 2,
+      "name": "Benley",
+      "email":"benley@creative-tim.com",
+      "image": {team3},
+      "accountStatus": "Hold"
+    },
+    {
+      "id": 3,
+      "name": "Triad",
+      "email":"triad@creative-tim.com",
+      "image": {team4},
+      "accountStatus": "Active"
+    }];
+
+  const editSubAdmin = (subAdminId) => {
+    console.log(subAdminId);
+    navigate(`/add-subadmin`, { state: subAdminId });
+  }
+
+  let rows = [];
+
+    data && data?.map((subadmin) => {
+      rows.push(
+        {author: <Author image={subadmin.image} name={subadmin.name} email={subadmin.email} />,
         status: (
           <MDBox ml={-1}>
-            <MDBadge badgeContent="Active" color="success" variant="gradient" size="sm" />
+            <MDBadge badgeContent={subadmin.accountStatus}
+            color={subadmin.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
           </MDBox>
         ),
-        employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Customer
-          </MDTypography>
-        ),
         action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          <MDButton variant="gradient" color="info" onClick={() => {editSubAdmin(subadmin.id)}}>
             Edit
-          </MDTypography>
-        ),
-      },
-      {
-        author: <Author image={team3} name="Alexa Liras" email="alexa@creative-tim.com" />,
-        function: <Job title="Programator" description="Developer" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="Hold" color="dark" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Customer
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      },
-      {
-        author: <Author image={team4} name="Laurent Perrier" email="laurent@creative-tim.com" />,
-        function: <Job title="Executive" description="Projects" />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent="Active" color="success" variant="gradient" size="sm" />
-          </MDBox>
-        ),
-        employed: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Sub-Admin
-          </MDTypography>
-        ),
-        action: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            Edit
-          </MDTypography>
-        ),
-      }
-    ],
-  };
+          </MDButton>
+          // <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
+          //   Edit
+          // </MDTypography>
+        ),}
+      )
+    });
+
+  return {
+    columns,
+    rows
+  }
 }

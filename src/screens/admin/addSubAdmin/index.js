@@ -16,11 +16,104 @@ import MDButton from "./../../../components/MDButton";
 import CoverLayout from "./../components/CoverLayout";
 import DashboardLayout from "./../../../components/DashboardLayout";
 import DashboardNavbar from "./../../../components/DashboardNavbar";
+import { InputLabel } from '@mui/material';
+
+import React, { useState, useEffect } from 'react';
+
+import { useLocation, useParams } from "react-router-dom";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { useNavigate } from "react-router-dom";
+
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
 
 // Images
 import bgImage from "./../../../assets/images/bg-sign-up-cover.jpeg";
 
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  contactNo: "",
+  rightsForCustomerAccount: true,
+}
+
 function AddSubAdmin() {
+
+  // Navigate module
+  let navigate = useNavigate();
+
+  const [subAdminDetails, setSubAdminDetails] = useState(initialValues);
+
+  const notify = (message) => toast(message);
+
+  // To get the props from previous page
+  const { state } = useLocation();
+
+  const fetchSubAdminDetails = () => {
+    const data = {
+      firstName: "Adolf",
+      lastName: "Hitler",
+      email: "adolf.hitler@intellicrm.com",
+      contactNo: "7836873738",
+      rightsForCustomerAccount: true
+    };
+    setSubAdminDetails(data);
+  }
+
+  useEffect(() => {
+    if(state != null){
+      console.log("came here");
+      fetchSubAdminDetails();
+    }
+  }, [state])
+
+  const handleInputChange = (e) => {
+    e.preventDefault();
+    const {name, value} = e.target;
+
+    setSubAdminDetails({
+      ...subAdminDetails,
+      [name]: [value],
+    });
+  }
+
+  const handleCheckboxChange = (e) => {
+    e.preventDefault();
+    setSubAdminDetails({
+      ...subAdminDetails,
+      "rightsForCustomerAccount": e.target.checked,
+    });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const {firstName, lastName, email, contactNo, rightsForCustomerAccount} = subAdminDetails;
+
+    const formData = new FormData();
+
+    formData.append("FirstName", firstName);
+    formData.append("LastName", lastName);
+    formData.append("Email", email);
+    formData.append("ContactNumber", contactNo);
+    formData.append("rightsForCustomerAccount", rightsForCustomerAccount);
+
+    console.log(subAdminDetails)
+
+    // const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
+    if(true){
+      notify("Sub Admin details saved or updated successfully");
+      setTimeout(() => {
+        navigate('/subadminlist')
+      }, 2000);
+    } else {
+       notify("An error occured");
+    }
+  }
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -46,27 +139,34 @@ function AddSubAdmin() {
           </MDTypography>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
+          <MDBox component="form" role="form" onSubmit={handleSubmit}>
             <MDBox mb={2}>
-              <MDInput type="text" label="First Name" variant="standard" fullWidth />
+              <MDInput type="text" name="firstName" value={subAdminDetails.firstName}
+                onChange={handleInputChange} label="First Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="text" label="Last Name" variant="standard" fullWidth />
+              <MDInput type="text" name="lastName" value={subAdminDetails.lastName}
+                onChange={handleInputChange} label="Last Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" variant="standard" fullWidth />
+              <MDInput type="email" name="email" value={subAdminDetails.email}
+                onChange={handleInputChange} label="Email" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="phone" label="Contact No" variant="standard" fullWidth />
+              <MDInput type="phone" name="contactNo" value={subAdminDetails.contactNo}
+                onChange={handleInputChange} label="Contact No" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="text" label="Rights for Customer Account" variant="standard" fullWidth />
+              <InputLabel sx={{lineHeight: '2.4375em'}}>Rights for Customer Account</InputLabel>
+              <Checkbox checked={subAdminDetails.rightsForCustomerAccount} onChange={handleCheckboxChange}
+              value={subAdminDetails.rightsForCustomerAccount} />
+              {/*<MDInput type="text" label="Rights for Customer Account" variant="standard" fullWidth />*/}
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton variant="gradient" color="info" type="submit" fullWidth>
                 Create/Save User
               </MDButton>
             </MDBox>
