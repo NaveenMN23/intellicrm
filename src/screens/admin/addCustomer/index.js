@@ -47,17 +47,18 @@ interface StyledFormControlLabelProps extends FormControlLabelProps {
 }
 
 const initialValues = {
+  userId:0,
   firstName: "",
   lastName: "",
   email: "",
-  contactNo: "",
+  contactNumber: "",
   address: "",
   city: "",
   state: "",
   country: "",
   creditLimit: "",
   accountStatus: "",
-  amountReceived: "",
+  soareceviedAmount: "",
   uploadFile: ""
 }
 
@@ -117,22 +118,14 @@ function AddCustomer() {
   const { state } = useLocation();
 
   //Fetch Customer Details
-  const fetchCustomerDetails = () => {
-    const data = {
-      firstName: "Adolf",
-      lastName: "Hitler",
-      email: "adolf.hitler@intellicrm.com",
-      contactNo: "7836873738",
-      address: "90, Thsj",
-      city: "Coimbatore",
-      state: "TamilNadu",
-      country: "India",
-      creditLimit: "7878",
-      accountStatus: "Active",
-      amountReceived: "500",
-      uploadFile: "somedata"
-    };
-    setCustomerDetails(data);
+  const fetchCustomerDetails = async () => {
+    
+    const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'/'+state, RequestType.GET);
+
+    if(resp.status == 200)
+    {
+      setCustomerDetails(resp.data);
+    }
   }
 
   useEffect(() => {
@@ -162,43 +155,29 @@ function AddCustomer() {
   }
 
   const handleFileChange = (e) => {
-    e.preventDefault();
+    console.log(e.target.files[0]);
     setSelectedFile(e.target.files[0]);
   }
 
   const handleFileUpload = (e) => {
     e.preventDefault();
-    // Create an object of formData
-    // const formData = new FormData();
-    //
-    // // Update the formData object
-    // formData.append(
-    //   "myFile",
-    //   selectedFile,
-    //   selectedFile.name
-    // );
-    //
-    // // Details of the uploaded file
-    // console.log(selectedFile);
-    // console.log(selectedFile.name);
-
     setCustomerDetails({
       ...customerDetails,
-      "uploadFile" : selectedFile,
+      "uploadFile" :  selectedFile,
     });
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {firstName, lastName, email, contactNo, address, city, state, country,
-      creditLimit, accountStatus, amountReceived, uploadFile} = customerDetails;
+    const {firstName, lastName, email, contactNumber, address, city, state, country,
+      creditLimit, accountStatus, soareceviedAmount, uploadFile} = customerDetails;
 
     const formData = new FormData();
 
     formData.append("FirstName", firstName);
     formData.append("LastName", lastName);
     formData.append("Email", email);
-    formData.append("ContactNumber", contactNo);
+    formData.append("ContactNumber", contactNumber);
     formData.append("AccountStatus", accountStatus);
     formData.append("Address", address);
     formData.append("City", city);
@@ -206,18 +185,18 @@ function AddCustomer() {
     formData.append("Country", country);
     formData.append("AccountType", 1);
     formData.append("CreditLimit", creditLimit);
-    formData.append("SoareceviedAmount", amountReceived);
+    formData.append("SoareceviedAmount", soareceviedAmount);
     formData.append("UploadFile", uploadFile);
     formData.append("RequestedBy", "Admin");
 
     console.log(formData)
 
-    // const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+    const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
+    if(resp.status == 200){
       notify("Customer details saved or updated successfully");
-      setTimeout(() => {
-        navigate('/customerlist')
-      }, 2000);
+      /*// setTimeout(() => {
+      //   navigate('/customerlist')
+      // }, 2000);*/
     } else {
        notify("An error occured");
     }
@@ -266,7 +245,7 @@ function AddCustomer() {
               <MDInput type="password" label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="phone" name="contactNo" value={customerDetails.contactNo}
+              <MDInput type="phone" name="contactNumber" value={customerDetails.contactNumber}
                 onChange={handleInputChange} label="Contact No" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
@@ -300,7 +279,7 @@ function AddCustomer() {
               </RadioGroup>
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="number" name="amountReceived" value={customerDetails.amountReceived}
+              <MDInput type="number" name="soareceviedAmount" value={customerDetails.soareceviedAmount}
                 onChange={handleInputChange} label="Amount Received for SOA" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2} fullWidth>

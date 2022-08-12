@@ -25,9 +25,9 @@ export const APIService = async (endPoint, requestType, formData) => {
     // }
 
     if(requestType === RequestType.GET){
-      getAPI(url);
+      return await getAPI(url);
     } else {
-      postAPI(url, formData);
+      return await postAPI(url, formData);
     }
 
     // const options = {
@@ -42,12 +42,13 @@ const getAPI = async (url) => {
   //set Headers
   const headers = {
       "Accept": "application/json",
-      "Content-Type": "application/json;charset=UTF-8"
+      "Content-Type": "application/json;charset=UTF-8",
+      "Authorization" : "Basic RGV2VXNlcjpEZXZAMTIz"
   };
 
   try {
-      const response = await instance.get(url);
-      return await response;
+      const response = await instance.get(url, {headers:headers});
+      return response;
   }
   catch (err) {
       console.log(err);
@@ -59,12 +60,14 @@ const postAPI = async (url, formData) => {
   const instance = getAxiosInstance();
   //set Headers
   const headers = {
-      "Content-Type": "multipart/form-data",
+      'Authorization' : 'Basic RGV2VXNlcjpEZXZAMTIz',     
+      "Accept": "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
   };
 
   try {
-      const response = await instance.post(url, formData);
-      return await response;
+      const response = await instance.post(url, formData , {headers: headers});
+      return response;
   }
   catch (err) {
       console.log(err);
