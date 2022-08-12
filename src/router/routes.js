@@ -7,12 +7,14 @@ import AddCustomer from "./../screens/admin/addCustomer";
 import AddSubAdmin from "./../screens/admin/addSubAdmin";
 import CustomerList from "./../screens/listview/customer";
 import SubAdminList from "./../screens/listview/subadmin";
+import Product from "./../screens/products";
 
 // @mui icons
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import RecentActorsOutlinedIcon from '@mui/icons-material/RecentActorsOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 
 const routes = [
   {
@@ -79,6 +81,15 @@ const routes = [
     icon: <PersonAddAltOutlinedIcon fontSize="small">assignment</PersonAddAltOutlinedIcon>,
     route: "/add-subadmin",
     component: <AddSubAdmin />,
+  },
+  {
+    type: "collapse",
+    name: "Product",
+    key: "product",
+    icon: <Inventory2OutlinedIcon fontSize="small">assignment</Inventory2OutlinedIcon
+    >,
+    route: "/product",
+    component: < Product />,
   },
   {
     // type: "collapse",
