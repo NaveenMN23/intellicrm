@@ -166,9 +166,10 @@ function AddSubAdmin() {
                 onChange={handleInputChange} label="Contact No" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <InputLabel sx={{lineHeight: '2.4375em'}}>Rights for Customer Account</InputLabel>
-              <Checkbox checked={subAdminDetails.rightsForCustomerAccount} onChange={handleCheckboxChange}
-              value={subAdminDetails.rightsForCustomerAccount} />
+              <InputLabel sx={{lineHeight: '2.4375em'}}>Rights for Customer Account
+                <Checkbox checked={subAdminDetails.rightsForCustomerAccount} onChange={handleCheckboxChange}
+                value={subAdminDetails.rightsForCustomerAccount} />
+              </InputLabel>
               {/*<MDInput type="text" label="Rights for Customer Account" variant="standard" fullWidth />*/}
             </MDBox>
             <MDBox mt={4} mb={1}>
