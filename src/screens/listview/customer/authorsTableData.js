@@ -64,21 +64,21 @@ export default function Data() {
 
   let data =
     [{
-      "id": 1,
+      "id": 14,
       "name": "John Michael",
       "email":"john@creative-tim.com",
       "image": {team2},
       "accountStatus": "Active"
     },
     {
-      "id": 2,
+      "id": 8,
       "name": "Benley",
       "email":"benley@creative-tim.com",
       "image": {team3},
       "accountStatus": "Hold"
     },
     {
-      "id": 3,
+      "id": 9,
       "name": "Triad",
       "email":"triad@creative-tim.com",
       "image": {team4},

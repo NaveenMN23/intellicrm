@@ -34,10 +34,11 @@ import {EndPoints, RequestType} from "./../../../services/apiConfig";
 import bgImage from "./../../../assets/images/bg-sign-up-cover.jpeg";
 
 const initialValues = {
+  userId:0,
   firstName: "",
   lastName: "",
   email: "",
-  contactNo: "",
+  contactNumber: "",
   rightsForCustomerAccount: true,
 }
 
@@ -58,10 +59,15 @@ function AddSubAdmin() {
       firstName: "Adolf",
       lastName: "Hitler",
       email: "adolf.hitler@intellicrm.com",
-      contactNo: "7836873738",
+      contactNumber: "7836873738",
       rightsForCustomerAccount: true
     };
-    setSubAdminDetails(data);
+    const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'/'+state, RequestType.GET);
+
+    if(resp.status == 200)
+    {
+      setSubAdminDetails(resp.data);
+    }
   }
 
   useEffect(() => {
@@ -91,19 +97,19 @@ function AddSubAdmin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {firstName, lastName, email, contactNo, rightsForCustomerAccount} = subAdminDetails;
+    const {firstName, lastName, email, contactNumber, rightsForCustomerAccount} = subAdminDetails;
 
     const formData = new FormData();
 
     formData.append("FirstName", firstName);
     formData.append("LastName", lastName);
     formData.append("Email", email);
-    formData.append("ContactNumber", contactNo);
+    formData.append("ContactNumber", contactNumber);
     formData.append("rightsForCustomerAccount", rightsForCustomerAccount);
 
     console.log(subAdminDetails)
 
-    // const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
+    const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
     if(true){
       notify("Sub Admin details saved or updated successfully");
       setTimeout(() => {
@@ -156,7 +162,7 @@ function AddSubAdmin() {
               <MDInput type="password" label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="phone" name="contactNo" value={subAdminDetails.contactNo}
+              <MDInput type="phone" name="contactNumber" value={subAdminDetails.contactNumber}
                 onChange={handleInputChange} label="Contact No" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
