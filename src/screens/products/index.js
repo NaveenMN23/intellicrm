@@ -40,6 +40,12 @@ export default function Product(){
     editable: true,
   }), []);
 
+  const defaultReadonlyColDef = useMemo(() => ({
+    sortable: true,
+    filter: true,
+    editable: false,
+  }), []);
+
   const cellClickedListener = useCallback( e=> {
     console.log(e);
   });
@@ -139,7 +145,7 @@ export default function Product(){
                     </MDButton>
                   </MDBox>
                   <MDBox pt={3} className='ag-theme-alpine'
-                    style={{height:1000, fontSize: '14px'}}>
+                    style={{fontSize: '14px', height: '400px', width: '100%'}}>
                     <AgGridReact
                       ref={gridRef}
                       onCellClicked = {cellClickedListener}
@@ -149,7 +155,22 @@ export default function Product(){
                       animateRows = {true}
                       defaultColDef = {defaultColDef}
                       onCellValueChanged={onCellValueChanged}
-                      style={{ fontSize: '15px' }}/>
+                      style={{ fontSize: '15px', width: '100%' }}/>
+                  </MDBox>
+                  <MDTypography variant="h6" color="white">
+                    Products
+                  </MDTypography>
+                  <MDBox pt={3} className='ag-theme-alpine'
+                    style={{fontSize: '14px', height: '400px', width: '100%'}}>
+                    <AgGridReact
+                      ref={gridRef}
+                      onCellClicked = {cellClickedListener}
+                      onGridReady={onGridReady}
+                      rowData = {rowData}
+                      columnDefs = {columnDefs}
+                      animateRows = {true}
+                      defaultColDef = {defaultReadonlyColDef}
+                      style={{ fontSize: '15px', width: '100' }}/>
                   </MDBox>
                 </MDBox>
               </Card>
