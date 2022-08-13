@@ -54,14 +54,8 @@ function AddSubAdmin() {
   // To get the props from previous page
   const { state } = useLocation();
 
-  const fetchSubAdminDetails = async() => {
-    const data = {
-      firstName: "Adolf",
-      lastName: "Hitler",
-      email: "adolf.hitler@intellicrm.com",
-      contactNumber: "7836873738",
-      rightsForCustomerAccount: true
-    };
+  const fetchSubAdminDetails = async () => {
+
     const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'/'+state, RequestType.GET);
 
     if(resp.status == 200)
