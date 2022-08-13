@@ -1,3 +1,8 @@
 .ag-header-cell-label{
     font-size: 15px
 }
+
+.buttonSpaceEvenly{
+  display: flex;
+  justify-content: space-between;
+}

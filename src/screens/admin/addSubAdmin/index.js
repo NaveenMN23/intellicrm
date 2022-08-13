@@ -54,7 +54,7 @@ function AddSubAdmin() {
   // To get the props from previous page
   const { state } = useLocation();
 
-  const fetchSubAdminDetails = () => {
+  const fetchSubAdminDetails = async() => {
     const data = {
       firstName: "Adolf",
       lastName: "Hitler",

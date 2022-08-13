@@ -9,7 +9,7 @@ import MDTypography from "./../../components/MDTypography";
 
 import {AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-material.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 // import { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact';
 
 import DashboardLayout from "./../../components/DashboardLayout";
@@ -66,6 +66,10 @@ export default function Product(){
       console.log(res);
   },[]);
 
+  const onBulkUpdate = () => {
+
+  }
+
   // const updateItems = useCallback(() => {
   //   // update the first 2 items
   //   const itemsToUpdate = [];
@@ -108,7 +112,7 @@ export default function Product(){
       <DashboardNavbar />
         <MDBox pt={6} pb={3} sx={{display:"flex", alignItems:"center",
               flexFlow:"column"}}>
-          <Grid container spacing={6} sx={{width:'80%'}}>
+          <Grid container spacing={6} sx={{width:'90%'}}>
             <Grid item xs={12}>
               <Card>
                 <MDBox
@@ -126,12 +130,15 @@ export default function Product(){
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={4} pb={3} px={3}>
-                  <MDBox mt={4} mb={1}>
+                  <MDBox mt={4} mb={1} className='buttonSpaceEvenly'>
                     <MDButton variant="gradient" color="info" onClick={onAddRow}>
                       + Add Product
                     </MDButton>
+                    <MDButton variant="gradient" color="info" onClick={onBulkUpdate}>
+                      Bulk Update
+                    </MDButton>
                   </MDBox>
-                  <MDBox pt={3} className='ag-theme-material'
+                  <MDBox pt={3} className='ag-theme-alpine'
                     style={{height:1000, fontSize: '14px'}}>
                     <AgGridReact
                       ref={gridRef}
