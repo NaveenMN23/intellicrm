@@ -280,12 +280,17 @@ function AddCustomer() {
             </MDBox>
             <MDBox mb={2}>
               <InputLabel sx={{lineHeight: '2.4375em'}}>Account Status</InputLabel>
-              <RadioGroup name="use-radio-group" onChange={handleCheckboxChange}>
+              <RadioGroup name="use-radio-group" defaultValue="first" onChange={handleCheckboxChange}>
                 {options.map((o) => (
                   <FormControlLabel value={o.id} label={o.key} key={o.key} control={<Radio />} />
                 ))}
-                {/*<MyFormControlLabel value="active" label="Active" control={<Radio />} />
-                <MyFormControlLabel value="hold" label="Hold" control={<Radio />} />*/}
+                {/*{((state && customerDetails && customerDetails.accountStatus) || customerDetails) && <RadioGroup name="use-radio-group"
+                defaultValue={customerDetails.accountStatus !== "" ? customerDetails.accountStatus : "Hold"}
+                onChange={handleCheckboxChange}>
+                  {options.map((o) => (
+                    <FormControlLabel value={o.id} label={o.key} key={o.key} control={<Radio />} />
+                  ))}
+                </RadioGroup>}*/}
               </RadioGroup>
             </MDBox>
             <MDBox mb={2}>
