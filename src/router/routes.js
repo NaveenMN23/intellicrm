@@ -18,6 +18,14 @@ import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 
 const routes = [
   {
+    // type: "collapse",
+    name: "Sign In",
+    key: "sign-in",
+    // icon: <Icon fontSize="small">login</Icon>,
+    route: "/authentication/sign-in",
+    component: <SignIn />,
+  },
+  {
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
@@ -86,18 +94,9 @@ const routes = [
     type: "collapse",
     name: "Product",
     key: "product",
-    icon: <Inventory2OutlinedIcon fontSize="small">assignment</Inventory2OutlinedIcon
-    >,
+    icon: <Inventory2OutlinedIcon fontSize="small">assignment</Inventory2OutlinedIcon>,
     route: "/product",
     component: < Product />,
-  },
-  {
-    // type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    // icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
   },
   {
     type: "collapse",

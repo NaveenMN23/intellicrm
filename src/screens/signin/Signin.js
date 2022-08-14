@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -31,6 +31,10 @@ function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const [userData, setUserData] = useState(initialValue);
+
+  useEffect(() => {
+    localStorage.removeItem("userEmail");
+  });
 
   // Navigate module
   let navigate = useNavigate();
