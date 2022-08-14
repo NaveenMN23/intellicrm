@@ -1,6 +1,6 @@
 // react-router-dom components
 import { Link } from "react-router-dom";
-
+import bcrypt from 'bcryptjs';
 // @mui material components
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -51,6 +51,7 @@ const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
+  password:"",
   contactNumber: "",
   address: "",
   city: "",
@@ -94,11 +95,11 @@ const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => (
 
 const options = [
   {
-    id: 1,
+    id: 'Active',
     key: 'Active',
   },
   {
-    id: 0,
+    id: 'Hold',
     key: 'Hold',
   },
 ];
@@ -136,7 +137,7 @@ function AddCustomer() {
   }, [state])
 
   const handleCheckboxChange = (e) => {
-    const id = parseInt(e.target.value);
+    const id = e.target.value.toString();
     const option = options.find((o) => o.id === id);
     setCustomerDetails({
       ...customerDetails,
@@ -169,14 +170,21 @@ function AddCustomer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {firstName, lastName, email, contactNumber, address, city, state, country,
+    const {firstName, lastName, email, password, contactNumber, address, city, state, country,
       creditLimit, accountStatus, soareceviedAmount, uploadFile} = customerDetails;
+
+    // SALT should be created ONE TIME upon sign up
+    const salt = bcrypt.genSaltSync(10);
+
+    const hashedPassword = bcrypt.hashSync(password, salt); // hash created previously created upon sign up
 
     const formData = new FormData();
 
     formData.append("FirstName", firstName);
     formData.append("LastName", lastName);
     formData.append("Email", email);
+    formData.append("Salt",salt);
+    formData.append("Password",hashedPassword);
     formData.append("ContactNumber", contactNumber);
     formData.append("AccountStatus", accountStatus);
     formData.append("Address", address);
@@ -187,7 +195,8 @@ function AddCustomer() {
     formData.append("CreditLimit", creditLimit);
     formData.append("SoareceviedAmount", soareceviedAmount);
     formData.append("UploadFile", uploadFile);
-    formData.append("RequestedBy", "Admin");
+    formData.append("Role", "customer");
+    formData.append("RequestedBy", JSON.parse(localStorage.getItem("userEmail")));
 
     console.log(formData)
 
@@ -242,7 +251,8 @@ function AddCustomer() {
                 onChange={handleInputChange} label="Email" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" variant="standard" fullWidth />
+              <MDInput type="password" name="password" value={customerDetails.password}
+                onChange={handleInputChange} label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="phone" name="contactNumber" value={customerDetails.contactNumber}

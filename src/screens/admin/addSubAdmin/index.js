@@ -1,5 +1,6 @@
 // react-router-dom components
 import { Link } from "react-router-dom";
+import bcrypt from 'bcryptjs';
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -38,6 +39,7 @@ const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
+  password:"",
   contactNumber: "",
   rightsForCustomerAccount: true,
 }
@@ -91,15 +93,24 @@ function AddSubAdmin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {firstName, lastName, email, contactNumber, rightsForCustomerAccount} = subAdminDetails;
+    const {firstName, lastName, email, password, contactNumber, rightsForCustomerAccount} = subAdminDetails;
+
+    // SALT should be created ONE TIME upon sign up
+    const salt = bcrypt.genSaltSync(10);
+
+    const hashedPassword = bcrypt.hashSync(password, salt); // hash created previously created upon sign up
 
     const formData = new FormData();
 
     formData.append("FirstName", firstName);
     formData.append("LastName", lastName);
     formData.append("Email", email);
+    formData.append("Salt",salt);
+    formData.append("Password",hashedPassword);
     formData.append("ContactNumber", contactNumber);
     formData.append("rightsForCustomerAccount", rightsForCustomerAccount);
+    formData.append("Role", "subadmin");
+    formData.append("RequestedBy", JSON.parse(localStorage.getItem("userEmail")));
 
     console.log(subAdminDetails)
 
@@ -153,7 +164,8 @@ function AddSubAdmin() {
                 onChange={handleInputChange} label="Email" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" variant="standard" fullWidth />
+            <MDInput type="password" name="password" value={subAdminDetails.password}
+              onChange={handleInputChange} label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="phone" name="contactNumber" value={subAdminDetails.contactNumber}

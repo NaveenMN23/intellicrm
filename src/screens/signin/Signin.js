@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -51,6 +50,7 @@ function Basic() {
   const handleSubmit = () => {
     console.debug(userData);
     const {userId, password} = userData;
+    localStorage.setItem("userEmail",JSON.stringify(userId));
     if(userId?.toString().toLowerCase() === 'admin' && password?.toString().toLowerCase() === 'password'){
         navigate(`/Dashboard`, { state: "userId" })
     }
@@ -77,7 +77,7 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="text" id="userId" label="User ID" onChange={handleChange} fullWidth />
+              <MDInput type="email" id="userId" label="User ID" onChange={handleChange} fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" id="password" label="Password" onChange={handleChange} fullWidth />

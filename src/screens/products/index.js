@@ -26,7 +26,7 @@ import './styles.css';
 const initialValues = {
   dataLoaded: false,
   oldRowData: [],
-  newRowData: [{productId: '', productName: ''}],
+  newRowData: [],
   fileUpload: {
     uploadedFileName: "",
     isFormInvalid: false
