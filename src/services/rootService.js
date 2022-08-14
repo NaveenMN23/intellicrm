@@ -26,10 +26,12 @@ export const APIService = async (endPoint, requestType, formData) => {
 
     if(requestType === RequestType.GET){
       return await getAPI(url);
-    } else {
+    } else if(requestType === RequestType.POST) {
       return await postAPI(url, formData);
     }
-
+    else {
+      return await postJsonAPI(url, formData);
+    }
     // const options = {
     //     headers: headers
     // }
@@ -66,10 +68,28 @@ const postAPI = async (url, formData) => {
   };
 
   try {
-      const response = await instance.post(url, formData , {headers: headers});
-      return response;
-  }
-  catch (err) {
-      console.log(err);
-  }
+    const response = await instance.post(url, formData , {headers: headers});
+    return response;
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
+  const postJsonAPI = async (url, formData) => {
+    const instance = getAxiosInstance();
+    //set Headers
+    const headers = {
+        'Authorization' : 'Basic RGV2VXNlcjpEZXZAMTIz',     
+        "Content-Type": "application/json;",
+    };
+    try {
+        const response = await instance.post(url, formData , {headers: headers});
+        return response;
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+
+

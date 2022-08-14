@@ -98,7 +98,7 @@ function AddSubAdmin() {
     // SALT should be created ONE TIME upon sign up
     const salt = bcrypt.genSaltSync(10);
 
-    const hashedPassword = bcrypt.hashSync(password, salt); // hash created previously created upon sign up
+    const hashedPassword = bcrypt.hashSync(password[0], salt); // hash created previously created upon sign up
 
     const formData = new FormData();
 
@@ -111,11 +111,14 @@ function AddSubAdmin() {
     formData.append("rightsForCustomerAccount", rightsForCustomerAccount);
     formData.append("Role", "subadmin");
     formData.append("RequestedBy", JSON.parse(localStorage.getItem("userEmail")));
+    formData.append("AccountType", 2);
+    formData.append("AccountStatus", "active");
+
 
     console.log(subAdminDetails)
 
-    const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+    const resp = await APIService(EndPoints.SAVE_SUBADMIN_DETAILS, RequestType.POST, formData);
+    if(resp.status == 200){
       notify("Sub Admin details saved or updated successfully");
       setTimeout(() => {
         navigate('/subadminlist')

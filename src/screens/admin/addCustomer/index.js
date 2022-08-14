@@ -176,7 +176,7 @@ function AddCustomer() {
     // SALT should be created ONE TIME upon sign up
     const salt = bcrypt.genSaltSync(10);
 
-    const hashedPassword = bcrypt.hashSync(password, salt); // hash created previously created upon sign up
+    const hashedPassword = bcrypt.hashSync(password[0], salt); // hash created previously created upon sign up
 
     const formData = new FormData();
 
@@ -203,9 +203,9 @@ function AddCustomer() {
     const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
     if(resp.status == 200){
       notify("Customer details saved or updated successfully");
-      /*// setTimeout(() => {
-      //   navigate('/customerlist')
-      // }, 2000);*/
+       setTimeout(() => {
+        navigate('/customerlist')
+      }, 2000);
     } else {
        notify("An error occured");
     }
