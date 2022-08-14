@@ -119,7 +119,7 @@ function AddCustomer() {
 
   //Fetch Customer Details
   const fetchCustomerDetails = async () => {
-    
+
     const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'/'+state, RequestType.GET);
 
     if(resp.status == 200)
@@ -283,11 +283,12 @@ function AddCustomer() {
                 onChange={handleInputChange} label="Amount Received for SOA" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2} fullWidth>
+              <InputLabel sx={{lineHeight: '2.4375em'}}>Upload File</InputLabel>
               <MDInput type="file" name="uploadFile"
                 onChange={handleFileChange} label="Upload File" variant="standard" />
-                <MDButton variant="gradient" color="info" onClick={handleFileUpload}>
-                  Upload
-                </MDButton>
+              <MDButton variant="gradient" color="info" onClick={handleFileUpload}>
+                Upload
+              </MDButton>
             </MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" type="submit" fullWidth>

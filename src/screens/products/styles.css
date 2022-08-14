@@ -6,3 +6,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.buttonRight{
+  display: flex;
+  justify-content: flex-end;
+}
