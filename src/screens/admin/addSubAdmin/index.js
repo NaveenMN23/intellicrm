@@ -106,7 +106,7 @@ function AddSubAdmin() {
     formData.append("LastName", lastName);
     formData.append("Email", email);
     formData.append("Salt",salt);
-    formData.append("Password",hashedPassword);
+    formData.append("Password",hashedPassword.toString());
     formData.append("ContactNumber", contactNumber);
     formData.append("rightsForCustomerAccount", rightsForCustomerAccount);
     formData.append("Role", "subadmin");

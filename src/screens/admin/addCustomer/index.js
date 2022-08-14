@@ -184,7 +184,7 @@ function AddCustomer() {
     formData.append("LastName", lastName);
     formData.append("Email", email);
     formData.append("Salt",salt);
-    formData.append("Password",hashedPassword);
+    formData.append("Password",hashedPassword.toString());
     formData.append("ContactNumber", contactNumber);
     formData.append("AccountStatus", accountStatus);
     formData.append("Address", address);
