@@ -22,17 +22,30 @@ import BasicLayout from "./../signin/components/SignInLayout";
 import bgImage from "./../../assets/images/bg-sign-in-basic.jpeg";
 import { useNavigate } from "react-router-dom";
 
+import {APIService} from "./../../services/rootService";
+import {EndPoints, RequestType} from "./../../services/apiConfig";
+import { useMaterialUIController,setLoginUserId } from "./../../context";
+
 const initialValue = {
-  userId: "",
+  Username: "",
   password: ""
 }
 
 function Basic() {
+  const [controller, dispatch] = useMaterialUIController();
+
+  const { LoginUserId  } = controller;
+
   const [rememberMe, setRememberMe] = useState(false);
 
   const [userData, setUserData] = useState(initialValue);
 
   useEffect(() => {
+    if(LoginUserId != '')
+    {
+      setUserData({Username :LoginUserId});
+      navigate(`/Dashboard`, { state: "userData" })
+    }
     localStorage.removeItem("userEmail");
   });
 
@@ -43,20 +56,25 @@ function Basic() {
     const data = e.target.value;
     setUserData(
       {
-        userId : e.target.id == "userId" ? data : userData.userId,
-        password:e.target.id != "userId" ? data : userData.password
+        Username : e.target.id == "Username" ? data : userData.Username,
+        password:e.target.id != "Username" ? data : userData.password
       }
     )
   }
 
   // const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.debug(userData);
-    const {userId, password} = userData;
-    localStorage.setItem("userEmail",JSON.stringify(userId));
-    if(userId?.toString().toLowerCase() === 'admin' && password?.toString().toLowerCase() === 'password'){
-        navigate(`/Dashboard`, { state: "userId" })
+    const {Username, password} = userData;
+    localStorage.setItem("userEmail",JSON.stringify(Username));
+
+    const resp = await APIService(EndPoints.SIGN_IN , RequestType.POST,userData);
+
+    if(resp.status == 200)
+    {
+      setLoginUserId(dispatch, Username);
+      navigate(`/Dashboard`, { state: "userData" })
     }
   };
 
@@ -81,7 +99,7 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" id="userId" label="User ID" onChange={handleChange} fullWidth />
+              <MDInput type="email" id="Username" label="User ID" onChange={handleChange} fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" id="password" label="Password" onChange={handleChange} fullWidth />
@@ -95,6 +113,11 @@ function Basic() {
                 onClick={handleSetRememberMe}
                 sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
               >
+              {
+  "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBnYW1pbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImp0aSI6ImNmYzM2ZTU0LTY3NzQtNGJkYS05MWZiLWNhNmM4YWJmYjkxZCIsImV4cCI6MTY2MDU0Njg4NSwiaXNzIjoiZGV2ZWxvcG1lbnRJc3N1ZXIiLCJhdWQiOiJkZXZlbG9wbWVudEF1ZGllbmNlIn0.yE_04R_LoegEnz3HC3xhJysRTFzajf_dTK5CqSRotnk",
+  "expirationDate": "2022-08-15T05:01:53.745Z",
+  "refreshToken": "string"
+}
                 &nbsp;&nbsp;Remember me
               </MDTypography>
             </MDBox> */}

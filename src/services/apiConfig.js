@@ -1,4 +1,6 @@
 export const EndPoints = {
+    SIGN_IN: 'Auth/Authenticate',
+    REFRESH_TOKEN: 'Auth/RefreshToken',
     FETCH_CUSTOMER_DETAILS : 'SuperAdmin/GetCustomerDetails',
     FETCH_SUBADMIN_DETAILS : 'SuperAdmin/GetSubAdminDetails',
     SAVE_CUSTOMER_DETAILS: 'SuperAdmin/CreateCustomer',

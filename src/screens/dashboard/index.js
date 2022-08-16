@@ -31,12 +31,19 @@ import ComplexStatisticsCard from "./../../components/Cards/ComplexStatisticsCar
 import reportsBarChartData from "./data/reportsBarChartData";
 import reportsLineChartData from "./data/reportsLineChartData";
 
+import { useMaterialUIController,setLoginUserId } from "./../../context";
+
 // Dashboard components
 import Projects from "./components/Projects";
 import OrdersOverview from "./components/OrdersOverview";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+
+  const [controller, dispatch] = useMaterialUIController();
+
+  const { LoginUserId  } = controller;
+
 
   return (
     <DashboardLayout>
