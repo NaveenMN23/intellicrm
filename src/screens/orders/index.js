@@ -49,7 +49,7 @@ function LinkTab(props) {
   );
 }
 
-const All = (props) => {
+const ExistingOrder = (props) => {
   const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
   return(
     <MDBox pt={3} className='ag-theme-alpine'
@@ -68,59 +68,22 @@ const All = (props) => {
   )
 }
 
-const InProcess = (props) => {
-    const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
+const NewOrder = (props) => {
+    const {gridRef, cellClickedListener, onGridReady, rowData,
+      columnDefs, defaultColDef, onCellValueChanged} = props;
     return(
       <MDBox pt={3} className='ag-theme-alpine'
         style={{fontSize: '14px', height: '400px', width: '100%'}}>
         <AgGridReact
-          ref={gridExistingRef}
+          ref={gridRef}
           onCellClicked = {cellClickedListener}
           onGridReady={onGridReady}
           rowData = {rowData}
           columnDefs = {columnDefs}
-          suppressExcelExport={true}
           animateRows = {true}
-          defaultColDef = {defaultReadonlyColDef}
-          style={{ fontSize: '15px', width: '100' }}/>
-      </MDBox>
-  )
-}
-
-const OnHold = (props) => {
-    const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
-    return(
-      <MDBox pt={3} className='ag-theme-alpine'
-        style={{fontSize: '14px', height: '400px', width: '100%'}}>
-        <AgGridReact
-          ref={gridExistingRef}
-          onCellClicked = {cellClickedListener}
-          onGridReady={onGridReady}
-          rowData = {rowData}
-          columnDefs = {columnDefs}
-          suppressExcelExport={true}
-          animateRows = {true}
-          defaultColDef = {defaultReadonlyColDef}
-          style={{ fontSize: '15px', width: '100' }}/>
-      </MDBox>
-  )
-}
-
-const Completed = (props) => {
-    const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
-    return(
-      <MDBox pt={3} className='ag-theme-alpine'
-        style={{fontSize: '14px', height: '400px', width: '100%'}}>
-        <AgGridReact
-          ref={gridExistingRef}
-          onCellClicked = {cellClickedListener}
-          onGridReady={onGridReady}
-          rowData = {rowData}
-          columnDefs = {columnDefs}
-          suppressExcelExport={true}
-          animateRows = {true}
-          defaultColDef = {defaultReadonlyColDef}
-          style={{ fontSize: '15px', width: '100' }}/>
+          defaultColDef = {defaultColDef}
+          onCellValueChanged = {onCellValueChanged}
+          style={{ fontSize: '15px', width: '100%' }}/>
       </MDBox>
   )
 }
@@ -218,9 +181,9 @@ const Orders = () => {
       } else {
         console.log("Rows uploaded:" + resp.rows);
         for(const el of resp.rows){
-          if(el[0].toString().toLowerCase().replace(/\s/g,'') !== "customerid"){
+          if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "customerid"){
             tempUpdate.push({"customerId": el[0], "orderId": el[1], "orderName": el[2], "status": el[3]});
-            console.log("Rows uploaded:" + tempUpdate);
+            console.log("Rows uploaded:" + el);
           }
         }
         setRowData({
@@ -280,39 +243,51 @@ const Orders = () => {
     }
   }
 
+  const onCellValueChanged = useCallback((event) => {
+    console.log('Data after change is', event);
+    // if(event.data)
+    //api to save data
 
+    console.log(event.data);
+    if(tempUpdate[event.rowIndex]){
+      tempUpdate[event.rowIndex] = event.data;
+    } else {
+      tempUpdate.push(event.data);
+    }
+
+
+  }, []);
+
+  const saveOrders = () => {
+    // setRowData({
+    //   ...rowData,
+    //   "newRowData": tempUpdate
+    // });
+    // setNewData(tempUpdate);
+    console.log(tempUpdate);
+  }
 
   const handleChange = (event, newValue) => {
     setSelectedNav(newValue);
     SelectedTab(newValue);
   }
 
-  const SelectedTab = () => {
-    switch (selectedNav) {
+  const SelectedTab = (newValue) => {
+    switch (newValue) {
       case 0:
         getOrderDetails();
-        return <All gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
-        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       case 1:
         getOrderDetailsByStatus('In Process');
-        return <InProcess gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
-        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       case 2:
         getOrderDetailsByStatus('On Hold');
-        return <OnHold gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
-        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       case 3:
         getOrderDetailsByStatus('Completed');
-        return <Completed gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
-        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       default:
         getOrderDetails();
-        return <All gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
-        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
     }
   }
@@ -340,6 +315,52 @@ const Orders = () => {
                   coloredShadow="info"
                 >
                   <MDTypography variant="h6" color="white">
+                    Add Orders
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={4} pb={3} px={3} sx={{ width: "100%" }}>
+                  <MDBox mt={4} mb={1} className='buttonSpaceEvenly'>
+                    <InputLabel sx={{lineHeight: '3em', fontSize:'15px', color:"#000"}}>Bulk Upload
+                      &nbsp;&nbsp;&nbsp;
+                      <MDInput type="file" name="uploadFile"
+                        onChange={onBulkUpdate}
+                        onClick={event => {event.target.value = null; }}
+                        />
+                    </InputLabel>
+                  </MDBox>
+                  <MDBox>
+                    <NewOrder gridRef={gridRef}
+                    cellClickedListener = {cellClickedListener}
+                    onGridReady={onGridReady} rowData = {rowData.newRowData}
+                    columnDefs = {columnDefs} defaultColDef = {defaultColDef}
+                    onCellValueChanged={onCellValueChanged}/>
+                  </MDBox>
+                  <MDBox mt={4} mb={1} className='buttonRight'>
+                    <MDButton variant="gradient" color="info" onClick={saveOrders}>
+                      Submit
+                    </MDButton>
+                  </MDBox>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+        <MDBox pt={6} pb={3} sx={{display:"flex", alignItems:"center",
+              flexFlow:"column"}}>
+          <Grid container spacing={6} sx={{width:'90%'}}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
                     Orders
                   </MDTypography>
                 </MDBox>
@@ -350,8 +371,9 @@ const Orders = () => {
                     <LinkTab label="Orders On Hold" />
                     <LinkTab label="Orders Completed" />
                   </Tabs>
-                  <MDBox pt={2} pb={2} px={2}>
-                    {(rowData && rowData.dataLoaded) && <SelectedTab/>}
+                  <MDBox>
+                    {rowData?.oldRowData && <ExistingOrder gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
+                    onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>}
                   </MDBox>
                 </MDBox>
               </Card>
