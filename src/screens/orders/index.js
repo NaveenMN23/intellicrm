@@ -49,30 +49,79 @@ function LinkTab(props) {
   );
 }
 
-const OnHold = () => {
+const All = (props) => {
+  const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
   return(
-    <div>onhold</div>
+    <MDBox pt={3} className='ag-theme-alpine'
+      style={{fontSize: '14px', height: '400px', width: '100%'}}>
+      <AgGridReact
+        ref={gridExistingRef}
+        onCellClicked = {cellClickedListener}
+        onGridReady={onGridReady}
+        rowData = {rowData}
+        columnDefs = {columnDefs}
+        suppressExcelExport={true}
+        animateRows = {true}
+        defaultColDef = {defaultReadonlyColDef}
+        style={{ fontSize: '15px', width: '100' }}/>
+    </MDBox>
   )
 }
 
-const InProcess = () => {
-  return(
-    <div>inprocess</div>
+const InProcess = (props) => {
+    const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
+    return(
+      <MDBox pt={3} className='ag-theme-alpine'
+        style={{fontSize: '14px', height: '400px', width: '100%'}}>
+        <AgGridReact
+          ref={gridExistingRef}
+          onCellClicked = {cellClickedListener}
+          onGridReady={onGridReady}
+          rowData = {rowData}
+          columnDefs = {columnDefs}
+          suppressExcelExport={true}
+          animateRows = {true}
+          defaultColDef = {defaultReadonlyColDef}
+          style={{ fontSize: '15px', width: '100' }}/>
+      </MDBox>
   )
 }
 
-const Completed = () => {
-  return(
-    <div>completed
-    hi
-    dsds
-    ds
-    ds
-    sd
-    ds
-    ds
-    sd
-    ds</div>
+const OnHold = (props) => {
+    const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
+    return(
+      <MDBox pt={3} className='ag-theme-alpine'
+        style={{fontSize: '14px', height: '400px', width: '100%'}}>
+        <AgGridReact
+          ref={gridExistingRef}
+          onCellClicked = {cellClickedListener}
+          onGridReady={onGridReady}
+          rowData = {rowData}
+          columnDefs = {columnDefs}
+          suppressExcelExport={true}
+          animateRows = {true}
+          defaultColDef = {defaultReadonlyColDef}
+          style={{ fontSize: '15px', width: '100' }}/>
+      </MDBox>
+  )
+}
+
+const Completed = (props) => {
+    const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
+    return(
+      <MDBox pt={3} className='ag-theme-alpine'
+        style={{fontSize: '14px', height: '400px', width: '100%'}}>
+        <AgGridReact
+          ref={gridExistingRef}
+          onCellClicked = {cellClickedListener}
+          onGridReady={onGridReady}
+          rowData = {rowData}
+          columnDefs = {columnDefs}
+          suppressExcelExport={true}
+          animateRows = {true}
+          defaultColDef = {defaultReadonlyColDef}
+          style={{ fontSize: '15px', width: '100' }}/>
+      </MDBox>
   )
 }
 
@@ -87,10 +136,10 @@ const Orders = () => {
   const [rowData, setRowData] = useState(initialValues);
 
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'Customer ID'},
-    {field: 'Order ID'},
-    {field: 'Order Name'},
-    {field: 'Order Status'}
+    {field: 'customerId'},
+    {field: 'orderId'},
+    {field: 'orderName'},
+    {field: 'status'}
   ]);
 
   const defaultColDef = useMemo(() => ({
@@ -127,7 +176,7 @@ const Orders = () => {
   const onAddRow = useCallback((addIndex) => {
     console.log(gridRef.current.api);
     const res = gridRef.current.api.applyTransaction({
-      add: [{ customerId: '', orderId: '', orderName: '', orderStatus: null }],
+      add: [{ customerId: '', orderId: '', orderName: '', status: '' }],
       addIndex: addIndex
       });
       console.log(res);
@@ -180,7 +229,7 @@ const Orders = () => {
           "newRowData": tempUpdate,
         });
       }
-      console.log(rowData);
+
     });
   };
 
@@ -192,10 +241,10 @@ const Orders = () => {
       //   navigate('/customerlist')
       // }, 2000);
       const data = [
-        {customerId: '1', orderId: '1234', orderName:'Test Order 1', status:0},
-        {customerId: '2', orderId: '2222', orderName:'Test Order 2', status:1},
-        {customerId: '3', orderId: '3333', orderName:'Test Order 3', status:2},
-        {customerId: '4', orderId: '4444', orderName:'Test Order 4', status:3},
+        {customerId: '1', orderId: '1234', orderName:'Test Order 1', status:'Submitted'},
+        {customerId: '2', orderId: '2222', orderName:'Test Order 2', status:'In Process'},
+        {customerId: '3', orderId: '3333', orderName:'Test Order 3', status:'On Hold'},
+        {customerId: '4', orderId: '4444', orderName:'Test Order 4', status:'Completed'},
       ];
       setRowData({
         ...rowData,
@@ -215,10 +264,10 @@ const Orders = () => {
       //   navigate('/customerlist')
       // }, 2000);
       const data = [
-        {customerId: '1', orderId: '1234', orderName:'Test Order 1', status:0},
-        {customerId: '2', orderId: '2222', orderName:'Test Order 2', status:1},
-        {customerId: '3', orderId: '3333', orderName:'Test Order 3', status:2},
-        {customerId: '4', orderId: '4444', orderName:'Test Order 4', status:3},
+        {customerId: '1', orderId: '1234', orderName:'Test Order 1', status:'Submitted'},
+        {customerId: '2', orderId: '2222', orderName:'Test Order 2', status:'In Process'},
+        {customerId: '3', orderId: '3333', orderName:'Test Order 3', status:'On Hold'},
+        {customerId: '4', orderId: '4444', orderName:'Test Order 4', status:'Completed'},
       ];
       const filterData = data.filter(el => el.status === status);
       setRowData({
@@ -231,23 +280,7 @@ const Orders = () => {
     }
   }
 
-  const All = () => {
-    return(
-      <MDBox pt={3} className='ag-theme-alpine'
-        style={{fontSize: '14px', height: '400px', width: '100%'}}>
-        <AgGridReact
-          ref={gridExistingRef}
-          onCellClicked = {cellClickedListener}
-          onGridReady={onGridReady}
-          rowData = {rowData.oldRowData}
-          columnDefs = {columnDefs}
-          suppressExcelExport={true}
-          animateRows = {true}
-          defaultColDef = {defaultReadonlyColDef}
-          style={{ fontSize: '15px', width: '100' }}/>
-      </MDBox>
-    )
-  }
+
 
   const handleChange = (event, newValue) => {
     setSelectedNav(newValue);
@@ -257,29 +290,36 @@ const Orders = () => {
   const SelectedTab = () => {
     switch (selectedNav) {
       case 0:
-        return <All/>;
+        getOrderDetails();
+        return <All gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
+        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       case 1:
-        return <OnHold/>;
+        getOrderDetailsByStatus('In Process');
+        return <InProcess gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
+        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       case 2:
-        return <InProcess/>;
+        getOrderDetailsByStatus('On Hold');
+        return <OnHold gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
+        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       case 3:
-        return <Completed/>;
+        getOrderDetailsByStatus('Completed');
+        return <Completed gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
+        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
       default:
-        return <All/>;
+        getOrderDetails();
+        return <All gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
+        onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>;
         break;
     }
   }
 
   useEffect(() => {
-    if(selectedNav === 0)
-      getOrderDetails();
-    else
-      getOrderDetailsByStatus();
-  },[selectedNav]);
+    getOrderDetails();
+  },[]);
 
   return (
     <DashboardLayout>
@@ -306,12 +346,12 @@ const Orders = () => {
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%" }}>
                   <Tabs value={selectedNav} onChange={handleChange} aria-label="nav tabs example">
                     <LinkTab label="All Orders" />
-                    <LinkTab label="Orders on hold" />
-                    <LinkTab label="Orders in process" />
-                    <LinkTab label="Orders completed" />
+                    <LinkTab label="Orders In Process" />
+                    <LinkTab label="Orders On Hold" />
+                    <LinkTab label="Orders Completed" />
                   </Tabs>
                   <MDBox pt={2} pb={2} px={2}>
-                    <SelectedTab/>
+                    {(rowData && rowData.dataLoaded) && <SelectedTab/>}
                   </MDBox>
                 </MDBox>
               </Card>
