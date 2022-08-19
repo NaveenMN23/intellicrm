@@ -7,16 +7,24 @@ import AddCustomer from "./../screens/admin/addCustomer";
 import AddSubAdmin from "./../screens/admin/addSubAdmin";
 import CustomerList from "./../screens/listview/customer";
 import SubAdminList from "./../screens/listview/subadmin";
-import Product from "./../screens/products";
+import AddProduct from "./../screens/products/addProduct";
+import EditProduct from "./../screens/products/editProduct";
 import Orders from "./../screens/orders";
+import CustomerUploads from "./../screens/customer/uploads";
+import CustomerPriority from "./../screens/customer/priority";
 
 // @mui icons
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import RecentActorsOutlinedIcon from '@mui/icons-material/RecentActorsOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';;
+import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import LowPriorityOutlinedIcon from '@mui/icons-material/LowPriorityOutlined';
+import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 
 const routes = [
   {
@@ -39,7 +47,7 @@ const routes = [
     type: "collapse",
     name: "Customer List",
     key: "customerlist",
-    icon: <RecentActorsOutlinedIcon fontSize="small">table_view</RecentActorsOutlinedIcon>,
+    icon: <RecentActorsOutlinedIcon fontSize="small">customerlist</RecentActorsOutlinedIcon>,
     route: "/customerlist",
     component: <CustomerList />,
   },
@@ -47,7 +55,7 @@ const routes = [
     type: "collapse",
     name: "Sub-Admin List",
     key: "subadminlist",
-    icon: <RecentActorsOutlinedIcon fontSize="small">table_view</RecentActorsOutlinedIcon>,
+    icon: <DnsOutlinedIcon fontSize="small">subadminlist</DnsOutlinedIcon>,
     route: "/subadminlist",
     component: <SubAdminList />,
   },
@@ -80,7 +88,7 @@ const routes = [
     type: "collapse",
     name: "Add Customer",
     key: "add-customer",
-    icon: <PersonAddAltOutlinedIcon fontSize="small">assignment</PersonAddAltOutlinedIcon>,
+    icon: <PersonAddAltOutlinedIcon fontSize="small">add-customer</PersonAddAltOutlinedIcon>,
     route: "/add-customer",
     component: <AddCustomer />,
   },
@@ -88,31 +96,55 @@ const routes = [
     type: "collapse",
     name: "Add Sub-Admin",
     key: "add-subadmin",
-    icon: <PersonAddAltOutlinedIcon fontSize="small">assignment</PersonAddAltOutlinedIcon>,
+    icon: <SupervisorAccountOutlinedIcon fontSize="small">add-subadmin</SupervisorAccountOutlinedIcon>,
     route: "/add-subadmin",
     component: <AddSubAdmin />,
   },
   {
     type: "collapse",
-    name: "Product",
-    key: "product",
-    icon: <Inventory2OutlinedIcon fontSize="small">assignment</Inventory2OutlinedIcon>,
-    route: "/product",
-    component: < Product />,
+    name: "Add Product",
+    key: "add-product",
+    icon: <UploadFileOutlinedIcon fontSize="small">add-product</UploadFileOutlinedIcon>,
+    route: "/add-product",
+    component: < AddProduct />,
+  },
+  {
+    type: "collapse",
+    name: "Edit Product",
+    key: "edit-product",
+    icon: <Inventory2OutlinedIcon fontSize="small">edit-product</Inventory2OutlinedIcon>,
+    route: "/edit-product",
+    component: < EditProduct />,
   },
   {
     type: "collapse",
     name: "Orders",
     key: "order",
-    icon: <ShoppingBagOutlinedIcon fontSize="small">assignment</ShoppingBagOutlinedIcon>,
+    icon: <ShoppingBagOutlinedIcon fontSize="small">order</ShoppingBagOutlinedIcon>,
     route: "/orders",
     component: < Orders />,
   },
   {
     type: "collapse",
+    name: "Customer Uploads",
+    key: "customer-uploads",
+    icon: <CloudUploadOutlinedIcon fontSize="small">customer-uploads</CloudUploadOutlinedIcon>,
+    route: "/customer-uploads",
+    component: < CustomerUploads />,
+  },
+  {
+    type: "collapse",
+    name: "Customer Priority",
+    key: "customer-priority",
+    icon: <LowPriorityOutlinedIcon fontSize="small">customer-priority</LowPriorityOutlinedIcon>,
+    route: "/customer-priority",
+    component: < CustomerPriority />,
+  },
+  {
+    type: "collapse",
     name: "Log out",
     key: "log-out",
-    icon: <LogoutOutlinedIcon fontSize="small">logout</LogoutOutlinedIcon>,
+    icon: <LogoutOutlinedIcon fontSize="small">log-out</LogoutOutlinedIcon>,
     route: "/authentication/sign-in",
     component: <SignIn />,
   },

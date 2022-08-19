@@ -3,10 +3,10 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 React components
-import MDBox from "./../../components/MDBox";
-import MDButton from "./../../components/MDButton";
-import MDTypography from "./../../components/MDTypography";
-import MDInput from "./../../components/MDInput";
+import MDBox from "./../../../components/MDBox";
+import MDButton from "./../../../components/MDButton";
+import MDTypography from "./../../../components/MDTypography";
+import MDInput from "./../../../components/MDInput";
 import { InputLabel } from '@mui/material';
 
 import {AgGridReact} from 'ag-grid-react';
@@ -16,8 +16,8 @@ import { ExcelRenderer, OutTable } from "react-excel-renderer";
 
 // import { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact';
 
-import DashboardLayout from "./../../components/DashboardLayout";
-import DashboardNavbar from "./../../components/DashboardNavbar";
+import DashboardLayout from "./../../../components/DashboardLayout";
+import DashboardNavbar from "./../../../components/DashboardNavbar";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
@@ -37,7 +37,7 @@ const convertToRem = (pxValue) => pxValue / 16;
 
 const tempUpdate = [];
 
-export default function Product(){
+export default function AddProduct(){
 
   const gridRef = useRef();
 
@@ -54,10 +54,10 @@ export default function Product(){
     {field: 'countryOfOrigin', minWidth: 180},
     {field: 'manufacturer', minWidth: 180},
     {field: 'dosage', minWidth: 180},
-    {field: 'qtyPerPack', minWidth: 95},
+    {field: 'qtyPerPack', minWidth: 150},
     {field: 'dosageForm', minWidth: 180},
     {field: 'strength', minWidth: 180},
-    {field: 'quantity', minWidth: 90}
+    {field: 'quantity', minWidth: 120}
   ]);
 
   const defaultColDef = useMemo(() => ({
@@ -67,12 +67,12 @@ export default function Product(){
     flex: 1,
   }), []);
 
-  const defaultReadonlyColDef = useMemo(() => ({
-    sortable: true,
-    filter: true,
-    editable: false,
-    flex: 1,
-  }), []);
+  // const defaultReadonlyColDef = useMemo(() => ({
+  //   sortable: true,
+  //   filter: true,
+  //   editable: false,
+  //   flex: 1,
+  // }), []);
 
   const cellClickedListener = useCallback( e=> {
     console.log(e);
@@ -187,34 +187,34 @@ export default function Product(){
   //   console.log(res);
   // }, []);
 
-  const getProductDetails = async () => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
-      // notify("Customer details saved or updated successfully");
-      // setTimeout(() => {
-      //   navigate('/customerlist')
-      // }, 2000);
-      const data = [
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-      ];
-
-      setRowData({
-        ...rowData,
-        "dataLoaded": true,
-        "oldRowData": data
-      });
-    } else {
-       // notify("An error occured");
-    }
-  }
+  // const getProductDetails = async () => {
+  //   //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
+  //   if(true){
+  //     // notify("Customer details saved or updated successfully");
+  //     // setTimeout(() => {
+  //     //   navigate('/customerlist')
+  //     // }, 2000);
+  //     const data = [
+  //       {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
+  //       countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
+  //       strength:'120%', quantity:'3'},
+  //       {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
+  //       countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
+  //       strength:'100%', quantity:'2'},
+  //       {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
+  //       countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
+  //       strength:'150%', quantity:'5'},
+  //     ];
+  //
+  //     setRowData({
+  //       ...rowData,
+  //       "dataLoaded": true,
+  //       "oldRowData": data
+  //     });
+  //   } else {
+  //      // notify("An error occured");
+  //   }
+  // }
 
   const onCellValueChanged = useCallback((event) => {
     console.log('Data after change is', event);
@@ -231,10 +231,10 @@ export default function Product(){
 
   }, []);
 
-  const onBtnExportDataAsExcel = useCallback(() => {
-    console.log(gridExistingRef.current.api);
-    gridExistingRef.current.api.exportDataAsCsv();
-  }, []);
+  // const onBtnExportDataAsExcel = useCallback(() => {
+  //   console.log(gridExistingRef.current.api);
+  //   gridExistingRef.current.api.exportDataAsCsv();
+  // }, []);
 
   const saveProducts = () => {
     setRowData({
@@ -244,9 +244,9 @@ export default function Product(){
     console.log(tempUpdate);
   }
 
-  useEffect(() => {
-    getProductDetails();
-  },[]);
+  // useEffect(() => {
+  //   // getProductDetails();
+  // },[]);
 
   return (
     <DashboardLayout>
@@ -267,7 +267,7 @@ export default function Product(){
                   coloredShadow="info"
                 >
                   <MDTypography variant="h6" color="white">
-                    Products
+                    Add Products
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={4} pb={3} px={3}>
@@ -312,6 +312,7 @@ export default function Product(){
                       rowData = {rowData.newRowData}
                       columnDefs = {columnDefs}
                       animateRows = {true}
+                      pagination={true}
                       defaultColDef = {defaultColDef}
                       onCellValueChanged={onCellValueChanged}
                       style={{ fontSize: '15px', width: '100%' }}/>
@@ -319,49 +320,6 @@ export default function Product(){
                   <MDBox mt={4} mb={1} className='buttonRight'>
                     <MDButton variant="gradient" color="info" onClick={() => {saveProducts()}}>
                       Submit
-                    </MDButton>
-                  </MDBox>
-                </MDBox>
-              </Card>
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox pt={6} pb={3} sx={{display:"flex", alignItems:"center",
-              flexFlow:"column"}}>
-          <Grid container spacing={6} sx={{width:'90%'}}>
-            <Grid item xs={12}>
-              <Card>
-                <MDBox
-                  mx={2}
-                  mt={-3}
-                  py={3}
-                  px={2}
-                  variant="gradient"
-                  bgColor="info"
-                  borderRadius="lg"
-                  coloredShadow="info"
-                >
-                  <MDTypography variant="h6" color="white">
-                    View Products
-                  </MDTypography>
-                </MDBox>
-                <MDBox pt={4} pb={3} px={3}>
-                  <MDBox pt={3} className='ag-theme-alpine'
-                    style={{fontSize: '14px', height: '400px', width: '100%'}}>
-                    <AgGridReact
-                      ref={gridExistingRef}
-                      onCellClicked = {cellClickedListener}
-                      onGridReady={onGridReady}
-                      rowData = {rowData.oldRowData}
-                      columnDefs = {columnDefs}
-                      suppressExcelExport={true}
-                      animateRows = {true}
-                      defaultColDef = {defaultReadonlyColDef}
-                      style={{ fontSize: '15px', width: '100' }}/>
-                  </MDBox>
-                  <MDBox mt={4} mb={1} className='buttonRight'>
-                    <MDButton variant="gradient" color="info" onClick={() => {onBtnExportDataAsExcel()}}>
-                      Export
                     </MDButton>
                   </MDBox>
                 </MDBox>

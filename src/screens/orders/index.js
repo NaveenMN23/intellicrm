@@ -8,8 +8,8 @@ import MDButton from "./../../components/MDButton";
 import MDTypography from "./../../components/MDTypography";
 import MDInput from "./../../components/MDInput";
 import { InputLabel } from '@mui/material';
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import {AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -318,7 +318,7 @@ const Orders = () => {
                     Add Orders
                   </MDTypography>
                 </MDBox>
-                <MDBox pt={4} pb={3} px={3} sx={{ width: "100%" }}>
+                <MDBox pt={4} pb={3} px={3} sx={{ width: "100%"}}>
                   <MDBox mt={4} mb={1} className='buttonSpaceEvenly'>
                     <InputLabel sx={{lineHeight: '3em', fontSize:'15px', color:"#000"}}>Bulk Upload
                       &nbsp;&nbsp;&nbsp;
@@ -364,14 +364,14 @@ const Orders = () => {
                     Orders
                   </MDTypography>
                 </MDBox>
-                <MDBox pt={4} pb={3} px={3} sx={{ width: "100%" }}>
+                <MDBox pt={4} pb={3} px={3} sx={{ width: "100%", bgcolor: 'background.paper' }}>
                   <Tabs value={selectedNav} onChange={handleChange} aria-label="nav tabs example">
                     <LinkTab label="All Orders" />
                     <LinkTab label="Orders In Process" />
                     <LinkTab label="Orders On Hold" />
                     <LinkTab label="Orders Completed" />
                   </Tabs>
-                  <MDBox>
+                  <MDBox px={1}>
                     {rowData?.oldRowData && <ExistingOrder gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
                     onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>}
                   </MDBox>
