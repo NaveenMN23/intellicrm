@@ -58,7 +58,7 @@ function AddSubAdmin() {
 
   const fetchSubAdminDetails = async () => {
 
-    const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'/'+state, RequestType.GET);
+    const resp = await APIService(EndPoints.FETCH_SUBADMIN_DETAILS +'?email='+state, RequestType.GET);
 
     if(resp.status == 200)
     {

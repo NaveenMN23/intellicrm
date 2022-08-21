@@ -41,9 +41,9 @@ export default function Data() {
     }
   }
 
-const editCustomerData = (customerId) => {
-  console.log(customerId);
-  navigate(`/add-customer`, { state: customerId });
+const editCustomerData = (email) => {
+  console.log(email);
+  navigate(`/add-customer`, { state: email });
 }
 
 
@@ -90,7 +90,7 @@ const editCustomerData = (customerId) => {
           </MDBox>
         ),
         action: (
-          <MDButton variant="gradient" color="info" onClick={() => {editCustomerData(customer.userId)}}>
+          <MDButton variant="gradient" color="info" onClick={() => {editCustomerData(customer.email)}}>
             Edit
           </MDButton>
           // <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">

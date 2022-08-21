@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -22,7 +8,6 @@ import MDBox from "./../../components/MDBox";
 // Material Dashboard 2 React example components
 import DashboardLayout from "./../../components/DashboardLayout";
 import DashboardNavbar from "./../../components/DashboardNavbar";
-import Footer from "./../../components/Footer";
 import ReportsBarChart from "./../../components/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "./../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "./../../components/Cards/ComplexStatisticsCard";
@@ -33,9 +18,10 @@ import reportsLineChartData from "./data/reportsLineChartData";
 
 import { useMaterialUIController,setLoginUserId } from "./../../context";
 
-// Dashboard components
-import Projects from "./components/Projects";
-import OrdersOverview from "./components/OrdersOverview";
+import {PrintDocument} from './../../components/PdfPrinter';
+import { useState, useEffect, useMemo } from "react";
+
+import Invoice from './../../Reports/Invoice';
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
@@ -43,6 +29,10 @@ function Dashboard() {
   const [controller, dispatch] = useMaterialUIController();
 
   const { LoginUserId  } = controller;
+
+  useEffect( () => {
+    //PrintDocument('<div><b>Sample input document.</b></div>')
+  },[]);
 
 
   return (
