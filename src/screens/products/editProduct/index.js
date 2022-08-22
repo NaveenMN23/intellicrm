@@ -159,30 +159,30 @@ export default function EditProduct(){
       // }, 2000);
       const data =resp.data;
 
-      mappingColumn['productId'] = data['productid'];
-      mappingColumn['category'] = data['category'];
-      mappingColumn['EQUSBrandName'] = data['equsbrandname'];
-      mappingColumn['activeIngredient'] = data['activeingredient'];
-      mappingColumn['nameOnPackage'] = data['nameonpackage'];
-      mappingColumn['strength'] = data['strength'];
-      mappingColumn['dosageForm'] = data['dosageform'];
-      mappingColumn['unitsPerPack'] = data['unitsperpack'];
-      mappingColumn['productSourcedFrom'] = data['productsourcedfrom'];
-      mappingColumn['manufacturer'] = data['manufacturer'];
-      mappingColumn['licenceHolder'] = data['licenceholder'];
-      mappingColumn['batch'] = data['batch'];
-      mappingColumn['expiryDateRange'] = data['expirydaterange'];
-      mappingColumn['cifPricePerPack'] = data['cifpriceperpack'];
-      mappingColumn['sellingPricePerPack'] = data['sellingpriceperpack'];
-      mappingColumn['weight'] = data['weight'];
-      mappingColumn['boe'] = data['boe'];
-      mappingColumn['RXWarningCautionaryNote'] = data['rxwarningcautionarynote'];
-      mappingColumn['qty'] = data['qty'];
+      mappingColumn['productId'] = data[0]['productid'];
+      mappingColumn['category'] = data[0]['category'];
+      mappingColumn['EQUSBrandName'] = data[0]['equsbrandname'];
+      mappingColumn['activeIngredient'] = data[0]['activeingredient'];
+      mappingColumn['nameOnPackage'] = data[0]['nameonpackage'];
+      mappingColumn['strength'] = data[0]['strength'];
+      mappingColumn['dosageForm'] = data[0]['dosageform'];
+      mappingColumn['unitsPerPack'] = data[0]['unitsperpack'];
+      mappingColumn['productSourcedFrom'] = data[0]['productsourcedfrom'];
+      mappingColumn['manufacturer'] = data[0]['manufacturer'];
+      mappingColumn['licenceHolder'] = data[0]['licenceholder'];
+      mappingColumn['batch'] = data[0]['batch'];
+      mappingColumn['expiryDateRange'] = data[0]['expirydaterange'];
+      mappingColumn['cifPricePerPack'] = data[0]['cifpriceperpack'];
+      mappingColumn['sellingPricePerPack'] = data[0]['sellingpriceperpack'];
+      mappingColumn['weight'] = data[0]['weight'];
+      mappingColumn['boe'] = data[0]['boe'];
+      mappingColumn['RXWarningCautionaryNote'] = data[0]['rxwarningcautionarynote'];
+      mappingColumn['qty'] = data[0]['qty'];
 
       setRowData({
         ...rowData,
         "dataLoaded": true,
-        "oldRowData": mappingColumn
+        "oldRowData": [mappingColumn]
       });
     } else {
        // notify("An error occured");
