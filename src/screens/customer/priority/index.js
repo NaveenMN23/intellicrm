@@ -20,6 +20,10 @@ import DashboardLayout from "./../../../components/DashboardLayout";
 import DashboardNavbar from "./../../../components/DashboardNavbar";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './styles.css';
 
@@ -46,8 +50,8 @@ export default function CustomerPriority(){
   const [rowData, setRowData] = useState(initialValues);
 
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'customerEmail', minWidth: 180},
-    {field: 'customerName', minWidth: 180},
+    {field: 'email', minWidth: 180},
+    {field: 'firstname', minWidth: 180},
     {field: 'priority', minWidth: 180, editable: true}
   ]);
 
@@ -168,26 +172,13 @@ export default function CustomerPriority(){
   // }, []);
 
   const getCustomerDetails = async () => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+    const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_PRIORITY_DETAILS, RequestType.GET);
+    if(resp.status == 200){
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
       //   navigate('/customerlist')
       // }, 2000);
-      const data = [
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'}
-      ];
+      const data = resp.data;
 
       setRowData({
         ...rowData,
