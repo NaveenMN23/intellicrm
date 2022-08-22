@@ -22,6 +22,11 @@ import DashboardNavbar from "./../../../components/DashboardNavbar";
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
 import './styles.css';
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const initialValues = {
   dataLoaded: false,
@@ -90,148 +95,15 @@ export default function EditProduct(){
     return 1;
   }
 
-  //ag-Grid add new row functions
-  // const onAddRow = useCallback((addIndex) => {
-  //   console.log(gridRef.current.api);
-  //   const res = gridRef.current.api.applyTransaction({
-  //     add: [{ productId: '', category: '', brandName:'', api:'', otherName:'',
-  //       countryOfOrigin:'', manufacturer:'', dosage:'', qtyPerPack:'', dosageForm:'',
-  //       strength:'', quantity:''}],
-  //     addIndex: addIndex
-  //     });
-  //     console.log(res);
-  // },[]);
-  //
-  // const onBulkUpdate = event => {
-  //   if (event.target.files.length) {
-  //     let fileObj = event.target.files[0];
-  //     let fileName = fileObj.name;
-  //     console.log(fileObj);
-  //     //check for file extension and pass only if it is .xlsx and display error message otherwise
-  //     if (fileName.slice(fileName.lastIndexOf(".") + 1) === "xlsx") {
-  //       setRowData({
-  //         ...rowData,
-  //         "fileUpload":{
-  //           "uploadedFileName": fileName,
-  //           "isFormInvalid": false
-  //         }
-  //       });
-  //       renderFile(fileObj);
-  //     } else {
-  //       setRowData({
-  //         ...rowData,
-  //         "fileUpload":{
-  //           "uploadedFileName": "",
-  //           "isFormInvalid": true
-  //         }
-  //       });
-  //     }
-  //   }
-  // };
-  //
-  // //import Exel to table
-  // const renderFile = fileObj => {
-  //   //just pass the fileObj as parameter
-  //   ExcelRenderer(fileObj, (err, resp) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log("Rows uploaded:" + resp.rows);
-  //       // const obj = {
-  //       //   productId: '',
-  //       //   category: '',
-  //       //   brandName:'',
-  //       //   api:'',
-  //       //   otherName:'',
-  //       //   countryOfOrigin:'',
-  //       //   manufacturer:'',
-  //       //   dosage:'',
-  //       //   qtyPerPack:'',
-  //       //   dosageForm:'',
-  //       //   strength:'',
-  //       //   quantity:''
-  //       // }
-  //       for(const el of resp.rows){
-  //         if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "productid"){
-  //           tempUpdate.push({"productId": el[0], "category": el[1], "brandName":el[2],
-  //             "api":el[3], "otherName":el[4], "countryOfOrigin":el[5], "manufacturer":el[6],
-  //             "dosage":el[7], "qtyPerPack":el[8], "dosageForm":el[9],
-  //             "strength":el[10], "quantity":el[11]});
-  //           console.log("Rows uploaded:" + tempUpdate);
-  //
-  //         }
-  //       }
-  //       setRowData({
-  //         ...rowData,
-  //         "dataLoaded": true,
-  //         "newRowData": tempUpdate,
-  //       });
-  //     }
-  //     console.log(rowData);
-  //   });
-  // };
-
-  // const updateItems = useCallback(() => {
-  //   // update the first 2 items
-  //   const itemsToUpdate = [];
-  //   gridRef.current.api.forEachNodeAfterFilterAndSort(function (
-  //     rowNode,
-  //     index
-  //   ) {
-  //
-  //     const data = rowNode.data;
-  //     data.price = Math.floor(Math.random() * 20000 + 20000);
-  //     itemsToUpdate.push(data);
-  //   });
-  //   const res = gridRef.current.api.applyTransaction({ update: itemsToUpdate });
-  //   console.log(res);
-  // }, []);
 
   const getProductDetails = async () => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+    const resp = await APIService(EndPoints.GET_ALL_PRODUCT_DETAILS, RequestType.GET);
+    if(resp.status == 200){
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
       //   navigate('/customerlist')
       // }, 2000);
-      const data = [
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-      ];
+      const data =resp.data;
 
       setRowData({
         ...rowData,

@@ -21,6 +21,12 @@ import DashboardNavbar from "./../../../components/DashboardNavbar";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
+
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 import './styles.css';
 
 const initialValues = {
@@ -45,6 +51,10 @@ export default function AddProduct(){
 
   const [rowData, setRowData] = useState(initialValues);
 
+  const notify = (message) => toast(message);
+
+  let navigate = useNavigate();
+
   const [columnDefs, setColumnDefs] = useState([
     {field: 'productId', minWidth: 180},
     {field: 'category', minWidth: 180},
@@ -54,11 +64,12 @@ export default function AddProduct(){
     {field: 'countryOfOrigin', minWidth: 180},
     {field: 'manufacturer', minWidth: 180},
     {field: 'dosage', minWidth: 180},
-    {field: 'qtyPerPack', minWidth: 150},
+    {field: 'unitsperpack', minWidth: 150},
     {field: 'dosageForm', minWidth: 180},
     {field: 'strength', minWidth: 180},
     {field: 'quantity', minWidth: 120}
   ]);
+
 
   const defaultColDef = useMemo(() => ({
     sortable: true,
@@ -95,7 +106,7 @@ export default function AddProduct(){
     console.log(gridRef.current.api);
     const res = gridRef.current.api.applyTransaction({
       add: [{ productId: '', category: '', brandName:'', api:'', otherName:'',
-        countryOfOrigin:'', manufacturer:'', dosage:'', qtyPerPack:'', dosageForm:'',
+        countryOfOrigin:'', manufacturer:'', dosage:'', unitsperpack:'', dosageForm:'',
         strength:'', quantity:''}],
       addIndex: addIndex
       });
@@ -146,7 +157,7 @@ export default function AddProduct(){
         //   countryOfOrigin:'',
         //   manufacturer:'',
         //   dosage:'',
-        //   qtyPerPack:'',
+        //   unitsperpack:'',
         //   dosageForm:'',
         //   strength:'',
         //   quantity:''
@@ -155,7 +166,7 @@ export default function AddProduct(){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "productid"){
             tempUpdate.push({"productId": el[0], "category": el[1], "brandName":el[2],
               "api":el[3], "otherName":el[4], "countryOfOrigin":el[5], "manufacturer":el[6],
-              "dosage":el[7], "qtyPerPack":el[8], "dosageForm":el[9],
+              "dosage":el[7], "unitsperpack":el[8], "dosageForm":el[9],
               "strength":el[10], "quantity":el[11]});
             console.log("Rows uploaded:" + tempUpdate);
 
@@ -171,50 +182,6 @@ export default function AddProduct(){
     });
   };
 
-  // const updateItems = useCallback(() => {
-  //   // update the first 2 items
-  //   const itemsToUpdate = [];
-  //   gridRef.current.api.forEachNodeAfterFilterAndSort(function (
-  //     rowNode,
-  //     index
-  //   ) {
-  //
-  //     const data = rowNode.data;
-  //     data.price = Math.floor(Math.random() * 20000 + 20000);
-  //     itemsToUpdate.push(data);
-  //   });
-  //   const res = gridRef.current.api.applyTransaction({ update: itemsToUpdate });
-  //   console.log(res);
-  // }, []);
-
-  // const getProductDetails = async () => {
-  //   //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-  //   if(true){
-  //     // notify("Customer details saved or updated successfully");
-  //     // setTimeout(() => {
-  //     //   navigate('/customerlist')
-  //     // }, 2000);
-  //     const data = [
-  //       {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-  //       countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-  //       strength:'120%', quantity:'3'},
-  //       {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-  //       countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-  //       strength:'100%', quantity:'2'},
-  //       {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-  //       countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-  //       strength:'150%', quantity:'5'},
-  //     ];
-  //
-  //     setRowData({
-  //       ...rowData,
-  //       "dataLoaded": true,
-  //       "oldRowData": data
-  //     });
-  //   } else {
-  //      // notify("An error occured");
-  //   }
-  // }
 
   const onCellValueChanged = useCallback((event) => {
     console.log('Data after change is', event);
@@ -236,12 +203,23 @@ export default function AddProduct(){
   //   gridExistingRef.current.api.exportDataAsCsv();
   // }, []);
 
-  const saveProducts = () => {
+  const saveProducts = async () => {
     setRowData({
       ...rowData,
       "newRowData": tempUpdate
     });
-    console.log(tempUpdate);
+
+
+    const resp = await APIService(EndPoints.ADD_PRODUCT_DETAILS, RequestType.PostJson,tempUpdate);
+
+    if(resp.status == 200)
+    {
+      notify("Products details are saved");
+      setTimeout(() => {
+        navigate('/edit-product')
+      }, 2000)
+    }
+
   }
 
   // useEffect(() => {

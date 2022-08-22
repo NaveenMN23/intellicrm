@@ -20,6 +20,10 @@ import DashboardLayout from "./../../../components/DashboardLayout";
 import DashboardNavbar from "./../../../components/DashboardNavbar";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues = {
   dataLoaded: false,
@@ -31,6 +35,8 @@ const convertToRem = (pxValue) => pxValue / 16;
 const tempUpdate = [];
 
 export default function CustomerUploads(){
+
+  const notify = (message) => toast(message);
 
   const gridRef = useRef();
 
@@ -171,23 +177,13 @@ export default function CustomerUploads(){
   // }, []);
 
   const getCustomerUploads = async () => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+    const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_PRODUCT_DETAILS+"?customerId=1", RequestType.GET);
+    if(resp.status == 200){
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
       //   navigate('/customerlist')
       // }, 2000);
-      const data = [
-        {customerId: '1', productId: '12', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '2', productId: '21', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '3', productId: '33', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '4', productId: '43', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '5', productId: '52', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '6', productId: '44', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '7', productId: '90', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '8', productId: '80', productName:'test', productPrice:'123', qtyAssign:'10'},
-        {customerId: '9', productId: '90', productName:'test', productPrice:'123', qtyAssign:'10'}
-      ];
+      const data = resp.data;
 
       setRowData({
         ...rowData,
@@ -195,7 +191,7 @@ export default function CustomerUploads(){
         "oldRowData": data
       });
     } else {
-       // notify("An error occured");
+        notify("An error occured");
     }
   }
 
