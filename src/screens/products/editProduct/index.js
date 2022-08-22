@@ -51,18 +51,25 @@ export default function EditProduct(){
   const [rowData, setRowData] = useState(initialValues);
 
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'productId', minWidth: 180},
-    {field: 'category', minWidth: 180},
-    {field: 'brandName', minWidth: 180},
-    {field: 'api', minWidth: 180},
-    {field: 'otherName', minWidth: 180},
-    {field: 'countryOfOrigin', minWidth: 180},
-    {field: 'manufacturer', minWidth: 180},
-    {field: 'dosage', minWidth: 180},
-    {field: 'qtyPerPack', minWidth: 150, editable: true},
+    {field: 'productId', minWidth: 150},
+    {field: 'category', minWidth: 150},
+    {field: 'EQUSBrandName', minWidth: 200},
+    {field: 'activeIngredient', minWidth: 200},
+    {field: 'nameOnPackage', minWidth: 200},
+    {field: 'strength', minWidth: 150},
     {field: 'dosageForm', minWidth: 180},
-    {field: 'strength', minWidth: 180},
-    {field: 'quantity', minWidth: 120, editable: true}
+    {field: 'unitsPerPack', minWidth: 180},
+    {field: 'productSourcedFrom', minWidth: 250},
+    {field: 'manufacturer', minWidth: 180},
+    {field: 'licenceHolder', minWidth: 180},
+    {field: 'batch', minWidth: 100},
+    {field: 'expiryDateRange', minWidth: 220, filter: 'agDateColumnFilter', filterParams: filterParams},
+    {field: 'cifPricePerPack', minWidth: 220},
+    {field: 'sellingPricePerPack', minWidth: 250},
+    {field: 'weight', minWidth: 120},
+    {field: 'boe', minWidth: 100},
+    {field: 'RXWarningCautionaryNote', minWidth: 270},
+    {field: 'qty', minWidth: 100},
   ]);
 
   const defaultColDef = useMemo(() => ({
@@ -95,6 +102,27 @@ export default function EditProduct(){
     return 1;
   }
 
+  const mappingColumn = {
+    'productId':'',
+    'category':'',
+    'EQUSBrandName':'',
+    'activeIngredient':'',
+    'nameOnPackage':'',
+    'strength':'',
+    'dosageForm':'',
+    'unitsPerPack':'',
+    'productSourcedFrom':'',
+    'manufacturer':'',
+    'licenceHolder':'',
+    'batch':'',
+    'expiryDateRange':'',
+    'cifPricePerPack':'',
+    'sellingPricePerPack':'',
+    'weight':'',
+    'boe':'',
+    'RXWarningCautionaryNote':'',
+    'qty':''
+  }
 
   const getProductDetails = async () => {
     const resp = await APIService(EndPoints.GET_ALL_PRODUCT_DETAILS, RequestType.GET);
@@ -105,10 +133,30 @@ export default function EditProduct(){
       // }, 2000);
       const data =resp.data;
 
+      mappingColumn['productId'] = data['productid'];
+      mappingColumn['category'] = data['category'];
+      mappingColumn['EQUSBrandName'] = data['equsbrandname'];
+      mappingColumn['activeIngredient'] = data['activeingredient'];
+      mappingColumn['nameOnPackage'] = data['nameonpackage'];
+      mappingColumn['strength'] = data['strength'];
+      mappingColumn['dosageForm'] = data['dosageform'];
+      mappingColumn['unitsPerPack'] = data['unitsperpack'];
+      mappingColumn['productSourcedFrom'] = data['productsourcedfrom'];
+      mappingColumn['manufacturer'] = data['manufacturer'];
+      mappingColumn['licenceHolder'] = data['licenceholder'];
+      mappingColumn['batch'] = data['batch'];
+      mappingColumn['expiryDateRange'] = data['expirydaterange'];
+      mappingColumn['cifPricePerPack'] = data['cifpriceperpack'];
+      mappingColumn['sellingPricePerPack'] = data['sellingpriceperpack'];
+      mappingColumn['weight'] = data['weight'];
+      mappingColumn['boe'] = data['boe'];
+      mappingColumn['RXWarningCautionaryNote'] = data['rxwarningcautionarynote'];
+      mappingColumn['qty'] = data['qty'];
+
       setRowData({
         ...rowData,
         "dataLoaded": true,
-        "oldRowData": data
+        "oldRowData": mappingColumn
       });
     } else {
        // notify("An error occured");
