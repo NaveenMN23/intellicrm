@@ -56,18 +56,24 @@ export default function AddProduct(){
   let navigate = useNavigate();
 
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'productId', minWidth: 180},
-    {field: 'category', minWidth: 180},
-    {field: 'brandName', minWidth: 180},
-    {field: 'api', minWidth: 180},
-    {field: 'otherName', minWidth: 180},
-    {field: 'countryOfOrigin', minWidth: 180},
-    {field: 'manufacturer', minWidth: 180},
-    {field: 'dosage', minWidth: 180},
-    {field: 'unitsperpack', minWidth: 150},
+    {field: 'productId', minWidth: 150},
+    {field: 'category', minWidth: 150},
+    {field: 'EQUSBrandName', minWidth: 200},
+    {field: 'activeIngredient', minWidth: 200},
+    {field: 'nameOnPackage', minWidth: 200},
+    {field: 'strength', minWidth: 150},
     {field: 'dosageForm', minWidth: 180},
-    {field: 'strength', minWidth: 180},
-    {field: 'quantity', minWidth: 120}
+    {field: 'unitsPerPack', minWidth: 180},
+    {field: 'productSourcedFrom', minWidth: 250},
+    {field: 'manufacturer', minWidth: 180},
+    {field: 'licenceHolder', minWidth: 180},
+    {field: 'batch', minWidth: 100},
+    {field: 'expiryDateRange', minWidth: 220},
+    {field: 'cifPricePerPack', minWidth: 220},
+    {field: 'sellingPricePerPack', minWidth: 250},
+    {field: 'weight', minWidth: 120},
+    {field: 'boe', minWidth: 100},
+    {field: 'RXWarningCautionaryNote', minWidth: 270}
   ]);
 
 
@@ -76,6 +82,7 @@ export default function AddProduct(){
     filter: true,
     editable: true,
     flex: 1,
+    resizable: true,
   }), []);
 
   // const defaultReadonlyColDef = useMemo(() => ({
@@ -91,8 +98,8 @@ export default function AddProduct(){
 
   //ag-Grid hook ready
   const onGridReady = params => {
-
-    params.api.resetRowHeights();
+    // params.api.resetRowHeights();
+    params.api.sizeColumnsToFit();
     // gridRef.current = params.api;
     // console.log(params);
   };
@@ -105,9 +112,10 @@ export default function AddProduct(){
   const onAddRow = useCallback((addIndex) => {
     console.log(gridRef.current.api);
     const res = gridRef.current.api.applyTransaction({
-      add: [{ productId: '', category: '', brandName:'', api:'', otherName:'',
-        countryOfOrigin:'', manufacturer:'', dosage:'', unitsperpack:'', dosageForm:'',
-        strength:'', quantity:''}],
+      add: [{ productId:'',category:'',EQUSBrandName:'',activeIngredient:'',nameOnPackage:'',
+        strength:'',dosageForm:'',unitsPerPack:'',productSourcedFrom:'',manufacturer:'',
+        licenceHolder:'',batch:'',expiryDateRange:'',cifPricePerPack:'',sellingPricePerPack:'',
+        weight:'',boe:'',RXWarningCautionaryNote:''}],
       addIndex: addIndex
       });
       console.log(res);
@@ -164,10 +172,7 @@ export default function AddProduct(){
         // }
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "productid"){
-            tempUpdate.push({"productId": el[0], "category": el[1], "brandName":el[2],
-              "api":el[3], "otherName":el[4], "countryOfOrigin":el[5], "manufacturer":el[6],
-              "dosage":el[7], "unitsperpack":el[8], "dosageForm":el[9],
-              "strength":el[10], "quantity":el[11]});
+            tempUpdate.push({"productId":el[0],"category":el[1],"EQUSBrandName":el[2],"activeIngredient":el[3],"nameOnPackage":el[4],"strength":el[5],"dosageForm":el[6],"unitsPerPack":el[7],"productSourcedFrom":el[8],"manufacturer":el[9],"licenceHolder":el[10],"batch":el[11],"expiryDateRange":el[12],"cifPricePerPack":el[13],"sellingPricePerPack":el[14],"weight":el[15],"boe":el[16],"RXWarningCautionaryNote":el[17]});
             console.log("Rows uploaded:" + tempUpdate);
 
           }
