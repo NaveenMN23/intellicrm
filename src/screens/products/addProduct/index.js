@@ -80,25 +80,25 @@ export default function AddProduct(){
   };
 
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'productId', minWidth: 150},
-    {field: 'category', minWidth: 150},
-    {field: 'EQUSBrandName', minWidth: 200},
-    {field: 'activeIngredient', minWidth: 200},
-    {field: 'nameOnPackage', minWidth: 200},
-    {field: 'strength', minWidth: 150},
-    {field: 'dosageForm', minWidth: 180},
-    {field: 'unitsPerPack', minWidth: 180},
-    {field: 'productSourcedFrom', minWidth: 250},
-    {field: 'manufacturer', minWidth: 180},
-    {field: 'licenceHolder', minWidth: 180},
-    {field: 'batch', minWidth: 100},
-    {field: 'expiryDateRange', minWidth: 220, filter: 'agDateColumnFilter', filterParams: filterParams},
-    {field: 'cifPricePerPack', minWidth: 220},
-    {field: 'sellingPricePerPack', minWidth: 250},
-    {field: 'weight', minWidth: 120},
-    {field: 'boe', minWidth: 100},
-    {field: 'RXWarningCautionaryNote', minWidth: 270},
-    {field: 'qty', minWidth: 100},
+    {headerName: 'productId', field:'productid', minWidth: 150},
+    {headerName: 'category', field:'category', minWidth: 150},
+    {headerName: 'EQUSBrandName', field:'equsbrandname', minWidth: 200},
+    {headerName: 'activeIngredient', field:'activeingredient', minWidth: 200},
+    {headerName: 'nameOnPackage', field:'nameonpackage', minWidth: 200},
+    {headerName: 'strength', field:'strength', minWidth: 150},
+    {headerName: 'dosageForm', field:'dosageform', minWidth: 180},
+    {headerName: 'unitsPerPack', field:'unitsperpack', minWidth: 180},
+    {headerName: 'productSourcedFrom', field:'productsourcedfrom', minWidth: 250},
+    {headerName: 'manufacturer', field:'manufacturer', minWidth: 180},
+    {headerName: 'licenceHolder', field:'licenceholder', minWidth: 180},
+    {headerName: 'batch', field:'batch', minWidth: 100},
+    {headerName: 'expiryDateRange', field:'expirydaterange', minWidth: 220, filter: 'agDateColumnFilter', filterParams: filterParams},
+    {headerName: 'cifPricePerPack', field:'cifpriceperpack', minWidth: 220},
+    {headerName: 'sellingPricePerPack', field:'sellingpriceperpack', minWidth: 250},
+    {headerName: 'weight', field:'weight', minWidth: 120},
+    {headerName: 'boe', field:'boe', minWidth: 100},
+    {headerName: 'RXWarningCautionaryNote', field:'rxwarningcautionarynote', minWidth: 270},
+    {headerName: 'qty', field:'qty', minWidth: 100},
   ]);
 
 
@@ -137,10 +137,10 @@ export default function AddProduct(){
   const onAddRow = useCallback((addIndex) => {
     console.log(gridRef.current.api);
     const res = gridRef.current.api.applyTransaction({
-      add: [{ productId:'',category:'',EQUSBrandName:'',activeIngredient:'',nameOnPackage:'',
-        strength:'',dosageForm:'',unitsPerPack:'',productSourcedFrom:'',manufacturer:'',
-        licenceHolder:'',batch:'',expiryDateRange:'',cifPricePerPack:'',sellingPricePerPack:'',
-        weight:'',boe:'',RXWarningCautionaryNote:'', qty:''}],
+      add: [{ productid:'',category:'',equsbrandname:'',activeingredient:'',nameonpackage:'',
+        strength:'',dosageform:'',unitsperpack:'',productsourcedfrom:'',manufacturer:'',
+        licenceholder:'',batch:'',expirydaterange:'',cifpriceperpack:'',sellingpriceperpack:'',
+        weight:'',boe:'',rxwarningcautionarynote:'', qty:''}],
       addIndex: addIndex
       });
       console.log(res);
@@ -197,11 +197,11 @@ export default function AddProduct(){
         // }
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "productid"){
-            tempUpdate.push({"productId":el[0],"category":el[1],"EQUSBrandName":el[2],
-              "activeIngredient":el[3],"nameOnPackage":el[4],"strength":el[5],"dosageForm":el[6],
-              "unitsPerPack":el[7],"productSourcedFrom":el[8],"manufacturer":el[9],"licenceHolder":el[10],
-              "batch":el[11],"expiryDateRange":el[12],"cifPricePerPack":el[13],
-              "sellingPricePerPack":el[14],"weight":el[15],"boe":el[16],"RXWarningCautionaryNote":el[17], "qty":el[18]});
+            tempUpdate.push({"productid":el[0],"category":el[1],"equsbrandname":el[2],
+              "activeingredient":el[3],"nameonpackage":el[4],"strength":el[5],"dosageform":el[6],
+              "unitsperpack":el[7],"productsourcedfrom":el[8],"manufacturer":el[9],"licenceholder":el[10],
+              "batch":el[11],"expirydaterange":el[12],"cifpriceperpack":el[13],
+              "sellingpriceperpack":el[14],"weight":el[15],"boe":el[16],"rxwarningcautionarynote":el[17], "qty":el[18]});
             console.log("Rows uploaded:" + tempUpdate);
 
           }
@@ -242,7 +242,6 @@ export default function AddProduct(){
       ...rowData,
       "newRowData": tempUpdate
     });
-
 
     const resp = await APIService(EndPoints.ADD_PRODUCT_DETAILS, RequestType.PostJson,tempUpdate);
 
