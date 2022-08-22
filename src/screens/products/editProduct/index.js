@@ -100,6 +100,7 @@ export default function EditProduct(){
     sortable: true,
     filter: true,
     flex: 1,
+    resizable: true,
   }), []);
 
   // const defaultReadonlyColDef = useMemo(() => ({
@@ -116,7 +117,8 @@ export default function EditProduct(){
   //ag-Grid hook ready
   const onGridReady = params => {
 
-    params.api.resetRowHeights();
+    // params.api.resetRowHeights();
+    params.api.sizeColumnsToFit();
     getProductDetails();
     // gridRef.current = params.api;
     // console.log(params);
