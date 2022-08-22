@@ -64,9 +64,9 @@ export default function SubAdminData() {
     }
   }
 
-  const editSubAdmin = (subAdminId) => {
-    console.log(subAdminId);
-    navigate(`/add-subadmin`, { state: subAdminId });
+  const editSubAdmin = (email) => {
+    console.log(email);
+    navigate(`/add-subadmin`, { state: email });
   }
 
   let rows = [];
@@ -81,7 +81,7 @@ export default function SubAdminData() {
           </MDBox>
         ),
         action: (
-          <MDButton variant="gradient" color="info" onClick={() => {editSubAdmin(subadmin.userId)}}>
+          <MDButton variant="gradient" color="info" onClick={() => {editSubAdmin(subadmin.email)}}>
             Edit
           </MDButton>
           // <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
