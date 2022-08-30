@@ -15,11 +15,13 @@ import {AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { ExcelRenderer, OutTable } from "react-excel-renderer";
-
+import invoice from "./../../Reports/Invoice";
+import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOfflineOutlined';
 // import { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact';
-
+import { SvgIcon } from '@mui/material';
 import DashboardLayout from "./../../components/DashboardLayout";
 import DashboardNavbar from "./../../components/DashboardNavbar";
+import './styles.css';
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
@@ -88,6 +90,14 @@ const NewOrder = (props) => {
   )
 }
 
+const downloadBtn = () => {
+  return (
+    <span>
+      <DownloadForOfflineOutlinedIcon sx={{width:'2em',height:'2em'}}></DownloadForOfflineOutlinedIcon>
+    </span>
+  );
+}
+
 const Orders = () => {
 
   const [selectedNav, setSelectedNav] = useState(0);
@@ -103,6 +113,14 @@ const Orders = () => {
     {field: 'orderId'},
     {field: 'orderName'},
     {field: 'status'}
+  ]);
+
+  const [printColumnDefs, setPrintColumnDefs] = useState([
+    {field: 'customerId'},
+    {field: 'orderId'},
+    {field: 'orderName'},
+    {field: 'status'},
+    {field: 'invoice', cellRenderer: downloadBtn}
   ]);
 
   const defaultColDef = useMemo(() => ({
@@ -121,6 +139,9 @@ const Orders = () => {
 
   const cellClickedListener = useCallback( e=> {
     console.log(e);
+    if(e.column.colId === 'invoice'){
+      invoice(e.data);
+    }
   });
 
   //ag-Grid hook ready
@@ -373,7 +394,7 @@ const Orders = () => {
                   </Tabs>
                   <MDBox px={1}>
                     {rowData?.oldRowData && <ExistingOrder gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
-                    onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {columnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>}
+                    onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {printColumnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>}
                   </MDBox>
                 </MDBox>
               </Card>

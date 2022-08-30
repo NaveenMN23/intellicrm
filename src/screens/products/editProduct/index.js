@@ -22,6 +22,11 @@ import DashboardNavbar from "./../../../components/DashboardNavbar";
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 
 import './styles.css';
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const initialValues = {
   dataLoaded: false,
@@ -45,25 +50,57 @@ export default function EditProduct(){
 
   const [rowData, setRowData] = useState(initialValues);
 
+  const filterParams = {
+    comparator: (filterLocalDateAtMidnight, cellValue) => {
+      const dateAsString = cellValue;
+      const dateParts = dateAsString.split('/');
+      const cellDate = new Date(
+        Number(dateParts[2]),
+        Number(dateParts[1]) - 1,
+        Number(dateParts[0])
+      );
+
+      if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+        return 0;
+      }
+
+      if (cellDate < filterLocalDateAtMidnight) {
+        return -1;
+      }
+
+      if (cellDate > filterLocalDateAtMidnight) {
+        return 1;
+      }
+    },
+  };
+
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'productId', minWidth: 180},
-    {field: 'category', minWidth: 180},
-    {field: 'brandName', minWidth: 180},
-    {field: 'api', minWidth: 180},
-    {field: 'otherName', minWidth: 180},
-    {field: 'countryOfOrigin', minWidth: 180},
-    {field: 'manufacturer', minWidth: 180},
-    {field: 'dosage', minWidth: 180},
-    {field: 'qtyPerPack', minWidth: 150, editable: true},
-    {field: 'dosageForm', minWidth: 180},
-    {field: 'strength', minWidth: 180},
-    {field: 'quantity', minWidth: 120, editable: true}
+    {headerName: 'productId', field:'productid', minWidth: 150},
+    {headerName: 'category', field:'category', minWidth: 150},
+    {headerName: 'EQUSBrandName', field:'equsbrandname', minWidth: 200},
+    {headerName: 'activeIngredient', field:'activeingredient', minWidth: 200},
+    {headerName: 'nameOnPackage', field:'nameonpackage', minWidth: 200},
+    {headerName: 'strength', field:'strength', minWidth: 150},
+    {headerName: 'dosageForm', field:'dosageform', minWidth: 180},
+    {headerName: 'unitsPerPack', field:'unitsperpack', minWidth: 180},
+    {headerName: 'productSourcedFrom', field:'productsourcedfrom', minWidth: 250},
+    {headerName: 'manufacturer', field:'manufacturer', minWidth: 180},
+    {headerName: 'licenceHolder', field:'licenceholder', minWidth: 180},
+    {headerName: 'batch', field:'batch', minWidth: 100},
+    {headerName: 'expiryDateRange', field:'expirydaterange', minWidth: 220, filter: 'agDateColumnFilter', filterParams: filterParams},
+    {headerName: 'cifPricePerPack', field:'cifpriceperpack', minWidth: 220},
+    {headerName: 'sellingPricePerPack', field:'sellingpriceperpack', minWidth: 250},
+    {headerName: 'weight', field:'weight', minWidth: 120},
+    {headerName: 'boe', field:'boe', minWidth: 100},
+    {headerName: 'RXWarningCautionaryNote', field:'rxwarningcautionarynote', minWidth: 270},
+    {headerName: 'qty', field:'qty', minWidth: 100},
   ]);
 
   const defaultColDef = useMemo(() => ({
     sortable: true,
     filter: true,
     flex: 1,
+    resizable: true,
   }), []);
 
   // const defaultReadonlyColDef = useMemo(() => ({
@@ -80,7 +117,8 @@ export default function EditProduct(){
   //ag-Grid hook ready
   const onGridReady = params => {
 
-    params.api.resetRowHeights();
+    // params.api.resetRowHeights();
+    params.api.sizeColumnsToFit();
     getProductDetails();
     // gridRef.current = params.api;
     // console.log(params);
@@ -90,148 +128,14 @@ export default function EditProduct(){
     return 1;
   }
 
-  //ag-Grid add new row functions
-  // const onAddRow = useCallback((addIndex) => {
-  //   console.log(gridRef.current.api);
-  //   const res = gridRef.current.api.applyTransaction({
-  //     add: [{ productId: '', category: '', brandName:'', api:'', otherName:'',
-  //       countryOfOrigin:'', manufacturer:'', dosage:'', qtyPerPack:'', dosageForm:'',
-  //       strength:'', quantity:''}],
-  //     addIndex: addIndex
-  //     });
-  //     console.log(res);
-  // },[]);
-  //
-  // const onBulkUpdate = event => {
-  //   if (event.target.files.length) {
-  //     let fileObj = event.target.files[0];
-  //     let fileName = fileObj.name;
-  //     console.log(fileObj);
-  //     //check for file extension and pass only if it is .xlsx and display error message otherwise
-  //     if (fileName.slice(fileName.lastIndexOf(".") + 1) === "xlsx") {
-  //       setRowData({
-  //         ...rowData,
-  //         "fileUpload":{
-  //           "uploadedFileName": fileName,
-  //           "isFormInvalid": false
-  //         }
-  //       });
-  //       renderFile(fileObj);
-  //     } else {
-  //       setRowData({
-  //         ...rowData,
-  //         "fileUpload":{
-  //           "uploadedFileName": "",
-  //           "isFormInvalid": true
-  //         }
-  //       });
-  //     }
-  //   }
-  // };
-  //
-  // //import Exel to table
-  // const renderFile = fileObj => {
-  //   //just pass the fileObj as parameter
-  //   ExcelRenderer(fileObj, (err, resp) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log("Rows uploaded:" + resp.rows);
-  //       // const obj = {
-  //       //   productId: '',
-  //       //   category: '',
-  //       //   brandName:'',
-  //       //   api:'',
-  //       //   otherName:'',
-  //       //   countryOfOrigin:'',
-  //       //   manufacturer:'',
-  //       //   dosage:'',
-  //       //   qtyPerPack:'',
-  //       //   dosageForm:'',
-  //       //   strength:'',
-  //       //   quantity:''
-  //       // }
-  //       for(const el of resp.rows){
-  //         if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "productid"){
-  //           tempUpdate.push({"productId": el[0], "category": el[1], "brandName":el[2],
-  //             "api":el[3], "otherName":el[4], "countryOfOrigin":el[5], "manufacturer":el[6],
-  //             "dosage":el[7], "qtyPerPack":el[8], "dosageForm":el[9],
-  //             "strength":el[10], "quantity":el[11]});
-  //           console.log("Rows uploaded:" + tempUpdate);
-  //
-  //         }
-  //       }
-  //       setRowData({
-  //         ...rowData,
-  //         "dataLoaded": true,
-  //         "newRowData": tempUpdate,
-  //       });
-  //     }
-  //     console.log(rowData);
-  //   });
-  // };
-
-  // const updateItems = useCallback(() => {
-  //   // update the first 2 items
-  //   const itemsToUpdate = [];
-  //   gridRef.current.api.forEachNodeAfterFilterAndSort(function (
-  //     rowNode,
-  //     index
-  //   ) {
-  //
-  //     const data = rowNode.data;
-  //     data.price = Math.floor(Math.random() * 20000 + 20000);
-  //     itemsToUpdate.push(data);
-  //   });
-  //   const res = gridRef.current.api.applyTransaction({ update: itemsToUpdate });
-  //   console.log(res);
-  // }, []);
-
   const getProductDetails = async () => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+    const resp = await APIService(EndPoints.GET_ALL_PRODUCT_DETAILS, RequestType.GET);
+    if(resp.status == 200){
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
       //   navigate('/customerlist')
       // }, 2000);
-      const data = [
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-        {productId: '1', category: 'item', brandName:'test', api:'123', otherName:'New',
-        countryOfOrigin:'IND', manufacturer:'Friek', dosage:'1', qtyPerPack:'12', dosageForm:'New',
-        strength:'120%', quantity:'3'},
-        {productId: '2', category: 'cat', brandName:'temp', api:'145', otherName:'Current',
-        countryOfOrigin:'USA', manufacturer:'Ford', dosage:'2', qtyPerPack:'3', dosageForm:'Two',
-        strength:'100%', quantity:'2'},
-        {productId: '3', category: 'glory', brandName:'it', api:'178', otherName:'Recent',
-        countryOfOrigin:'AUS', manufacturer:'Fiat', dosage:'1', qtyPerPack:'22', dosageForm:'',
-        strength:'150%', quantity:'5'},
-      ];
+      const data =resp.data;
 
       setRowData({
         ...rowData,

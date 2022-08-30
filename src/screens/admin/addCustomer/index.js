@@ -121,7 +121,7 @@ function AddCustomer() {
   //Fetch Customer Details
   const fetchCustomerDetails = async () => {
 
-    const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'/'+state, RequestType.GET);
+    const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'?email='+state, RequestType.GET);
 
     if(resp.status == 200)
     {
@@ -141,7 +141,7 @@ function AddCustomer() {
     const option = options.find((o) => o.id === id);
     setCustomerDetails({
       ...customerDetails,
-      "accountStatus" : option.value,
+      "accountStatus" : option.key,
     });
   }
 
@@ -170,7 +170,7 @@ function AddCustomer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {firstName, lastName, email, password, contactNumber, address, city, state, country,
+    const {userId, firstName, lastName, email, password, contactNumber, address, city, state, country,
       creditLimit, accountStatus, soareceviedAmount, uploadFile} = customerDetails;
 
     // SALT should be created ONE TIME upon sign up
@@ -180,6 +180,7 @@ function AddCustomer() {
 
     const formData = new FormData();
 
+    formData.append("UserId", userId);
     formData.append("FirstName", firstName);
     formData.append("LastName", lastName);
     formData.append("Email", email);
@@ -196,7 +197,7 @@ function AddCustomer() {
     formData.append("SoareceviedAmount", soareceviedAmount);
     formData.append("UploadFile", uploadFile);
     formData.append("Role", "customer");
-    formData.append("RequestedBy", JSON.parse(localStorage.getItem("userEmail")));
+    formData.append("RequestedBy", email);
 
     console.log(formData)
 
