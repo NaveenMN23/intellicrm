@@ -16,6 +16,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { ExcelRenderer, OutTable } from "react-excel-renderer";
 import invoice from "./../../Reports/Invoice";
+import label from "./../../Reports/Label";
 import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOfflineOutlined';
 // import { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact';
 import { SvgIcon } from '@mui/material';
@@ -52,7 +53,7 @@ function LinkTab(props) {
 }
 
 const ExistingOrder = (props) => {
-  const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef} = props;
+  const {gridExistingRef, cellClickedListener, onGridReady, rowData, columnDefs, defaultReadonlyColDef, onRowSelected} = props;
   return(
     <MDBox pt={3} className='ag-theme-alpine'
       style={{fontSize: '14px', height: '400px', width: '100%'}}>
@@ -65,6 +66,9 @@ const ExistingOrder = (props) => {
         suppressExcelExport={true}
         animateRows = {true}
         defaultColDef = {defaultReadonlyColDef}
+        rowSelection={'multiple'}
+        suppressRowClickSelection={true}
+        onRowSelected={onRowSelected}
         style={{ fontSize: '15px', width: '100' }}/>
     </MDBox>
   )
@@ -108,6 +112,8 @@ const Orders = () => {
 
   const [rowData, setRowData] = useState(initialValues);
 
+  const [getSelectedRows, setSelectedRows] = useState([]);
+
   const [columnDefs, setColumnDefs] = useState([
     {field: 'customerId'},
     {field: 'orderId'},
@@ -116,7 +122,11 @@ const Orders = () => {
   ]);
 
   const [printColumnDefs, setPrintColumnDefs] = useState([
-    {field: 'customerId'},
+    {field: 'customerId',
+      headerCheckboxSelection: true,
+      checkboxSelection: true,
+      showDisabledCheckboxes: true,
+    },
     {field: 'orderId'},
     {field: 'orderName'},
     {field: 'status'},
@@ -151,6 +161,38 @@ const Orders = () => {
     // gridRef.current = params.api;
     // console.log(params);
   };
+
+  // const isRowSelectable = useMemo(() => {
+  //   return (params) => {
+  //     console.log("paaramas", params);
+  //     return !!params.data;
+  //   };
+  // }, []);
+
+  // const selectedRows = [];
+
+  const exportLabel = () => {
+    let selectedRows = gridExistingRef.current.api.getSelectedRows();
+    label(selectedRows);
+  }
+
+  const onRowSelected = useCallback((event) => {
+    // let selectedRows = gridExistingRef.current.api.getSelectedRows();
+    // if(event.node.isSelected()){
+    //   selectedRows.push(event.node.data);
+    //   console.log(event.node.data);
+    // } else {
+    //
+    // }
+    // setSelectedRows();
+    // console.log(
+    //   'row ' +
+    //     event.node.data +
+    //     ' selected = ' +
+    //     event.node.isSelected()
+    // );
+  }, []);
+
 
   const getRecentIndex = () => {
     return 1;
@@ -385,6 +427,11 @@ const Orders = () => {
                     Orders
                   </MDTypography>
                 </MDBox>
+                <MDBox mt={4} mb={1} className='buttonRight'>
+                  <MDButton variant="gradient" color="info" onClick={exportLabel}>
+                    Export Label
+                  </MDButton>
+                </MDBox>
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%", bgcolor: 'background.paper' }}>
                   <Tabs value={selectedNav} onChange={handleChange} aria-label="nav tabs example">
                     <LinkTab label="All Orders" />
@@ -394,7 +441,8 @@ const Orders = () => {
                   </Tabs>
                   <MDBox px={1}>
                     {rowData?.oldRowData && <ExistingOrder gridExistingRef={gridExistingRef} cellClickedListener={cellClickedListener}
-                    onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {printColumnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}/>}
+                    onGridReady={onGridReady} rowData = {rowData.oldRowData} columnDefs = {printColumnDefs} defaultReadonlyColDef = {defaultReadonlyColDef}
+                    onRowSelected = {onRowSelected} />}
                   </MDBox>
                 </MDBox>
               </Card>
