@@ -42,7 +42,8 @@ export default function SubAdminData() {
     { Header: "Name", accessor: "author", width: "45%", align: "left" },
     { Header: "Status", accessor: "status", align: "center" },
     // { Header: "Type", accessor: "employed", align: "center" },
-    { Header: "action", accessor: "action", align: "center" },
+    { Header: "Edit", accessor: "edit", align: "center" },
+    { Header: "Delete", accessor: "delete", align: "center" },
   ];
 
   const [subAdminDetails, setsubAdminDetails] = useState([]);
@@ -69,6 +70,15 @@ export default function SubAdminData() {
     navigate(`/add-subadmin`, { state: email });
   }
 
+  const deleteSubAdmin = async (email) => {
+    console.log(email);
+    const resp = await APIService(EndPoints.DELETE_SUBADMIN , RequestType.POST);
+    if(resp.status == 200)
+    {
+      fetchAllsubAdminDetails();
+    }
+  }
+
   let rows = [];
 
   subAdminDetails && subAdminDetails?.map((subadmin) => {
@@ -80,13 +90,15 @@ export default function SubAdminData() {
             color={subadmin.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
           </MDBox>
         ),
-        action: (
+        edit: (
           <MDButton variant="gradient" color="info" onClick={() => {editSubAdmin(subadmin.email)}}>
             Edit
           </MDButton>
-          // <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          //   Edit
-          // </MDTypography>
+        ),
+        delete: (
+          <MDButton variant="gradient" color="info" onClick={() => {deleteSubAdmin(subadmin.email)}}>
+            Delete
+          </MDButton>
         ),}
       )
     });

@@ -22,28 +22,38 @@ const initialValues = [{
 
 export default function Data() {
 
-  const [custmerDetails, setCustmerDetails] = useState([]);
+  const [customerDetails, setCustomerDetails] = useState([]);
 
 
   useEffect(() => {
       console.log("came here");
-      fetchAllCustmerDetails();
+      fetchAllCustomerDetails();
 
   },[])
 
-  const fetchAllCustmerDetails = async () => {
+  const fetchAllCustomerDetails = async () => {
 
     const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_DETAILS , RequestType.GET);
 
     if(resp.status == 200)
     {
-      setCustmerDetails(resp.data);
+      setCustomerDetails(resp.data);
     }
+
   }
 
 const editCustomerData = (email) => {
   console.log(email);
   navigate(`/add-customer`, { state: email });
+}
+
+const deleteCustomer = async (email) => {
+  console.log(email);
+  const resp = await APIService(EndPoints.DELETE_CUSTOMER , RequestType.POST);
+  if(resp.status == 200)
+  {
+    fetchAllCustomerDetails();
+  }
 }
 
 
@@ -75,12 +85,13 @@ const editCustomerData = (email) => {
     { Header: "Name", accessor: "author", width: "45%", align: "left" },
     { Header: "Status", accessor: "status", align: "center" },
     // { Header: "Type", accessor: "employed", align: "center" },
-    { Header: "action", accessor: "action", align: "center" },
+    { Header: "Edit", accessor: "edit", align: "center" },
+    { Header: "Delete", accessor: "delete", align: "center" },
   ];
 
   let rows = [];
 
-  custmerDetails && custmerDetails?.map((customer) => {
+  customerDetails && customerDetails?.map((customer) => {
       rows.push(
         {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
         status: (
@@ -89,13 +100,15 @@ const editCustomerData = (email) => {
             color={customer.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
           </MDBox>
         ),
-        action: (
+        edit: (
           <MDButton variant="gradient" color="info" onClick={() => {editCustomerData(customer.email)}}>
             Edit
           </MDButton>
-          // <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          //   Edit
-          // </MDTypography>
+        ),
+        delete: (
+          <MDButton variant="gradient" color="info" onClick={() => {deleteCustomer(customer.email)}}>
+            Delete
+          </MDButton>
         ),}
       )
     });
