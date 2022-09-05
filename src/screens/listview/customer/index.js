@@ -28,10 +28,10 @@ import Footer from "./../../../components/Footer";
 import DataTable from "./../../../components/Tables/DataTable";
 
 // Data
-import authorsTableData from "./authorsTableData";
+import customerTableData from "./customerTableData";
 
 function CustomerList() {
-  const { columns, rows } = authorsTableData();
+  const { columns, rows } = customerTableData();
 
   return (
     <DashboardLayout>
