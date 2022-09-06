@@ -41,7 +41,9 @@ const initialValues = {
   email: "",
   password:"",
   contactNumber: "",
-  rightsForCustomerAccount: true,
+  canEditCustomer: true,
+  canEditProducts: true,
+  canEditOrders: true,
 }
 
 function AddSubAdmin() {
@@ -84,16 +86,18 @@ function AddSubAdmin() {
   }
 
   const handleCheckboxChange = (e) => {
+    const {name, checked} = e.target;
+    console.log(name, checked);
     e.preventDefault();
     setSubAdminDetails({
       ...subAdminDetails,
-      "rightsForCustomerAccount": e.target.checked,
+      [name]: checked,
     });
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {firstName, lastName, email, password, contactNumber, rightsForCustomerAccount} = subAdminDetails;
+    const {firstName, lastName, email, password, contactNumber, canEditCustomer, canEditProducts, canEditOrders} = subAdminDetails;
 
     // SALT should be created ONE TIME upon sign up
     const salt = bcrypt.genSaltSync(10);
@@ -108,7 +112,9 @@ function AddSubAdmin() {
     formData.append("Salt",salt);
     formData.append("Password",hashedPassword.toString());
     formData.append("ContactNumber", contactNumber);
-    formData.append("rightsForCustomerAccount", rightsForCustomerAccount);
+    formData.append("canEditCustomer", canEditCustomer);
+    formData.append("canEditProducts", canEditProducts);
+    formData.append("canEditOrders", canEditOrders);
     formData.append("Role", "subadmin");
     formData.append("RequestedBy", JSON.parse(localStorage.getItem("userEmail")));
     formData.append("AccountType", 2);
@@ -175,12 +181,27 @@ function AddSubAdmin() {
                 onChange={handleInputChange} label="Contact No" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <InputLabel sx={{lineHeight: '2.4375em'}}>Rights for Customer Account
-                <Checkbox checked={subAdminDetails.rightsForCustomerAccount} onChange={handleCheckboxChange}
-                value={subAdminDetails.rightsForCustomerAccount} />
-              </InputLabel>
-              {/*<MDInput type="text" label="Rights for Customer Account" variant="standard" fullWidth />*/}
+              <InputLabel sx={{lineHeight: '3em'}}>Rights for Customer Account</InputLabel>
+              <MDBox mb={2} sx={{height: '1em'}}>
+                <InputLabel >Can Edit Customer
+                  <Checkbox checked={subAdminDetails.canEditCustomer} name="canEditCustomer"
+                  onChange={handleCheckboxChange}/>
+                </InputLabel>
+              </MDBox>
+              <MDBox mb={2} sx={{height: '1em'}}>
+                <InputLabel >Can Edit Products
+                  <Checkbox checked={subAdminDetails.canEditProducts} name="canEditProducts"
+                  onChange={handleCheckboxChange}/>
+                </InputLabel>
+              </MDBox>
+              <MDBox mb={2} sx={{height: '1em'}}>
+                <InputLabel >Can Edit Orders
+                  <Checkbox checked={subAdminDetails.canEditOrders} name="canEditOrders"
+                  onChange={handleCheckboxChange}/>
+                </InputLabel>
+              </MDBox>
             </MDBox>
+
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" type="submit" fullWidth>
                 Create/Save User

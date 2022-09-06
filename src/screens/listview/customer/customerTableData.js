@@ -17,7 +17,9 @@ const initialValues = [{
   lastName: "",
   email: "",
   contactNumber: "",
-  rightsForCustomerAccount: true,
+  canEditCustomer: true,
+  canEditProducts: true,
+  canEditOrders: true,
 }]
 
 export default function Data() {
