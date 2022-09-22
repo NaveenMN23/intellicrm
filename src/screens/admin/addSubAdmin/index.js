@@ -177,8 +177,9 @@ function AddSubAdmin() {
               onChange={handleInputChange} required="true" label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="phone" name="contactNumber" value={subAdminDetails.contactNumber}
-                onChange={handleInputChange} required="true" label="Contact No" variant="standard" fullWidth />
+              <MDInput type="text" name="contactNumber" value={subAdminDetails.contactNumber}
+                onChange={handleInputChange} required="true" label="Contact No" variant="standard"
+                inputProps={{ inputmode: 'numeric', pattern: '[0-9]*', minLength: 10, maxLength: 10 }} fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <InputLabel sx={{lineHeight: '3em'}}>Rights for Customer Account</InputLabel>

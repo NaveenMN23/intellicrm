@@ -9,7 +9,8 @@ import CustomerList from "./../screens/listview/customer";
 import SubAdminList from "./../screens/listview/subadmin";
 import AddProduct from "./../screens/products/addProduct";
 import EditProduct from "./../screens/products/editProduct";
-import Orders from "./../screens/orders";
+import AddOrder from "./../screens/orders/addOrder";
+import ViewOrder from "./../screens/orders/viewOrder";
 import CustomerUploads from "./../screens/customer/uploads";
 import CustomerPriority from "./../screens/customer/priority";
 
@@ -24,6 +25,7 @@ import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LowPriorityOutlinedIcon from '@mui/icons-material/LowPriorityOutlined';
+import AddIcon from '@mui/icons-material/Add';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 
 const routes = [
@@ -46,17 +48,17 @@ const routes = [
   {
     type: "collapse",
     name: "Customer List",
-    key: "customerlist",
-    icon: <RecentActorsOutlinedIcon fontSize="small">customerlist</RecentActorsOutlinedIcon>,
-    route: "/customerlist",
+    key: "customer-list",
+    icon: <RecentActorsOutlinedIcon fontSize="small">customer-list</RecentActorsOutlinedIcon>,
+    route: "/customer-list",
     component: <CustomerList />,
   },
   {
     type: "collapse",
     name: "Sub-Admin List",
-    key: "subadminlist",
-    icon: <DnsOutlinedIcon fontSize="small">subadminlist</DnsOutlinedIcon>,
-    route: "/subadminlist",
+    key: "sub-admin-list",
+    icon: <DnsOutlinedIcon fontSize="small">sub-admin-list</DnsOutlinedIcon>,
+    route: "/sub-admin-list",
     component: <SubAdminList />,
   },
   // {
@@ -118,11 +120,19 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Orders",
-    key: "order",
-    icon: <ShoppingBagOutlinedIcon fontSize="small">order</ShoppingBagOutlinedIcon>,
-    route: "/orders",
-    component: < Orders />,
+    name: "Add Orders",
+    key: "add-order",
+    icon: <AddIcon fontSize="small">add-order</AddIcon>,
+    route: "/add-order",
+    component: < AddOrder />,
+  },
+  {
+    type: "collapse",
+    name: "View Orders",
+    key: "view-order",
+    icon: <ShoppingBagOutlinedIcon fontSize="small">view-order</ShoppingBagOutlinedIcon>,
+    route: "/view-order",
+    component: < ViewOrder />,
   },
   {
     type: "collapse",

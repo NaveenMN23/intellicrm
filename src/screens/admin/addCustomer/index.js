@@ -256,8 +256,9 @@ function AddCustomer() {
                 onChange={handleInputChange} required="true" label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="phone" name="contactNumber" value={customerDetails.contactNumber}
-                onChange={handleInputChange} required="true" label="Contact No" variant="standard" fullWidth />
+              <MDInput type="text" name="contactNumber" value={customerDetails.contactNumber}
+                onChange={handleInputChange} required="true" label="Contact No" variant="standard"
+                inputProps={{ inputmode: 'numeric', pattern: '[0-9]*', minLength: 10, maxLength: 10 }} fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="address" value={customerDetails.address}
@@ -283,7 +284,7 @@ function AddCustomer() {
               <InputLabel sx={{lineHeight: '2.4375em'}}>Account Status</InputLabel>
               <RadioGroup name="use-radio-group" defaultValue="first" onChange={handleCheckboxChange}>
                 {options.map((o) => (
-                  <FormControlLabel value={o.id} label={o.key} key={o.key} control={<Radio />} />
+                  <FormControlLabel value={o.id} label={o.key} key={o.key} control={<Radio required={true}/>} />
                 ))}
                 {/*{((state && customerDetails && customerDetails.accountStatus) || customerDetails) && <RadioGroup name="use-radio-group"
                 defaultValue={customerDetails.accountStatus !== "" ? customerDetails.accountStatus : "Hold"}
