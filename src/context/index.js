@@ -43,7 +43,7 @@ function reducer(state, action) {
     case "DARKMODE": {
       return { ...state, darkMode: action.value };
     }
-    
+
     case "LoginUserSet": {
       return { ...state, LoginUserId: action.value };
     }

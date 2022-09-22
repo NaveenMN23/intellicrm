@@ -241,43 +241,43 @@ function AddCustomer() {
           <MDBox component="form" role="form" onSubmit={handleSubmit}>
             <MDBox mb={2}>
               <MDInput type="text" name="firstName" value={customerDetails.firstName}
-                onChange={handleInputChange} label="First Name" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="First Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="lastName" value={customerDetails.lastName}
-                onChange={handleInputChange} label="Last Name" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Last Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="email" name="email" value={customerDetails.email}
-                onChange={handleInputChange} label="Email" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Email" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" name="password" value={customerDetails.password}
-                onChange={handleInputChange} label="Password" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="phone" name="contactNumber" value={customerDetails.contactNumber}
-                onChange={handleInputChange} label="Contact No" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Contact No" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="address" value={customerDetails.address}
-                onChange={handleInputChange} label="Address" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Address" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="city" value={customerDetails.city}
-                onChange={handleInputChange} label="City" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="City" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="state" value={customerDetails.state}
-                onChange={handleInputChange} label="State" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="State" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="country" value={customerDetails.country}
-                onChange={handleInputChange} label="Country" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Country" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="number" name="creditLimit" value={customerDetails.creditLimit}
-                onChange={handleInputChange} label="Credit Limit" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Credit Limit" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <InputLabel sx={{lineHeight: '2.4375em'}}>Account Status</InputLabel>
@@ -296,7 +296,7 @@ function AddCustomer() {
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="number" name="soareceviedAmount" value={customerDetails.soareceviedAmount}
-                onChange={handleInputChange} label="Amount Received for SOA" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Amount Received for SOA" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2} fullWidth>
               <InputLabel sx={{lineHeight: '2.4375em'}}>Upload File</InputLabel>

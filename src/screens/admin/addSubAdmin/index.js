@@ -162,23 +162,23 @@ function AddSubAdmin() {
           <MDBox component="form" role="form" onSubmit={handleSubmit}>
             <MDBox mb={2}>
               <MDInput type="text" name="firstName" value={subAdminDetails.firstName}
-                onChange={handleInputChange} label="First Name" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="First Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="lastName" value={subAdminDetails.lastName}
-                onChange={handleInputChange} label="Last Name" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Last Name" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="email" name="email" value={subAdminDetails.email}
-                onChange={handleInputChange} label="Email" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Email" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
             <MDInput type="password" name="password" value={subAdminDetails.password}
-              onChange={handleInputChange} label="Password" variant="standard" fullWidth />
+              onChange={handleInputChange} required="true" label="Password" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="phone" name="contactNumber" value={subAdminDetails.contactNumber}
-                onChange={handleInputChange} label="Contact No" variant="standard" fullWidth />
+                onChange={handleInputChange} required="true" label="Contact No" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <InputLabel sx={{lineHeight: '3em'}}>Rights for Customer Account</InputLabel>
