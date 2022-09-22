@@ -25,6 +25,8 @@ import { useNavigate } from "react-router-dom";
 import {APIService} from "./../../services/rootService";
 import {EndPoints, RequestType} from "./../../services/apiConfig";
 import { useMaterialUIController,setLoginUserId } from "./../../context";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValue = {
   Username: "",
@@ -40,13 +42,15 @@ function Basic() {
 
   const [userData, setUserData] = useState(initialValue);
 
+  const notify = (message) => toast(message);
+
   useEffect(() => {
     if(LoginUserId != '')
     {
       setUserData({Username :LoginUserId});
       navigate(`/Dashboard`, { state: "userData" })
     }
-    localStorage.removeItem("userEmail");
+    // localStorage.removeItem("userEmail");
   });
 
   // Navigate module
@@ -74,7 +78,17 @@ function Basic() {
     if(resp.status == 200)
     {
       setLoginUserId(dispatch, Username);
-      navigate(`/Dashboard`, { state: "userData" })
+      notify("Logged in successful");
+      setTimeout(() => {
+        navigate(`/Dashboard`, { state: "userData" })
+      }, 2000)
+
+    }
+    else if (resp.status === 500) {
+      notify("Some error occured");
+    }
+    else {
+      notify(resp.data.message);
     }
   };
 
@@ -99,10 +113,10 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" id="Username" label="User ID" onChange={handleChange} fullWidth />
+              <MDInput type="email" id="Username" label="User ID" required="true" onChange={handleChange} fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" id="password" label="Password" onChange={handleChange} fullWidth />
+              <MDInput type="password" id="password" label="Password" required="true" onChange={handleChange} fullWidth />
             </MDBox>
             {/* <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
