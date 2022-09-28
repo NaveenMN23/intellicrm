@@ -68,6 +68,12 @@ function Basic() {
 
   // const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      handleSubmit();
+    }
+  }
+
   const handleSubmit = async () => {
     console.debug(userData);
     const {Username, password} = userData;
@@ -113,10 +119,10 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" id="Username" label="User ID" required="true" onChange={handleChange} fullWidth />
+              <MDInput type="email" id="Username" label="User ID" required="true" onKeyPress={handleKeyPress} onChange={handleChange} fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" id="password" label="Password" required="true" onChange={handleChange} fullWidth />
+              <MDInput type="password" id="password" label="Password" required="true" onKeyPress={handleKeyPress} onChange={handleChange} fullWidth />
             </MDBox>
             {/* <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -136,7 +142,7 @@ function Basic() {
               </MDTypography>
             </MDBox> */}
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" onClick={handleSubmit} fullWidth >
+              <MDButton variant="gradient" color="info" onClick={handleSubmit} onKeyPress={handleKeyPress} fullWidth >
                 sign in
               </MDButton>
             </MDBox>
