@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 
 import {APIService} from "./../../services/rootService";
 import {EndPoints, RequestType} from "./../../services/apiConfig";
-import { useMaterialUIController,setLoginUserId,setLoginUserRole } from "./../../context";
+import { useMaterialUIController,setLoginUserId,setLoginUserRole,setcanEditCustomer, setcanEditProducts, setcanEditOrders } from "./../../context";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -84,7 +84,11 @@ function Basic() {
     if(resp.status == 200)
     {
       setLoginUserId(dispatch, Username);
-      setLoginUserRole(dispatch, userData.role);
+      setLoginUserRole(dispatch, resp.data.role);
+      setcanEditCustomer(dispatch, resp.data.canEditCustomer);
+      setcanEditOrders(dispatch, resp.data.canEditOrders);
+      setcanEditProducts(dispatch, resp.data.canEditProducts);
+
       notify("Logged in successful");
       setTimeout(() => {
         navigate(`/Dashboard`, { state: "userData" })

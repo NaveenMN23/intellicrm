@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // react-router-dom components
 import { useLocation, NavLink } from "react-router-dom";
@@ -46,12 +46,16 @@ import {
   setTransparentSidenav,
   setWhiteSidenav,
 } from "./../context";
+import {APIService} from "./../services/rootService";
+import {EndPoints, RequestType} from "./../services/apiConfig";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
-  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
+  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor,LoginUserId, LoginUserRole,canEditCustomer,canEditOrders,canEditProducts } = controller;
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
+  
+  const [userRole, setUserRole] = useState(null);
 
   let textColor = "white";
 
@@ -64,6 +68,15 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const closeSidenav = () => setMiniSidenav(dispatch, true);
 
   useEffect(() => {
+    fetchCustomerDetails();
+
+    if(canEditCustomer!==true)
+       subAdmin.splice(subAdmin.indexOf('add-customer'), 1);
+    if(canEditOrders!==true)
+        subAdmin.splice(subAdmin.indexOf('add-order'), 1);
+     if(canEditProducts!==true)
+        subAdmin.splice(subAdmin.indexOf('add-product'), 1);
+
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
@@ -83,8 +96,60 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
 
+    const fetchCustomerDetails = () => {
+
+    console.log(LoginUserRole);
+    //const resp = APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'?email='+LoginUserId, RequestType.GET).then(
+
+    //   (resp) => 
+    //             {
+    //               if(resp.status === 200)
+    //               {
+    //                 setUserRole(resp.data);
+    //               }
+    //               if(resp.data.accountType === 1 )
+    //               {
+                    // if(resp.data.canEditCustomer!==true)
+                    //   subAdmin.splice(subAdmin.indexOf('add-customer'), 1);
+                    // if(resp.data.canEditOrders!==true)
+                    //   subAdmin.splice(subAdmin.indexOf('add-order'), 1);
+                    // if(resp.data.canEditProducts!==true)
+                    //   subAdmin.splice(subAdmin.indexOf('add-product'), 1);
+    //               }
+    //             }
+
+    // );
+  };
+
+
+  const Admin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-subadmin','add-product','edit-product','view-order','add-order','customer-uploads','customer-priority','log-out'];
+  const subAdmin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-product','edit-product','add-order','view-order','customer-uploads','customer-priority','log-out']
+  const customer = ['sign-in','dashboard','add-order','view-order','edit-product','log-out'];
+
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, href, route }) => {
+    
+    if(LoginUserRole == "subadmin" )
+    {
+      if((key=='add-customer' && !canEditCustomer ))
+        return;
+      if((key=='add-product' && !canEditProducts ))
+        return;
+      if((key=='add-order' && !canEditOrders ))
+      return;
+      if (!subAdmin.includes(key)  )
+      {
+        return;
+      }
+    }
+    if(userRole === "customer" )
+    {
+      if (!customer.includes(key))
+      {
+        return;
+      }
+    }
+    
     let returnValue;
 
     if (type === "collapse") {

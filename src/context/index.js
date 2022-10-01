@@ -47,14 +47,30 @@ function reducer(state, action) {
     case "LoginUserSet": {
       return { ...state, LoginUserId: action.value };
     }
-    case "setLoginUserRole": {
+    case "LoginUserRole": {
       return { ...state, LoginUserRole: action.value };
+    }
+    case "canEditProducts": {
+      return { ...state, canEditProducts: action.value };
+    }
+
+    case "canEditCustomer": {
+      return { ...state, canEditCustomer: action.value };
+    }
+    case "canEditOrders": {
+      return { ...state, canEditOrders: action.value };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
 }
+
+
+
+
+
+
 
 // Material Dashboard 2 React context provider
 function MaterialUIControllerProvider({ children }) {
@@ -70,7 +86,10 @@ function MaterialUIControllerProvider({ children }) {
     layout: "dashboard",
     darkMode: false,
     LoginUserId:'',
-    LoginUserRole :''
+    LoginUserRole :'',
+  canEditCustomer:false,
+  canEditOrders:false,
+  canEditProducts:false
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -111,6 +130,11 @@ const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
 const setLoginUserId = (dispatch, value) => dispatch({ type: "LoginUserSet", value });
 const setLoginUserRole = (dispatch, value) => dispatch({ type: "LoginUserRole", value });
+const setcanEditCustomer= (dispatch, value) => dispatch({ type: "canEditCustomer", value });
+const setcanEditOrders = (dispatch, value) => dispatch({ type: "canEditOrders", value });
+const setcanEditProducts = (dispatch, value) => dispatch({ type: "canEditProducts", value });
+
+
 
 export {
   MaterialUIControllerProvider,
@@ -126,5 +150,8 @@ export {
   setLayout,
   setDarkMode,
   setLoginUserId,
-  setLoginUserRole
+  setLoginUserRole,
+  setcanEditCustomer,
+  setcanEditOrders,
+  setcanEditProducts
 };
