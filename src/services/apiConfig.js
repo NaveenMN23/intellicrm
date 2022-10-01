@@ -12,8 +12,8 @@ export const EndPoints = {
     GET_ALL_CUSTOMER_PRIORITY_DETAILS: 'SuperAdmin/GetAllUserPriority',
     UPDATE_CUSTOMER_PRIORITY_DETAILS: 'SuperAdmin/UpdateUserPriority',
     GET_ALL_CUSTOMER_PRODUCT_DETAILS:"Product/GetCustomerProductDetails",
-    DELETE_CUSTOMER: '',
-    DELETE_SUBADMIN: '',
+    DELETE_CUSTOMER: 'SuperAdmin/DeleteUserDetails?email=',
+    DELETE_SUBADMIN: 'SuperAdmin/DeleteUserDetails?email=',
 }
 
 /*

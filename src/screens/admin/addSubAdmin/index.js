@@ -112,9 +112,9 @@ function AddSubAdmin() {
     formData.append("Salt",salt);
     formData.append("Password",hashedPassword.toString());
     formData.append("ContactNumber", contactNumber);
-    formData.append("canEditCustomer", canEditCustomer);
-    formData.append("canEditProducts", canEditProducts);
-    formData.append("canEditOrders", canEditOrders);
+    formData.append("canEditCustomer", canEditCustomer===true);
+    formData.append("canEditProducts", canEditProducts===true);
+    formData.append("canEditOrders", canEditOrders===true);
     formData.append("Role", "subadmin");
     formData.append("RequestedBy", JSON.parse(localStorage.getItem("userEmail")));
     formData.append("AccountType", 2);
@@ -127,7 +127,7 @@ function AddSubAdmin() {
     if(resp.status == 200){
       notify("Sub Admin details saved or updated successfully");
       setTimeout(() => {
-        navigate('/subadminlist')
+        navigate('/sub-admin-list')
       }, 2000);
     } else {
        notify("An error occured");

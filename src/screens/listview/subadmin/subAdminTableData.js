@@ -72,7 +72,7 @@ export default function SubAdminData() {
 
   const deleteSubAdmin = async (email) => {
     console.log(email);
-    const resp = await APIService(EndPoints.DELETE_SUBADMIN , RequestType.POST);
+    const resp = await APIService(EndPoints.DELETE_SUBADMIN+email , RequestType.GET);
     if(resp.status == 200)
     {
       fetchAllsubAdminDetails();

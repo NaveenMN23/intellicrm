@@ -13,13 +13,19 @@ import {AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { ExcelRenderer, OutTable } from "react-excel-renderer";
-
+import { ToastContainer, toast } from 'react-toastify';
 // import { AgGridReact as AgGridReactType } from 'ag-grid-react/lib/agGridReact';
 
 import DashboardLayout from "./../../../components/DashboardLayout";
 import DashboardNavbar from "./../../../components/DashboardNavbar";
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+
+
+import { useNavigate } from "react-router-dom";
+
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
 
 import './styles.css';
 
@@ -39,6 +45,8 @@ const tempUpdate = [];
 
 export default function CustomerPriority(){
 
+  let navigate = useNavigate();
+  const notify = (message) => toast(message);
   const gridRef = useRef();
 
   const gridExistingRef = useRef();
@@ -46,8 +54,8 @@ export default function CustomerPriority(){
   const [rowData, setRowData] = useState(initialValues);
 
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'customerEmail', minWidth: 180},
-    {field: 'customerName', minWidth: 180},
+    {field: 'email', minWidth: 180},
+    {field: 'firstname', minWidth: 180},
     {field: 'priority', minWidth: 180, editable: true}
   ]);
 
@@ -168,26 +176,25 @@ export default function CustomerPriority(){
   // }, []);
 
   const getCustomerDetails = async () => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
-      // notify("Customer details saved or updated successfully");
-      // setTimeout(() => {
-      //   navigate('/customerlist')
-      // }, 2000);
-      const data = [
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-        {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-        {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'}
-      ];
+    const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_PRIORITY_DETAILS, RequestType.GET);
+    if(resp.status == 200){
+
+      // const data = [
+      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
+      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
+      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
+      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
+      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
+      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
+      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
+      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
+      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
+      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
+      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
+      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'}
+      // ];
+
+      var data = resp.data;
 
       setRowData({
         ...rowData,

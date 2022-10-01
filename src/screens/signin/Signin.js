@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 
 import {APIService} from "./../../services/rootService";
 import {EndPoints, RequestType} from "./../../services/apiConfig";
-import { useMaterialUIController,setLoginUserId } from "./../../context";
+import { useMaterialUIController,setLoginUserId,setLoginUserRole } from "./../../context";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -84,6 +84,7 @@ function Basic() {
     if(resp.status == 200)
     {
       setLoginUserId(dispatch, Username);
+      setLoginUserRole(dispatch, userData.role);
       notify("Logged in successful");
       setTimeout(() => {
         navigate(`/Dashboard`, { state: "userData" })

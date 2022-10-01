@@ -205,7 +205,7 @@ function AddCustomer() {
     if(resp.status == 200){
       notify("Customer details saved or updated successfully");
        setTimeout(() => {
-        navigate('/customerlist')
+        navigate('/customer-list')
       }, 2000);
     } else {
        notify("An error occured");

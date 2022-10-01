@@ -51,7 +51,7 @@ const editCustomerData = (email) => {
 
 const deleteCustomer = async (email) => {
   console.log(email);
-  const resp = await APIService(EndPoints.DELETE_CUSTOMER , RequestType.POST);
+  const resp = await APIService(EndPoints.DELETE_CUSTOMER+email , RequestType.GET);
   if(resp.status == 200)
   {
     fetchAllCustomerDetails();
