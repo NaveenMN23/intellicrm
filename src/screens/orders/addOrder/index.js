@@ -80,11 +80,66 @@ const AddOrder = () => {
 
   const [getSelectedRows, setSelectedRows] = useState([]);
 
+  const filterParams = {
+    comparator: (filterLocalDateAtMidnight, cellValue) => {
+      const dateAsString = cellValue;
+      const dateParts = dateAsString.split('/');
+      const cellDate = new Date(
+        Number(dateParts[2]),
+        Number(dateParts[1]) - 1,
+        Number(dateParts[0])
+      );
+
+      if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+        return 0;
+      }
+
+      if (cellDate < filterLocalDateAtMidnight) {
+        return -1;
+      }
+
+      if (cellDate > filterLocalDateAtMidnight) {
+        return 1;
+      }
+    },
+  };
+
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'customerId'},
-    {field: 'orderId'},
-    {field: 'orderName'},
-    {field: 'status'}
+    {headerName: 'Date', field:'date', minWidth: 100, filter: 'agDateColumnFilter', filterParams: filterParams},
+    {headerName: 'Reference Number', field:'referencenumber', minWidth: 200},
+    {headerName: 'Online Pharmacy', field:'onlinepharmacy', minWidth: 200},
+    {headerName: 'Online Pharmacy Phone Number', field:'onlinepharmacyphonenumber', minWidth: 300},
+    {headerName: 'Order Number', field:'ordernumber', minWidth: 180},
+    {headerName: 'Customer Name', field:'customername', minWidth: 180},
+    {headerName: 'Customer Phone Number', field:'customerphonenumber', minWidth: 280},
+    {headerName: 'Email Address', field:'emailaddress', minWidth: 180},
+    {headerName: 'Address 1', field:'address1', minWidth: 150},
+    {headerName: 'Address 2', field:'address2', minWidth: 150},
+    {headerName: 'City', field:'city', minWidth: 100},
+    {headerName: 'Province', field:'province', minWidth: 150},
+    {headerName: 'Zip Code', field:'zipCode', minWidth: 150},
+    {headerName: 'Prescriber Name', field:'prescribername', minWidth: 180},
+    {headerName: 'Product ID', field:'productid', minWidth: 150},
+    {headerName: 'EQUS Brand Name', field:'equsbrandname', minWidth: 200},
+    {headerName: 'Category', field:'category', minWidth: 150},
+    {headerName: 'Name On Package', field:'nameonpackage', minWidth: 200},
+    {headerName: 'Strength', field:'strength', minWidth: 150},
+    {headerName: 'Units Per Pack', field:'unitsperpack', minWidth: 180},
+    {headerName: 'Dosage Form', field:'dosageform', minWidth: 180},
+    {headerName: 'Active Ingredients', field:'activeingredients', minWidth: 250},
+    {headerName: 'Product Sourced From', field:'productsourcedfrom', minWidth: 280},
+    {headerName: 'Total Packs Ordered', field:'totalpacksordered', minWidth: 280},
+    {headerName: 'Total Price Customer Pays', field:'totalpricecustomerpays', minWidth: 300},
+    {headerName: 'Price Per Pack Client Pays', field:'priceperpackclientpays', minWidth: 300},
+    {headerName: 'Shipping Cost Per Order', field:'shippingcostperorder', minWidth: 280},
+    {headerName: 'Total Price Client Pays', field:'totalpriceclientpays', minWidth: 280},
+    {headerName: 'Prescription Attached', field:'prescriptionattached', minWidth: 280},
+    {headerName: 'Directions Of Use', field:'directionsofuse', minWidth: 200},
+    {headerName: 'RxWarning/ Cautionary Note', field:'rxWarningcautionarynote', minWidth: 300},
+    {headerName: 'Remarks', field:'remarks', minWidth: 150},
+    {headerName: 'Quantity', field:'quantity', minWidth: 150},
+    {headerName: 'Refill', field:'refill', minWidth: 150},
+    {headerName: 'Doctor Name', field:'doctorname', minWidth: 180},
   ]);
 
   const defaultColDef = useMemo(() => ({
@@ -137,7 +192,13 @@ const AddOrder = () => {
   const onAddRow = useCallback((addIndex) => {
     console.log(gridRef.current.api);
     const res = gridRef.current.api.applyTransaction({
-      add: [{ customerId: '', orderId: '', orderName: '', status: '' }],
+      add: [{ date:'', referenceNumber:'', onlinePharmacy:'', onlinePharmacyPhoneNumber:'', orderNumber:'',
+      customerName:'', customerPhoneNumber:'', emailAddress:'', address1:'', address2:'', city:'',
+      province:'', zipCode:'', prescriberName:'', productID:'', EQUSBrandName:'', category:'',
+      nameOnPackage:'', strength:'', unitsPerPack :'', dosageForm:'', activeIngredients:'',
+      productSourcedFrom:'', totalPacksOrdered:'', totalPriceCustomerPays:'', pricePerPackClientPays:'',
+      shippingCostPerOrder:'', totalPriceClientPays:'', prescriptionAttached:'', directionsOfUse:'',
+      rxWarningCautionaryNote:'', remarks:'', quantity:'',  refill:'', doctorName:''}],
       addIndex: addIndex
       });
       console.log(res);
@@ -180,7 +241,13 @@ const AddOrder = () => {
         console.log("Rows uploaded:" + resp.rows);
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "customerid"){
-            tempUpdate.push({"customerId": el[0], "orderId": el[1], "orderName": el[2], "status": el[3]});
+            tempUpdate.push({"date": el[0], "referenceNumber": el[1], "onlinePharmacy": el[2], "onlinePharmacyPhoneNumber": el[3], "orderNumber": el[4],
+            "customerName": el[5], "customerPhoneNumber": el[6], "emailAddress": el[7], "address1": el[8], "address2": el[9], "city": el[10],
+            "province": el[11], "zipCode": el[12], "prescriberName": el[13], "productID": el[14], "EQUSBrandName": el[15], "category": el[16],
+            "nameOnPackage": el[17], "strength": el[18], "unitsPerPack ": el[19], "dosageForm": el[20], "activeIngredients": el[21],
+            "productSourcedFrom": el[22], "totalPacksOrdered": el[23], "totalPriceCustomerPays": el[24], "pricePerPackClientPays": el[25],
+            "shippingCostPerOrder": el[26], "totalPriceClientPays": el[27], "prescriptionAttached": el[28], "directionsOfUse": el[29],
+            "rxWarningCautionaryNote": el[30], "remarks": el[31], "quantity": el[32], "refill": el[33], "doctorName": el[34]});
             console.log("Rows uploaded:" + el);
           }
         }
