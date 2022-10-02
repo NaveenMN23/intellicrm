@@ -92,16 +92,72 @@ const ViewOrder = () => {
 
   const [getSelectedRows, setSelectedRows] = useState([]);
 
+  const filterParams = {
+    comparator: (filterLocalDateAtMidnight, cellValue) => {
+      const dateAsString = cellValue;
+      const dateParts = dateAsString.split('/');
+      const cellDate = new Date(
+        Number(dateParts[2]),
+        Number(dateParts[1]) - 1,
+        Number(dateParts[0])
+      );
+
+      if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+        return 0;
+      }
+
+      if (cellDate < filterLocalDateAtMidnight) {
+        return -1;
+      }
+
+      if (cellDate > filterLocalDateAtMidnight) {
+        return 1;
+      }
+    },
+  };
+
   const [printColumnDefs, setPrintColumnDefs] = useState([
-    {field: 'customerId',
+    {headerName: 'Date', field: 'date', minWidth: 130,
       headerCheckboxSelection: true,
       checkboxSelection: true,
       showDisabledCheckboxes: true,
+      filter: 'agDateColumnFilter', filterParams: filterParams,
     },
-    {field: 'orderId'},
-    {field: 'orderName'},
-    {field: 'status'},
-    {field: 'invoice', cellRenderer: downloadBtn}
+    {headerName: 'Reference Number', field:'referencenumber', minWidth: 200},
+    {headerName: 'Online Pharmacy', field:'onlinepharmacy', minWidth: 200},
+    {headerName: 'Online Pharmacy Phone Number', field:'onlinepharmacyphonenumber', minWidth: 300},
+    {headerName: 'Order Number', field:'ordernumber', minWidth: 180},
+    {headerName: 'Customer Name', field:'customername', minWidth: 180},
+    {headerName: 'Customer Phone Number', field:'customerphonenumber', minWidth: 280},
+    {headerName: 'Email Address', field:'emailaddress', minWidth: 180},
+    {headerName: 'Address 1', field:'address1', minWidth: 150},
+    {headerName: 'Address 2', field:'address2', minWidth: 150},
+    {headerName: 'City', field:'city', minWidth: 100},
+    {headerName: 'Province', field:'province', minWidth: 150},
+    {headerName: 'Zip Code', field:'zipCode', minWidth: 150},
+    {headerName: 'Prescriber Name', field:'prescribername', minWidth: 180},
+    {headerName: 'Product ID', field:'productid', minWidth: 150},
+    {headerName: 'EQUS Brand Name', field:'equsbrandname', minWidth: 200},
+    {headerName: 'Category', field:'category', minWidth: 150},
+    {headerName: 'Name On Package', field:'nameonpackage', minWidth: 200},
+    {headerName: 'Strength', field:'strength', minWidth: 150},
+    {headerName: 'Units Per Pack', field:'unitsperpack', minWidth: 180},
+    {headerName: 'Dosage Form', field:'dosageform', minWidth: 180},
+    {headerName: 'Active Ingredients', field:'activeingredients', minWidth: 250},
+    {headerName: 'Product Sourced From', field:'productsourcedfrom', minWidth: 280},
+    {headerName: 'Total Packs Ordered', field:'totalpacksordered', minWidth: 280},
+    {headerName: 'Total Price Customer Pays', field:'totalpricecustomerpays', minWidth: 300},
+    {headerName: 'Price Per Pack Client Pays', field:'priceperpackclientpays', minWidth: 300},
+    {headerName: 'Shipping Cost Per Order', field:'shippingcostperorder', minWidth: 280},
+    {headerName: 'Total Price Client Pays', field:'totalpriceclientpays', minWidth: 280},
+    {headerName: 'Prescription Attached', field:'prescriptionattached', minWidth: 280},
+    {headerName: 'Directions Of Use', field:'directionsofuse', minWidth: 200},
+    {headerName: 'RxWarning/ Cautionary Note', field:'rxWarningcautionarynote', minWidth: 300},
+    {headerName: 'Remarks', field:'remarks', minWidth: 150},
+    {headerName: 'Quantity', field:'quantity', minWidth: 150},
+    {headerName: 'Refill', field:'refill', minWidth: 150},
+    {headerName: 'Doctor Name', field:'doctorname', minWidth: 180},
+    {headerName: 'Download Invoice', field: 'invoice', minWidth: 250, cellRenderer: downloadBtn}
   ]);
 
   const defaultReadonlyColDef = useMemo(() => ({
@@ -114,7 +170,7 @@ const ViewOrder = () => {
   const cellClickedListener = useCallback( e=> {
     console.log(e);
     if(e.column.colId === 'invoice'){
-      invoice(e.data);
+      invoice([e.data]);
     }
   });
 
@@ -142,6 +198,7 @@ const ViewOrder = () => {
 
   const exportInvoice = () => {
     let selectedRows = gridExistingRef.current.api.getSelectedRows();
+    console.log(selectedRows);
     invoice(selectedRows);
   }
 
@@ -175,10 +232,20 @@ const ViewOrder = () => {
       //   navigate('/customerlist')
       // }, 2000);
       const data = [
-        {customerId: '1', orderId: '1234', orderName:'Test Order 1', status:'Submitted'},
-        {customerId: '2', orderId: '2222', orderName:'Test Order 2', status:'In Process'},
-        {customerId: '3', orderId: '3333', orderName:'Test Order 3', status:'On Hold'},
-        {customerId: '4', orderId: '4444', orderName:'Test Order 4', status:'Completed'},
+        {date:'22/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
+        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
+        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
+        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
+        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
+        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
+        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid'},
+        {date:'21/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
+        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
+        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
+        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
+        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
+        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
+        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid'}
       ];
       setRowData({
         ...rowData,
@@ -198,10 +265,20 @@ const ViewOrder = () => {
       //   navigate('/customerlist')
       // }, 2000);
       const data = [
-        {customerId: '1', orderId: '1234', orderName:'Test Order 1', status:'Submitted'},
-        {customerId: '2', orderId: '2222', orderName:'Test Order 2', status:'In Process'},
-        {customerId: '3', orderId: '3333', orderName:'Test Order 3', status:'On Hold'},
-        {customerId: '4', orderId: '4444', orderName:'Test Order 4', status:'Completed'},
+        {date:'22/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
+        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
+        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
+        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
+        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
+        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
+        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid', status:'In Process'},
+        {date:'21/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
+        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
+        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
+        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
+        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
+        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
+        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid', status:'Submitted'}
       ];
       const filterData = data.filter(el => el.status === status);
       setRowData({
