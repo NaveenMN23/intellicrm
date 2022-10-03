@@ -83,17 +83,29 @@ const deleteCustomer = async (email) => {
     </MDBox>
   );
 
-  const columns = [
-    { Header: "Name", accessor: "author", width: "45%", align: "left" },
-    { Header: "Status", accessor: "status", align: "center" },
-    // { Header: "Type", accessor: "employed", align: "center" },
-    { Header: "Edit", accessor: "edit", align: "center" },
-    { Header: "Delete", accessor: "delete", align: "center" },
-  ];
+  let columns;
+
+  let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+  if(userDetails.role !== 'customer'){
+    columns = [
+      { Header: "Name", accessor: "author", width: "45%", align: "left" },
+      { Header: "Status", accessor: "status", align: "center" },
+      // { Header: "Type", accessor: "employed", align: "center" },
+      { Header: "Edit", accessor: "edit", align: "center" },
+      { Header: "Delete", accessor: "delete", align: "center" },
+    ];
+  } else {
+    columns = [
+      { Header: "Name", accessor: "author", width: "45%", align: "left" },
+      { Header: "Status", accessor: "status", align: "center" },
+    ];
+  }
 
   let rows = [];
 
   customerDetails && customerDetails?.map((customer) => {
+    if(userDetails.role !== 'customer'){
       rows.push(
         {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
         status: (
@@ -113,6 +125,18 @@ const deleteCustomer = async (email) => {
           </MDButton>
         ),}
       )
+    }
+    else {
+      rows.push(
+        {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent={customer.accountStatus}
+            color={customer.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
+          </MDBox>
+        ),}
+      )
+    }
     });
 
   return {
