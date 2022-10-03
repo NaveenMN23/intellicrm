@@ -77,7 +77,7 @@ function Basic() {
   const handleSubmit = async () => {
     console.debug(userData);
     const {Username, password} = userData;
-    localStorage.setItem("userEmail",JSON.stringify(Username));
+    localStorage.setItem("userEmail",Username);
 
     const resp = await APIService(EndPoints.SIGN_IN , RequestType.POST,userData);
 

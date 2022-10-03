@@ -55,7 +55,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
   
-  const [userRole, setUserRole] = useState(null);
+  const [renderRoutes, setRenderRoutes] = useState(null);
+
+  
+  //const Admin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-subadmin','add-product','edit-product','view-order','add-order','customer-uploads','customer-priority','log-out'];
+  const subAdmin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-product','edit-product','add-order','view-order','customer-uploads','customer-priority','log-out']
+  const customer = ['sign-in','dashboard','add-order','view-order','edit-product','log-out'];
 
   let textColor = "white";
 
@@ -68,14 +73,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const closeSidenav = () => setMiniSidenav(dispatch, true);
 
   useEffect(() => {
-    fetchCustomerDetails();
 
-    if(canEditCustomer!==true)
-       subAdmin.splice(subAdmin.indexOf('add-customer'), 1);
-    if(canEditOrders!==true)
-        subAdmin.splice(subAdmin.indexOf('add-order'), 1);
-     if(canEditProducts!==true)
-        subAdmin.splice(subAdmin.indexOf('add-product'), 1);
+    // if(canEditCustomer!==true)
+    //    subAdmin.splice(subAdmin.indexOf('add-customer'), 1);
+    // if(canEditOrders!==true)
+    //     subAdmin.splice(subAdmin.indexOf('add-order'), 1);
+    //  if(canEditProducts!==true)
+    //     subAdmin.splice(subAdmin.indexOf('add-product'), 1);
 
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
@@ -96,115 +100,119 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
 
-    const fetchCustomerDetails = () => {
+  
+  useEffect(() => {
+    fetchCustomerDetails(); },
+    []);
+
+    const fetchCustomerDetails = async () => {
 
     console.log(LoginUserRole);
-    //const resp = APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'?email='+LoginUserId, RequestType.GET).then(
+    const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'?email='+localStorage.getItem("userEmail"), RequestType.GET).then(
 
-    //   (resp) => 
-    //             {
-    //               if(resp.status === 200)
-    //               {
-    //                 setUserRole(resp.data);
-    //               }
-    //               if(resp.data.accountType === 1 )
-    //               {
-                    // if(resp.data.canEditCustomer!==true)
-                    //   subAdmin.splice(subAdmin.indexOf('add-customer'), 1);
-                    // if(resp.data.canEditOrders!==true)
-                    //   subAdmin.splice(subAdmin.indexOf('add-order'), 1);
-                    // if(resp.data.canEditProducts!==true)
-                    //   subAdmin.splice(subAdmin.indexOf('add-product'), 1);
-    //               }
-    //             }
+      (resp) => 
+                {
+                  if(resp.status === 200)
+                  {
+                    if(resp.data.role == "subadmin" )
+                    {
+                      if(resp.data.canEditCustomer!==true)
+                        subAdmin.splice(subAdmin.indexOf('add-customer'), 1);
+                      if(resp.data.canEditOrders!==true)
+                        subAdmin.splice(subAdmin.indexOf('add-order'), 1);
+                      if(resp.data.canEditProducts!==true)
+                        subAdmin.splice(subAdmin.indexOf('add-product'), 1);
+                    }
 
-    // );
+                    const route = routes.map(({ type, name, icon, title, noCollapse, key, href, route }) => {
+    
+                      if(resp.data.role == "subadmin" )
+                      {
+                        // if((key=='add-customer' && !canEditCustomer ))
+                        //   return;
+                        // if((key=='add-product' && !canEditProducts ))
+                        //   return;
+                        // if((key=='add-order' && !canEditOrders ))
+                        // return;
+                        if (!subAdmin.includes(key)  )
+                        {
+                          return;
+                        }
+                      }
+                      if(resp.data.role === "customer" )
+                      {
+                        if (!customer.includes(key))
+                        {
+                          return;
+                        }
+                      }
+                      
+                      let returnValue;
+                  
+                      if (type === "collapse") {
+                        returnValue = href ? (
+                          <Link
+                            href={href}
+                            key={key}
+                            target="_blank"
+                            rel="noreferrer"
+                            sx={{ textDecoration: "none" }}
+                          >
+                            <SidenavCollapse
+                              name={name}
+                              icon={icon}
+                              active={key === collapseName}
+                              noCollapse={noCollapse}
+                            />
+                          </Link>
+                        ) : (
+                          <NavLink key={key} to={route}>
+                            <SidenavCollapse name={name} icon={icon} active={key === collapseName} />
+                          </NavLink>
+                        );
+                      } else if (type === "title") {
+                        returnValue = (
+                          <MDTypography
+                            key={key}
+                            color={textColor}
+                            display="block"
+                            variant="caption"
+                            fontWeight="bold"
+                            textTransform="uppercase"
+                            pl={3}
+                            mt={2}
+                            mb={1}
+                            ml={1}
+                          >
+                            {title}
+                          </MDTypography>
+                        );
+                      } else if (type === "divider") {
+                        returnValue = (
+                          <Divider
+                            key={key}
+                            light={
+                              (!darkMode && !whiteSidenav && !transparentSidenav) ||
+                              (darkMode && !transparentSidenav && whiteSidenav)
+                            }
+                          />
+                        );
+                      }
+
+                      return returnValue;
+                    });
+
+                    setRenderRoutes(route);
+                  }
+
+                }
+
+    );
   };
 
 
-  const Admin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-subadmin','add-product','edit-product','view-order','add-order','customer-uploads','customer-priority','log-out'];
-  const subAdmin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-product','edit-product','add-order','view-order','customer-uploads','customer-priority','log-out']
-  const customer = ['sign-in','dashboard','add-order','view-order','edit-product','log-out'];
-
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, href, route }) => {
-    
-    if(LoginUserRole == "subadmin" )
-    {
-      if((key=='add-customer' && !canEditCustomer ))
-        return;
-      if((key=='add-product' && !canEditProducts ))
-        return;
-      if((key=='add-order' && !canEditOrders ))
-      return;
-      if (!subAdmin.includes(key)  )
-      {
-        return;
-      }
-    }
-    if(userRole === "customer" )
-    {
-      if (!customer.includes(key))
-      {
-        return;
-      }
-    }
-    
-    let returnValue;
-
-    if (type === "collapse") {
-      returnValue = href ? (
-        <Link
-          href={href}
-          key={key}
-          target="_blank"
-          rel="noreferrer"
-          sx={{ textDecoration: "none" }}
-        >
-          <SidenavCollapse
-            name={name}
-            icon={icon}
-            active={key === collapseName}
-            noCollapse={noCollapse}
-          />
-        </Link>
-      ) : (
-        <NavLink key={key} to={route}>
-          <SidenavCollapse name={name} icon={icon} active={key === collapseName} />
-        </NavLink>
-      );
-    } else if (type === "title") {
-      returnValue = (
-        <MDTypography
-          key={key}
-          color={textColor}
-          display="block"
-          variant="caption"
-          fontWeight="bold"
-          textTransform="uppercase"
-          pl={3}
-          mt={2}
-          mb={1}
-          ml={1}
-        >
-          {title}
-        </MDTypography>
-      );
-    } else if (type === "divider") {
-      returnValue = (
-        <Divider
-          key={key}
-          light={
-            (!darkMode && !whiteSidenav && !transparentSidenav) ||
-            (darkMode && !transparentSidenav && whiteSidenav)
-          }
-        />
-      );
-    }
-
-    return returnValue;
-  });
-
+  
   return (
     <SidenavRoot
       {...rest}
@@ -243,7 +251,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           (darkMode && !transparentSidenav && whiteSidenav)
         }
       />
-      <List>{renderRoutes}</List>
+      {renderRoutes && <List>{renderRoutes}</List>} 
     </SidenavRoot>
   );
 }
