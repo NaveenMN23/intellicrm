@@ -135,7 +135,7 @@ const AddOrder = () => {
     {headerName: 'Total Price Client Pays', field:'totalpriceclientpays', minWidth: 280},
     {headerName: 'Prescription Attached', field:'prescriptionattached', minWidth: 280},
     {headerName: 'Directions Of Use', field:'directionsofuse', minWidth: 200},
-    {headerName: 'RxWarning/ Cautionary Note', field:'rxWarningcautionarynote', minWidth: 300},
+    {headerName: 'RxWarning/ Cautionary Note', field:'rxwarningcautionarynote', minWidth: 300},
     {headerName: 'Remarks', field:'remarks', minWidth: 150},
     {headerName: 'Quantity', field:'quantity', minWidth: 150},
     {headerName: 'Refill', field:'refill', minWidth: 150},
@@ -192,13 +192,13 @@ const AddOrder = () => {
   const onAddRow = useCallback((addIndex) => {
     console.log(gridRef.current.api);
     const res = gridRef.current.api.applyTransaction({
-      add: [{ date:'', referenceNumber:'', onlinePharmacy:'', onlinePharmacyPhoneNumber:'', orderNumber:'',
-      customerName:'', customerPhoneNumber:'', emailAddress:'', address1:'', address2:'', city:'',
-      province:'', zipCode:'', prescriberName:'', productID:'', EQUSBrandName:'', category:'',
-      nameOnPackage:'', strength:'', unitsPerPack :'', dosageForm:'', activeIngredients:'',
-      productSourcedFrom:'', totalPacksOrdered:'', totalPriceCustomerPays:'', pricePerPackClientPays:'',
-      shippingCostPerOrder:'', totalPriceClientPays:'', prescriptionAttached:'', directionsOfUse:'',
-      rxWarningCautionaryNote:'', remarks:'', quantity:'',  refill:'', doctorName:''}],
+      add: [{ date:'', referencenumber:'', onlinepharmacy:'', onlinepharmacyphonenumber:'', ordernumber:'',
+      customername:'', customerphonenumber:'', emailaddress:'', address1:'', address2:'', city:'',
+      province:'', zipcode:'', prescribername:'', productid:'', equsbrandname:'', category:'',
+      nameonpackage:'', strength:'', unitsperpack :'', dosageform:'', activeingredients:'',
+      productsourcedfrom:'', totalpacksordered:'', totalpricecustomerpays:'', priceperpackclientpays:'',
+      shippingcostperorder:'', totalpriceclientpays:'', prescriptionattached:'', directionsofuse:'',
+      rxwarningcautionarynote:'', remarks:'', quantity:'',  refill:'', doctorname:''}],
       addIndex: addIndex
       });
       console.log(res);
@@ -240,14 +240,14 @@ const AddOrder = () => {
       } else {
         console.log("Rows uploaded:" + resp.rows);
         for(const el of resp.rows){
-          if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "customerid"){
-            tempUpdate.push({"date": el[0], "referenceNumber": el[1], "onlinePharmacy": el[2], "onlinePharmacyPhoneNumber": el[3], "orderNumber": el[4],
-            "customerName": el[5], "customerPhoneNumber": el[6], "emailAddress": el[7], "address1": el[8], "address2": el[9], "city": el[10],
-            "province": el[11], "zipCode": el[12], "prescriberName": el[13], "productID": el[14], "EQUSBrandName": el[15], "category": el[16],
-            "nameOnPackage": el[17], "strength": el[18], "unitsPerPack ": el[19], "dosageForm": el[20], "activeIngredients": el[21],
-            "productSourcedFrom": el[22], "totalPacksOrdered": el[23], "totalPriceCustomerPays": el[24], "pricePerPackClientPays": el[25],
-            "shippingCostPerOrder": el[26], "totalPriceClientPays": el[27], "prescriptionAttached": el[28], "directionsOfUse": el[29],
-            "rxWarningCautionaryNote": el[30], "remarks": el[31], "quantity": el[32], "refill": el[33], "doctorName": el[34]});
+          if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "date"){
+            tempUpdate.push({"date": el[0], "referencenumber": el[1], "onlinepharmacy": el[2], "onlinepharmacyphonenumber": el[3], "ordernumber": el[4],
+            "customername": el[5], "customerphonenumber": el[6], "emailaddress": el[7], "address1": el[8], "address2": el[9], "city": el[10],
+            "province": el[11], "zipcode": el[12], "prescribername": el[13], "productid": el[14], "equsbrandName": el[15], "category": el[16],
+            "nameonpackage": el[17], "strength": el[18], "unitsperpack ": el[19], "dosageform": el[20], "activeingredients": el[21],
+            "productsourcedfrom": el[22], "totalpacksordered": el[23], "totalpricecustomerpays": el[24], "priceperpackclientpays": el[25],
+            "shippingcostperorder": el[26], "totalpriceclientpays": el[27], "prescriptionattached": el[28], "directionsofuse": el[29],
+            "rxwarningcautionarynote": el[30], "remarks": el[31], "quantity": el[32], "refill": el[33], "doctorname": el[34]});
             console.log("Rows uploaded:" + el);
           }
         }
