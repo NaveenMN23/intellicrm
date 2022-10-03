@@ -241,13 +241,13 @@ const AddOrder = () => {
         console.log("Rows uploaded:" + resp.rows);
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "date"){
-            tempUpdate.push({"date": el[0], "referencenumber": el[1], "onlinepharmacy": el[2], "onlinepharmacyphonenumber": el[3], "ordernumber": el[4],
-            "customername": el[5], "customerphonenumber": el[6], "emailaddress": el[7], "address1": el[8], "address2": el[9], "city": el[10],
-            "province": el[11], "zipcode": el[12], "prescribername": el[13], "productid": el[14], "equsbrandname": el[15], "category": el[16],
-            "nameonpackage": el[17], "strength": el[18], "unitsperpack": el[19], "dosageform": el[20], "activeingredients": el[21],
-            "productsourcedfrom": el[22], "totalpacksordered": el[23], "totalpricecustomerpays": el[24], "priceperpackclientpays": el[25],
-            "shippingcostperorder": el[26], "totalpriceclientpays": el[27], "prescriptionattached": el[28], "directionsofuse": el[29],
-            "rxwarningcautionarynote": el[30], "remarks": el[31], "quantity": el[32], "refill": el[33], "doctorname": el[34]});
+            tempUpdate.push({"date": el[0].toString(), "referencenumber": el[1].toString(), "onlinepharmacy": el[2].toString(), "onlinepharmacyphonenumber": el[3].toString(), "ordernumber": el[4].toString(),
+            "customername": el[5].toString(), "customerphonenumber": el[6].toString(), "emailaddress": el[7].toString(), "address1": el[8].toString(), "address2": el[9].toString(), "city": el[10].toString(),
+            "province": el[11].toString(), "zipcode": el[12].toString(), "prescribername": el[13].toString(), "productid": el[14].toString(), "equsbrandname": el[15].toString(), "category": el[16].toString(),
+            "nameonpackage": el[17].toString(), "strength": el[18].toString(), "unitsperpack": el[19].toString(), "dosageform": el[20].toString(), "activeingredients": el[21].toString(),
+            "productsourcedfrom": el[22].toString(), "totalpacksordered": el[23].toString(), "totalpricecustomerpays": el[24].toString(), "priceperpackclientpays": el[25].toString(),
+            "shippingcostperorder": el[26].toString(), "totalpriceclientpays": el[27].toString(), "prescriptionattached": el[28].toString(), "directionsofuse": el[29].toString(),
+            "rxwarningcautionarynote": el[30].toString(), "remarks": el[31].toString(), "quantity": el[32].toString(), "refill": el[33].toString(), "doctorname": el[34].toString()});
             console.log("Rows uploaded:" + el);
           }
         }
