@@ -87,7 +87,7 @@ const deleteCustomer = async (email) => {
 
   let userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
-  if(userDetails.role !== 'customer'){
+  if(userDetails.role !== 'subadmin'){
     columns = [
       { Header: "Name", accessor: "author", width: "45%", align: "left" },
       { Header: "Status", accessor: "status", align: "center" },
@@ -105,7 +105,7 @@ const deleteCustomer = async (email) => {
   let rows = [];
 
   customerDetails && customerDetails?.map((customer) => {
-    if(userDetails.role !== 'customer'){
+    if(userDetails.role !== 'subadmin'){
       rows.push(
         {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
         status: (
