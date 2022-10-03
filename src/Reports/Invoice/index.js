@@ -2,17 +2,17 @@ import printPdf from './../../components/PdfPrinter';
 
 const invoice = (props) => {
   const invoiceFormat = props.map((el) => {
-    return `<div>
+    const result = `<div>
     <div id="companyName">
-      <div style="font-size:24px;text-align:center;">CAPITALONLINEPHARMACY.com</div>
+      <div style="font-size:24px;text-align:center;">${el.parmacyName}</div>
     </div>
     <div id="address">
       <div style="font-size:12px;line-height:0px">13/06/2022</div>
       <div style="font-size:12px;line-height:0px">${el.customerId}</div>
-      <div style="font-size:12px;line-height:0px">Mr David Johnson</div>
-      <div style="font-size:12px;line-height:0px">447 Falling Leaf Lane</div>
-      <div style="font-size:12px;line-height:0px">Banning</div>
-      <div style="font-size:12px;line-height:0px">United States</div>
+      <div style="font-size:12px;line-height:0px">${el.customerName}</div>
+      <div style="font-size:12px;line-height:0px">${el.address}</div>
+      <div style="font-size:12px;line-height:0px">${el.city}</div>
+      <div style="font-size:12px;line-height:0px">${el.country}</div>
     </div>
     <div id="title">
       <div style="font-size:18px;text-align:center;text-transform:UPPERCASE;text-decoration:underline;font-weight:bold">CHECK YOUR ORDER CAREFULLY</div>
@@ -32,30 +32,35 @@ const invoice = (props) => {
           <th style="font-size:12px;">Units/pack</th>
           <th style="font-size:12px;">Total packs</th>
           <th style="font-size:12px;">Subtotal Cost</th>
-        </tr>
-        <tr>
-          <td style="font-size:12px;">Brand</td>
-          <td style="font-size:12px;">CIALIS</td>
-          <td style="font-size:12px;">Tadalafil</td>
-          <td style="font-size:12px;">CIALIS 20</td>
-          <td style="font-size:12px;">20mg</td>
-          <td style="font-size:12px;">TURKEY</td>
-          <td style="font-size:12px;">4 tablets</td>
-          <td style="font-size:12px;">3</td>
-          <td style="font-size:12px;">$50</td>
-        </tr>
-      </table>
+        </tr>`
+
+        result = result + el.product.map((e2) => {
+        
+        return `<tr>
+          <td style="font-size:12px;">${e2.category}</td>
+          <td style="font-size:12px;">${e2.usName}</td>
+          <td style="font-size:12px;">${e2.activeIngredient}</td>
+          <td style="font-size:12px;">${e2.nameonPackage}</td>
+          <td style="font-size:12px;">${e2.strength}</td>
+          <td style="font-size:12px;">${e2.origin}</td>
+          <td style="font-size:12px;">${e2.unitsperpack}</td>
+          <td style="font-size:12px;">${e2.totalPacks}</td>
+          <td style="font-size:12px;">${e2.subtotalCost}</td>
+        </tr>`
+        });
+        
+    result = result + `</table>
     </div>
     <div id="Details">
       <table>
        <tr>
         <td style="width:670px">
          <p style="font-size:12px;text-align:left;">
-          Expiry date: 30/12/2023
-          <span style="float:right">Batch No: AX0905</span>
+          Expiry date: ${el.expiryDate}
+          <span style="float:right">Batch No: ${el.batchNo}</span>
          </p>
         <div style="font-size:12px">
-          For Mr David Johnson: Take 1 tablet at night
+        ${el.note}
         </div>
         </td>
       </tr>
@@ -63,24 +68,26 @@ const invoice = (props) => {
     </div>
     <div id="Total">
       <div style="font-size:12px;text-align:right">Subtotal:
-        <span style="font-size:12px">$50</span>
+        <span style="font-size:12px">${el.subtotalCost}</span>
       </div>
       <div style="font-size:12px;text-align:right">Shipping:
-        <span style="font-size:12px">$0</span>
+        <span style="font-size:12px">${el.shipping}</span>
       </div>
       <hr>
       <div style="font-size:12px;text-align:right">Total:
-        <span style="font-size:12px">$50</span>
+        <span style="font-size:12px">${el.shipping + el.subtotalCost}</span>
       </div>
     </div>
     <div id="footer">
       <div style="font-size:12px">
-        The above product(s) were dispensed by Green Cure (Mauritius) Ltd, Jinfei, Mauritius for CAPITALONLINEPHARMACY.com.
-        For consultation with the pharmacist, kindly call CAPITALONLINEPHARMACY.COM at phone number …………………………………..and request pharmacist assistance.
-        For any other queries regarding your order, please call CAPITALONLINEPHARMACY.COM at phone number ………………………………..and speak to a customer relationship agent.
+        The above product(s) were dispensed by Green Cure (Mauritius) Ltd, Jinfei, Mauritius for ${el.parmacyName}.
+        For consultation with the pharmacist, kindly call ${el.parmacyName} at phone number ${el.parmacyNo}.and request pharmacist assistance.
+        For any other queries regarding your order, please call ${el.parmacyName} at phone number ${el.parmacyNo}..and speak to a customer relationship agent.
       </div>
     </div>
-  </div>`
+  </div>`;
+
+  return result;
   });
 
   const fileName = `${props.customerId}_${props.orderId}_Invoice.pdf`;
