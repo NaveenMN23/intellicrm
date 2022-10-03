@@ -12,6 +12,8 @@ import React, { useState, useEffect } from 'react';
 import {APIService} from "./../../../services/rootService";
 import {EndPoints, RequestType} from "./../../../services/apiConfig";
 
+let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
 export default function SubAdminData() {
 
   // Navigate module
@@ -38,13 +40,23 @@ export default function SubAdminData() {
     </MDBox>
   );
 
-  const columns = [
-    { Header: "Name", accessor: "author", width: "45%", align: "left" },
-    { Header: "Status", accessor: "status", align: "center" },
-    // { Header: "Type", accessor: "employed", align: "center" },
-    { Header: "Edit", accessor: "edit", align: "center" },
-    { Header: "Delete", accessor: "delete", align: "center" },
-  ];
+  let columns;
+
+  if(userDetails.role === 'subadmin' && !userDetails.canEditCustomer) {
+    columns = [
+      { Header: "Name", accessor: "author", width: "45%", align: "left" },
+      { Header: "Status", accessor: "status", align: "center" },
+    ];
+  }
+  else {
+    columns = [
+      { Header: "Name", accessor: "author", width: "45%", align: "left" },
+      { Header: "Status", accessor: "status", align: "center" },
+      // { Header: "Type", accessor: "employed", align: "center" },
+      { Header: "Edit", accessor: "edit", align: "center" },
+      { Header: "Delete", accessor: "delete", align: "center" },
+    ];
+  }
 
   const [subAdminDetails, setsubAdminDetails] = useState([]);
 
@@ -82,6 +94,17 @@ export default function SubAdminData() {
   let rows = [];
 
   subAdminDetails && subAdminDetails?.map((subadmin) => {
+    if(userDetails.role === 'subadmin' && !userDetails.canEditCustomer) {
+      rows.push(
+        {author: <Author image={subadmin.image} name={subadmin.firstName} email={subadmin.email} />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent={subadmin.accountStatus}
+            color={subadmin.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
+          </MDBox>
+        ),}
+      )
+    } else {
       rows.push(
         {author: <Author image={subadmin.image} name={subadmin.firstName} email={subadmin.email} />,
         status: (
@@ -101,7 +124,8 @@ export default function SubAdminData() {
           </MDButton>
         ),}
       )
-    });
+    }
+  });
 
   return {
     columns,

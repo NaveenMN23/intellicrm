@@ -20,7 +20,9 @@ const initialValues = [{
   canEditCustomer: true,
   canEditProducts: true,
   canEditOrders: true,
-}]
+}];
+
+let userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
 export default function Data() {
 
@@ -85,9 +87,13 @@ const deleteCustomer = async (email) => {
 
   let columns;
 
-  let userDetails = JSON.parse(localStorage.getItem("userDetails"));
-
-  if(userDetails.role !== 'subadmin'){
+  if(userDetails.role === 'subadmin' && !userDetails.canEditCustomer) {
+    columns = [
+      { Header: "Name", accessor: "author", width: "45%", align: "left" },
+      { Header: "Status", accessor: "status", align: "center" },
+    ];
+  }
+  else {
     columns = [
       { Header: "Name", accessor: "author", width: "45%", align: "left" },
       { Header: "Status", accessor: "status", align: "center" },
@@ -95,17 +101,23 @@ const deleteCustomer = async (email) => {
       { Header: "Edit", accessor: "edit", align: "center" },
       { Header: "Delete", accessor: "delete", align: "center" },
     ];
-  } else {
-    columns = [
-      { Header: "Name", accessor: "author", width: "45%", align: "left" },
-      { Header: "Status", accessor: "status", align: "center" },
-    ];
   }
 
   let rows = [];
 
   customerDetails && customerDetails?.map((customer) => {
-    if(userDetails.role !== 'subadmin'){
+    if(userDetails.role === 'subadmin' && !userDetails.canEditCustomer){
+      rows.push(
+        {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
+        status: (
+          <MDBox ml={-1}>
+            <MDBadge badgeContent={customer.accountStatus}
+            color={customer.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
+          </MDBox>
+        ),}
+      )
+    }
+    else {
       rows.push(
         {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
         status: (
@@ -123,17 +135,6 @@ const deleteCustomer = async (email) => {
           <MDButton variant="gradient" color="info" onClick={() => {deleteCustomer(customer.email)}}>
             Delete
           </MDButton>
-        ),}
-      )
-    }
-    else {
-      rows.push(
-        {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
-        status: (
-          <MDBox ml={-1}>
-            <MDBadge badgeContent={customer.accountStatus}
-            color={customer.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
-          </MDBox>
         ),}
       )
     }

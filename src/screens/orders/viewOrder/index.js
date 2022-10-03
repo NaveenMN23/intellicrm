@@ -35,6 +35,8 @@ const initialValues = {
   }
 }
 
+let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+
 const convertToRem = (pxValue) => pxValue / 16;
 
 const tempUpdate = [];
@@ -347,9 +349,10 @@ const ViewOrder = () => {
                     <MDButton variant="gradient" color="info" onClick={exportInvoice}>
                       Export Invoice
                     </MDButton>
+                    {userDetails.role !== 'customer' &&
                     <MDButton variant="gradient" color="info" onClick={exportLabel}>
                       Export Label
-                    </MDButton>
+                    </MDButton>}
                   </MDBox>
                 </MDBox>
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%", bgcolor: 'background.paper' }}>
