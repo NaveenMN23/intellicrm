@@ -88,6 +88,7 @@ function Basic() {
       setcanEditCustomer(dispatch, resp.data.canEditCustomer);
       setcanEditOrders(dispatch, resp.data.canEditOrders);
       setcanEditProducts(dispatch, resp.data.canEditProducts);
+      localStorage.setItem("userDetails",JSON.stringify(resp.data));
 
       notify("Logged in successful");
       setTimeout(() => {
