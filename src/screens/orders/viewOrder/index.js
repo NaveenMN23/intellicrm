@@ -25,6 +25,10 @@ import DashboardNavbar from "./../../../components/DashboardNavbar";
 import './styles.css';
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 const initialValues = {
   dataLoaded: false,
@@ -119,7 +123,7 @@ const ViewOrder = () => {
   };
 
   const [printColumnDefs, setPrintColumnDefs] = useState([
-    {headerName: 'Date', field: 'date', minWidth: 130,
+    {headerName: 'Date', field: 'date', minWidth: 200,
       headerCheckboxSelection: true,
       checkboxSelection: true,
       showDisabledCheckboxes: true,
@@ -227,28 +231,17 @@ const ViewOrder = () => {
   }
 
   const getOrderDetails = async () => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+    const resp = await APIService(EndPoints.GET_ORDER+"/*/All" , RequestType.POST,[]);
+
+    if(resp.status == 200)
+    {
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
       //   navigate('/customerlist')
+      
       // }, 2000);
-      const data = [
-        {date:'22/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
-        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
-        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
-        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
-        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
-        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
-        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid'},
-        {date:'21/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
-        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
-        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
-        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
-        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
-        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
-        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid'}
-      ];
+
+      const data =  resp.data
       setRowData({
         ...rowData,
         "dataLoaded": true,
@@ -260,28 +253,17 @@ const ViewOrder = () => {
   }
 
   const getOrderDetailsByStatus = async (status) => {
-    //const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(true){
+
+    const resp = await APIService(EndPoints.GET_ORDER+"/*/"+status , RequestType.POST,[]);
+
+    if(resp.status == 200)
+    {
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
       //   navigate('/customerlist')
       // }, 2000);
-      const data = [
-        {date:'22/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
-        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
-        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
-        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
-        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
-        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
-        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid', status:'In Process'},
-        {date:'21/09/2022', referencenumber:'dididid', onlinepharmacy:'dididid', onlinepharmacyphonenumber:'dididid', ordernumber:'dididid',
-        customername:'dididid', customerphonenumber:'dididid', emailaddress:'dididid', address1:'dididid', address2:'dididid', city:'dididid',
-        province:'dididid', zipcode:'dididid', prescriberName:'dididid', productID:'dididid', EQUSBrandName:'dididid', category:'dididid',
-        nameOnPackage:'dididid', strength:'dididid', unitsPerPack :'dididid', dosageForm:'dididid', activeIngredients:'dididid',
-        productSourcedFrom:'dididid', totalPacksOrdered:'dididid', totalPriceCustomerPays:'dididid', pricePerPackClientPays:'dididid',
-        shippingCostPerOrder:'dididid', totalPriceClientPays:'dididid', prescriptionAttached:'dididid', directionsOfUse:'dididid',
-        rxWarningCautionaryNote:'dididid', remarks:'dididid', quantity:'dididid',  refill:'dididid', doctorName:'dididid', status:'Submitted'}
-      ];
+      const data = resp.data;
+      
       const filterData = data.filter(el => el.status === status);
       setRowData({
         ...rowData,
