@@ -117,7 +117,7 @@ const AddOrder = () => {
     {headerName: 'Address 2', field:'address2', minWidth: 150},
     {headerName: 'City', field:'city', minWidth: 100},
     {headerName: 'Province', field:'province', minWidth: 150},
-    {headerName: 'Zip Code', field:'zipCode', minWidth: 150},
+    {headerName: 'Zip Code', field:'zipcode', minWidth: 150},
     {headerName: 'Prescriber Name', field:'prescribername', minWidth: 180},
     {headerName: 'Product ID', field:'productid', minWidth: 150},
     {headerName: 'EQUS Brand Name', field:'equsbrandname', minWidth: 200},
@@ -243,8 +243,8 @@ const AddOrder = () => {
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "date"){
             tempUpdate.push({"date": el[0], "referencenumber": el[1], "onlinepharmacy": el[2], "onlinepharmacyphonenumber": el[3], "ordernumber": el[4],
             "customername": el[5], "customerphonenumber": el[6], "emailaddress": el[7], "address1": el[8], "address2": el[9], "city": el[10],
-            "province": el[11], "zipcode": el[12], "prescribername": el[13], "productid": el[14], "equsbrandName": el[15], "category": el[16],
-            "nameonpackage": el[17], "strength": el[18], "unitsperpack ": el[19], "dosageform": el[20], "activeingredients": el[21],
+            "province": el[11], "zipcode": el[12], "prescribername": el[13], "productid": el[14], "equsbrandname": el[15], "category": el[16],
+            "nameonpackage": el[17], "strength": el[18], "unitsperpack": el[19], "dosageform": el[20], "activeingredients": el[21],
             "productsourcedfrom": el[22], "totalpacksordered": el[23], "totalpricecustomerpays": el[24], "priceperpackclientpays": el[25],
             "shippingcostperorder": el[26], "totalpriceclientpays": el[27], "prescriptionattached": el[28], "directionsofuse": el[29],
             "rxwarningcautionarynote": el[30], "remarks": el[31], "quantity": el[32], "refill": el[33], "doctorname": el[34]});
