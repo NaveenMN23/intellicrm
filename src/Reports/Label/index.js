@@ -5,7 +5,7 @@ const label = (props) => {
     return `<div>
       <div id="header">
         <div style="font-size:14px;line-height:0px;text-align:left;">${el.orderDate} (${el.orderNo})</div>
-        <div style="font-size:14px;line-height:0px;text-align:left;">${el.customerName} (${el.orderNo})</div>
+        <div style="font-size:14px;line-height:0px;text-align:left;">${el.customerName} (${el.customerId})</div>
         <div style="font-size:14px;line-height:0px;text-align:right;">Doctor Lam Ming</div>
       </div>
       <hr>
@@ -17,10 +17,10 @@ const label = (props) => {
           <span>Refills: </span>
           <span>${el.refills}</span>
         </div>
-        <div style="font-size:14px;font-weight:bold;">${el.directionOfUse}</div>
+        <div style="font-size:14px;font-weight:bold;">${el.directionsOfUse}</div>
       </div>
       <hr>
-      <div style="font-size:14px;line-height:0px">${el.cautionaryNote}</div>
+      <div style="font-size:14px;line-height:0px">${el.rxwarningcautionarynote}</div>
       <hr>
       <div id="cautionaryNote">
         <div style="font-size:14px;line-height:0px">
@@ -28,7 +28,7 @@ const label = (props) => {
       </div>
       <hr>
       <div id="footer">
-        <div style="font-size:14px;line-height:0px;text-align:left;">${el.onlinePharmacy} / ${el.pharmacyNumber}</div>
+        <div style="font-size:14px;line-height:0px;text-align:left;">${el.pharmacyName} / ${el.onlinepharmacyphonenumber}</div>
         <div style="font-size:14px;line-height:0px;text-align:left;">Dispensed by Green Cure (Mauritius) Ltd, Jinfei, Mauritius</div>
         <div style="font-size:14px;line-height:0px;text-align:right;">Pharmacist Initials: LRS</div>
       </div>
@@ -45,7 +45,7 @@ const label = (props) => {
     <br />`
   });
 
-  const fileName = `${props.customerId}_${props.orderId}_Label.pdf`;
+  const fileName = `${props.customerName}_${props.orderId}_Label.pdf`;
 
   return printPdf(labelFormat,fileName);
 }

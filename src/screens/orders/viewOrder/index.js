@@ -123,7 +123,7 @@ const ViewOrder = () => {
   };
 
   const [printColumnDefs, setPrintColumnDefs] = useState([
-    {headerName: 'Date', field: 'date', minWidth: 200,
+    {headerName: 'Date', field: 'orderDate', minWidth: 200,
       headerCheckboxSelection: true,
       checkboxSelection: true,
       showDisabledCheckboxes: true,
@@ -197,15 +197,33 @@ const ViewOrder = () => {
 
   // const selectedRows = [];
 
-  const exportLabel = () => {
-    let selectedRows = gridExistingRef.current.api.getSelectedRows();
-    label(selectedRows);
+  const exportLabel = async () => {
+    let selectedOrders = gridExistingRef.current.api.getSelectedRows().map( (item) =>  {
+      return item.ordernumber;
+    });    
+    
+    const resp = await APIService(EndPoints.GET_LABEL_DETAILS , RequestType.POST,JSON.stringify({
+      "Orders" : selectedOrders 
+    }) );
+
+    if(resp.status == 200)
+    {    
+      label(resp.data);
+    }
   }
 
-  const exportInvoice = () => {
-    let selectedRows = gridExistingRef.current.api.getSelectedRows();
-    console.log(selectedRows);
-    invoice(selectedRows);
+  const exportInvoice = async () => {
+    let selectedOrders = gridExistingRef.current.api.getSelectedRows().map( (item) =>  {
+      return item.ordernumber;
+    });
+    const resp = await APIService(EndPoints.GET_INVOICE_DETAILS , RequestType.POST,JSON.stringify({
+      "Orders" : selectedOrders 
+    }) );
+
+    if(resp.status == 200)
+    {    
+      invoice(resp.data);
+    }
   }
 
   const onRowSelected = useCallback((event) => {
@@ -231,7 +249,10 @@ const ViewOrder = () => {
   }
 
   const getOrderDetails = async () => {
-    const resp = await APIService(EndPoints.GET_ORDER+"/*/All" , RequestType.POST,[]);
+    const resp = await APIService(EndPoints.GET_ORDER , RequestType.POST,JSON.stringify({
+      "customerId" : localStorage.getItem("userEmail") ,
+      "status" : ""
+    }) );
 
     if(resp.status == 200)
     {
@@ -254,7 +275,10 @@ const ViewOrder = () => {
 
   const getOrderDetailsByStatus = async (status) => {
 
-    const resp = await APIService(EndPoints.GET_ORDER+"/*/"+status , RequestType.POST,[]);
+    const resp = await APIService(EndPoints.GET_ORDER, RequestType.POST,JSON.stringify({
+      "customerId" : localStorage.getItem("userEmail") ,
+      "status" : status
+    }));
 
     if(resp.status == 200)
     {
@@ -286,7 +310,7 @@ const ViewOrder = () => {
         getOrderDetails();
         break;
       case 1:
-        getOrderDetailsByStatus('In Process');
+        getOrderDetailsByStatus('Confirmed');
         break;
       case 2:
         getOrderDetailsByStatus('On Hold');
