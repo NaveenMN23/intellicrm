@@ -116,7 +116,7 @@ function AddSubAdmin() {
     formData.append("canEditProducts", canEditProducts===true);
     formData.append("canEditOrders", canEditOrders===true);
     formData.append("Role", "subadmin");
-    formData.append("RequestedBy", JSON.parse(localStorage.getItem("userEmail")));
+    formData.append("RequestedBy", localStorage.getItem("userEmail"));
     formData.append("AccountType", 2);
     formData.append("AccountStatus", "active");
 

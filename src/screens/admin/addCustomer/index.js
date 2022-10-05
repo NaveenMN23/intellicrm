@@ -197,7 +197,7 @@ function AddCustomer() {
     formData.append("SoareceviedAmount", soareceviedAmount);
     formData.append("UploadFile", uploadFile);
     formData.append("Role", "customer");
-    formData.append("RequestedBy", email);
+    formData.append("RequestedBy", localStorage.getItem("userEmail"));
 
     console.log(formData)
 

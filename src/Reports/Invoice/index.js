@@ -2,9 +2,9 @@ import printPdf from './../../components/PdfPrinter';
 
 const invoice = (props) => {
   const invoiceFormat = props.map((el) => {
-    const result = `<div>
+    let result = `<div>
     <div id="companyName">
-      <div style="font-size:24px;text-align:center;">${el.parmacyName}</div>
+      <div style="font-size:24px;text-align:center;">${el.pharmacyName}</div>
     </div>
     <div id="address">
       <div style="font-size:12px;line-height:0px">13/06/2022</div>
@@ -34,7 +34,7 @@ const invoice = (props) => {
           <th style="font-size:12px;">Subtotal Cost</th>
         </tr>`
 
-        result = result + el.product.map((e2) => {
+        result = result + el.invoiceProducts.map((e2) => {
         
         return `<tr>
           <td style="font-size:12px;">${e2.category}</td>
@@ -45,7 +45,7 @@ const invoice = (props) => {
           <td style="font-size:12px;">${e2.origin}</td>
           <td style="font-size:12px;">${e2.unitsperpack}</td>
           <td style="font-size:12px;">${e2.totalPacks}</td>
-          <td style="font-size:12px;">${e2.subtotalCost}</td>
+          <td style="font-size:12px;">${e2.subtotal}</td>
         </tr>`
         });
         
@@ -60,7 +60,7 @@ const invoice = (props) => {
           <span style="float:right">Batch No: ${el.batchNo}</span>
          </p>
         <div style="font-size:12px">
-        ${el.note}
+        ${el.notes}
         </div>
         </td>
       </tr>
@@ -80,9 +80,9 @@ const invoice = (props) => {
     </div>
     <div id="footer">
       <div style="font-size:12px">
-        The above product(s) were dispensed by Green Cure (Mauritius) Ltd, Jinfei, Mauritius for ${el.parmacyName}.
-        For consultation with the pharmacist, kindly call ${el.parmacyName} at phone number ${el.parmacyNo}.and request pharmacist assistance.
-        For any other queries regarding your order, please call ${el.parmacyName} at phone number ${el.parmacyNo}..and speak to a customer relationship agent.
+        The above product(s) were dispensed by Green Cure (Mauritius) Ltd, Jinfei, Mauritius for ${el.pharmacyName}.
+        For consultation with the pharmacist, kindly call ${el.pharmacyName} at phone number ${el.pharmacyNumber}.and request pharmacist assistance.
+        For any other queries regarding your order, please call ${el.pharmacyName} at phone number ${el.pharmacyNumber}..and speak to a customer relationship agent.
       </div>
     </div>
   </div>`;
@@ -90,7 +90,7 @@ const invoice = (props) => {
   return result;
   });
 
-  const fileName = `${props.customerId}_${props.orderId}_Invoice.pdf`;
+  const fileName = `${props.customerName}_${props.orderId}_Invoice.pdf`;
 
   return printPdf(invoiceFormat,fileName);
 }

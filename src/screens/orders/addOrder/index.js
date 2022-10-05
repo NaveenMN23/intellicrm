@@ -25,6 +25,10 @@ import DashboardNavbar from "./../../../components/DashboardNavbar";
 import './styles.css';
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import {APIService} from "./../../../services/rootService";
+import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 const initialValues = {
   dataLoaded: false,
@@ -71,6 +75,10 @@ const NewOrder = (props) => {
 }
 
 const AddOrder = () => {
+
+  const navigate = useNavigate();
+
+  const notify = (message) => toast(message);
 
   const gridRef = useRef();
 
@@ -276,13 +284,18 @@ const AddOrder = () => {
 
   }, []);
 
-  const saveOrders = () => {
-    // setRowData({
-    //   ...rowData,
-    //   "newRowData": tempUpdate
-    // });
-    // setNewData(tempUpdate);
-    console.log(tempUpdate);
+  const saveOrders = async () => {
+
+    const resp = await APIService(EndPoints.SAVE_ORDER , RequestType.POST,tempUpdate);
+
+    if(resp.status == 200)
+    {
+      notify("Logged in successful");
+      setTimeout(() => {
+        navigate(`/Dashboard`, { state: "userData" })
+      }, 2000);
+    }
+
   }
 
   return (

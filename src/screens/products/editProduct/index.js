@@ -129,7 +129,7 @@ export default function EditProduct(){
   }
 
   const getProductDetails = async () => {
-    const resp = await APIService(EndPoints.GET_ALL_PRODUCT_DETAILS, RequestType.GET);
+    const resp = await APIService(EndPoints.GET_ALL_PRODUCT_DETAILS+"?customerId="+localStorage.getItem("userEmail"), RequestType.GET);
     if(resp.status == 200){
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
