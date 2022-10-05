@@ -113,7 +113,7 @@ const AddOrder = () => {
   };
 
   const [columnDefs, setColumnDefs] = useState([
-    {headerName: 'Date', field:'date', minWidth: 100, filter: 'agDateColumnFilter', filterParams: filterParams},
+    {headerName: 'Date', field:'date', minWidth: 200, filter: 'agDateColumnFilter', filterParams: filterParams},
     {headerName: 'Reference Number', field:'referencenumber', minWidth: 200},
     {headerName: 'Online Pharmacy', field:'onlinepharmacy', minWidth: 200},
     {headerName: 'Online Pharmacy Phone Number', field:'onlinepharmacyphonenumber', minWidth: 300},
@@ -249,7 +249,7 @@ const AddOrder = () => {
         console.log("Rows uploaded:" + resp.rows);
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "date"){
-            tempUpdate.push({"date": (el[0] !== null && el[0]!== undefined) ? el[0].toString(): '', "referencenumber": (el[1] !== null && el[1]!== undefined) ? el[1].toString():'', "onlinepharmacy": (el[2] !== null && el[2]!== undefined) ? el[2].toString():'', "onlinepharmacyphonenumber": (el[3] !== null && el[3]!== undefined) ? el[3].toString():'', "ordernumber": (el[4] !== null && el[4]!== undefined) ? el[4].toString():'',
+            tempUpdate.push({"date": (el[0] !== null && el[0]!== undefined) ? new Date(el[0]) : '', "referencenumber": (el[1] !== null && el[1]!== undefined) ? el[1].toString():'', "onlinepharmacy": (el[2] !== null && el[2]!== undefined) ? el[2].toString():'', "onlinepharmacyphonenumber": (el[3] !== null && el[3]!== undefined) ? el[3].toString():'', "ordernumber": (el[4] !== null && el[4]!== undefined) ? el[4].toString():'',
             "customername": (el[5] !== null && el[5]!== undefined) ? el[5].toString():'', "customerphonenumber": (el[6] !== null && el[6]!== undefined) ? el[6].toString():'', "emailaddress": (el[7] !== null && el[7]!== undefined) ? el[7].toString():'', "address1": (el[8] !== null && el[8]!== undefined) ? el[8].toString():'', "address2": (el[9] !== null && el[9]!== undefined) ? el[9].toString():'', "city": (el[10] !== null && el[10]!== undefined) ? el[10].toString():'',
             "province": (el[11] !== null && el[11]!== undefined) ? el[11].toString():'', "zipcode": (el[12] !== null && el[12]!== undefined) ? el[12].toString():'', "prescribername": (el[13] !== null && el[13]!== undefined) ? el[13].toString():'', "productid": (el[14] !== null && el[14]!== undefined) ? el[14].toString():'', "equsbrandname": (el[15] !== null && el[15]!== undefined) ? el[15].toString():'', "category": (el[16] !== null && el[16]!== undefined) ? el[16].toString():'',
             "nameonpackage": (el[17] !== null && el[17]!== undefined) ? el[17].toString():'', "strength": (el[18] !== null && el[18]!== undefined) ? el[18].toString():'', "unitsperpack": (el[19] !== null && el[19]!== undefined) ? el[19].toString():'', "dosageform": (el[20] !== null && el[20]!== undefined) ? el[20].toString():'', "activeingredients": (el[21] !== null && el[21]!== undefined) ? el[21].toString():'',
