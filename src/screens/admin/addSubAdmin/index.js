@@ -30,6 +30,7 @@ import { useNavigate } from "react-router-dom";
 
 import {APIService} from "./../../../services/rootService";
 import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import {Loader} from './../../../components/Loader';
 
 // Images
 import bgImage from "./../../../assets/images/bg-sign-up-cover.jpeg";
@@ -51,6 +52,8 @@ function AddSubAdmin() {
   // Navigate module
   let navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const [subAdminDetails, setSubAdminDetails] = useState(initialValues);
 
   const notify = (message) => toast(message);
@@ -60,11 +63,14 @@ function AddSubAdmin() {
 
   const fetchSubAdminDetails = async () => {
 
+    setLoading(true);
+
     const resp = await APIService(EndPoints.FETCH_SUBADMIN_DETAILS +'?email='+state, RequestType.GET);
 
     if(resp.status == 200)
     {
       setSubAdminDetails(resp.data);
+      setLoading(false);
     }
   }
 
@@ -97,6 +103,7 @@ function AddSubAdmin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const {firstName, lastName, email, password, contactNumber, canEditCustomer, canEditProducts, canEditOrders} = subAdminDetails;
 
     // SALT should be created ONE TIME upon sign up
@@ -125,11 +132,13 @@ function AddSubAdmin() {
 
     const resp = await APIService(EndPoints.SAVE_SUBADMIN_DETAILS, RequestType.POST, formData);
     if(resp.status == 200){
+      setLoading(false);
       notify("Sub Admin details saved or updated successfully");
       setTimeout(() => {
         navigate('/sub-admin-list')
       }, 2000);
     } else {
+      setLoading(false);
        notify("An error occured");
     }
   }
@@ -137,6 +146,8 @@ function AddSubAdmin() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <ToastContainer />
+      <Loader loading={loading}/>
     {/* <CoverLayout image={bgImage}> */}
     <MDBox pt={6} pb={3} sx={{display:"flex", alignItems:"center",
           flexFlow:"column"}}>
