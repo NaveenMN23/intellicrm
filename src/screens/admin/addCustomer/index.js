@@ -107,16 +107,16 @@ function AddCustomer() {
   //Fetch Customer Details
   const fetchCustomerDetails = async () => {
 
-    setLoading(true);
+    // setLoading(true);
 
     const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'?email='+state, RequestType.GET);
 
     if(resp.status == 200)
     {
       setCustomerDetails(resp.data);
-      setLoading(false);
+      // setLoading(false);
     } else{
-      setLoading(false);
+      // setLoading(false);
     }
   }
 
@@ -152,19 +152,19 @@ function AddCustomer() {
   }
 
   const handleFileUpload = (e) => {
-    setLoading(true);
+    // setLoading(true);
     e.preventDefault();
     setCustomerDetails({
       ...customerDetails,
       "uploadFile" :  selectedFile,
     });
     notify("File upload success");
-    setLoading(false);
+    // setLoading(false);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     const {userId, firstName, lastName, email, password, contactNumber, address, city, state, country,
       creditLimit, accountStatus, soareceviedAmount, uploadFile} = customerDetails;
 
@@ -197,14 +197,14 @@ function AddCustomer() {
     console.log(formData)
 
     const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(resp.status == 200){
-      setLoading(false);
+    if(resp.status === 200){
+      // setLoading(false);
       notify("Customer details saved or updated successfully");
        setTimeout(() => {
         navigate('/customer-list')
       }, 2000);
     } else {
-       setLoading(false);
+       // setLoading(false);
        notify("An error occured");
     }
   }

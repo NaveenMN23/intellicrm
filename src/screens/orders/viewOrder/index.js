@@ -29,6 +29,7 @@ import {APIService} from "./../../../services/rootService";
 import {EndPoints, RequestType} from "./../../../services/apiConfig";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues = {
   dataLoaded: false,
@@ -96,7 +97,11 @@ const ViewOrder = () => {
 
   const [rowData, setRowData] = useState(initialValues);
 
+  const [trackingNo, setTrackingNo] = useState("");
+
   const [getSelectedRows, setSelectedRows] = useState([]);
+
+  const notify = (message) => toast(message);
 
   const filterParams = {
     comparator: (filterLocalDateAtMidnight, cellValue) => {
@@ -180,6 +185,13 @@ const ViewOrder = () => {
     }
   });
 
+  const handleInputChange = (e) => {
+    e.preventDefault();
+    const {value} = e.target;
+
+    setTrackingNo(value);
+  }
+
   //ag-Grid hook ready
   const onGridReady = params => {
 
@@ -223,6 +235,40 @@ const ViewOrder = () => {
     if(resp.status == 200)
     {
       invoice(resp.data);
+    }
+  }
+
+  const updateOrder = async () => {
+    let selectedOrders = gridExistingRef.current.api.getSelectedRows().map( (item) =>  {
+      return item.ordernumber;
+    });
+    //UpdateOrderDetails
+    const resp = await APIService(EndPoints.UPDATE_ORDER , RequestType.POST,JSON.stringify({
+      "Orders" : selectedOrders,
+      "orderStatus" : "Completed",
+      "trackingNo" : trackingNo,
+    }) );
+
+    if(resp.status == 200)
+    {
+      notify("Order updated successfully");
+    }
+  }
+
+  const holdOrder = async () => {
+    let selectedOrders = gridExistingRef.current.api.getSelectedRows().map( (item) =>  {
+      return item.ordernumber;
+    });
+    //UpdateOrderDetails
+    const resp = await APIService(EndPoints.UPDATE_ORDER , RequestType.POST,JSON.stringify({
+      "Orders" : selectedOrders,
+      "orderStatus" : "OnHold",
+
+    }) );
+
+    if(resp.status == 200)
+    {
+      notify("Order updated successfully");
     }
   }
 
@@ -313,7 +359,7 @@ const ViewOrder = () => {
         getOrderDetailsByStatus('Confirmed');
         break;
       case 2:
-        getOrderDetailsByStatus('On Hold');
+        getOrderDetailsByStatus('OnHold');
         break;
       case 3:
         getOrderDetailsByStatus('Completed');
@@ -350,8 +396,8 @@ const ViewOrder = () => {
                     View Order
                   </MDTypography>
                 </MDBox>
-                <MDBox pt={4} pb={3} px={3} sx={{ width: "100%"}}>
                 {userDetails.role !== 'customer' &&
+                <MDBox pt={4} pb={3} px={3} sx={{ width: "100%"}}>
                   <MDBox mt={4} mb={1} className='buttonSpaceEvenly'>
                     <MDButton variant="gradient" color="info" onClick={exportInvoice}>
                       Export Invoice
@@ -359,8 +405,25 @@ const ViewOrder = () => {
                     <MDButton variant="gradient" color="info" onClick={exportLabel}>
                       Export Label
                     </MDButton>
-                  </MDBox>}
+                  </MDBox>
+                  <MDBox mt={4} mb={1} className='buttonSpaceEvenly'>
+                    <MDBox className='buttonSpaceCenter'>
+                      <MDBox>
+                        <MDInput type="text" name="trackingno" value={trackingNo} onChange={handleInputChange}
+                          label="Tracking Number" variant="standard" fullWidth />
+                      </MDBox>
+                      <MDButton variant="gradient" color="info" onClick={updateOrder} >
+                        Update Order
+                      </MDButton>
+                    </MDBox>
+                    <MDBox>
+                      <MDButton variant="gradient" color="info" onClick={holdOrder} >
+                        Hold Order
+                      </MDButton>
+                    </MDBox>
+                  </MDBox>
                 </MDBox>
+                }
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%", bgcolor: 'background.paper' }}>
                   <Tabs value={selectedNav} onChange={handleChange} aria-label="nav tabs example">
                     <LinkTab label="All Orders" />
