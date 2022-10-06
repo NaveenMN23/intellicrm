@@ -29,6 +29,8 @@ import {APIService} from "./../../../services/rootService";
 import {EndPoints, RequestType} from "./../../../services/apiConfig";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Modal from '@mui/material/Modal';
 
 const initialValues = {
   dataLoaded: false,
@@ -38,6 +40,18 @@ const initialValues = {
     isFormInvalid: false
   }
 }
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const convertToRem = (pxValue) => pxValue / 16;
 
@@ -74,6 +88,27 @@ const NewOrder = (props) => {
   )
 }
 
+const ModalPopup = (props) => {
+  const {open, handleClose, data} = props;
+
+  return(
+    <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+        <MDBox sx={style}>
+          <MDTypography id="modal-modal-description" sx={{ mt: 2 }}>
+            {data && data.map((el) => {
+              return <li>{el}</li>
+            })}
+          </MDTypography>
+        </MDBox>
+      </Modal>
+  )
+}
+
 const AddOrder = () => {
 
   const navigate = useNavigate();
@@ -87,6 +122,8 @@ const AddOrder = () => {
   const [rowData, setRowData] = useState(initialValues);
 
   const [getSelectedRows, setSelectedRows] = useState([]);
+
+  const [error, setError] = useState({open:false, message:''});
 
   const filterParams = {
     comparator: (filterLocalDateAtMidnight, cellValue) => {
@@ -289,16 +326,23 @@ const AddOrder = () => {
 
   }, []);
 
+  const handleClose = () => setError({open:false, message:''});
+
   const saveOrders = async () => {
 
     const resp = await APIService(EndPoints.SAVE_ORDER , RequestType.POST,tempUpdate);
 
     if(resp.status == 200)
     {
-      notify("Logged in successful");
-      setTimeout(() => {
-        navigate(`/Dashboard`, { state: "userData" })
-      }, 2000);
+      if(resp.data?.length > 0){
+        setError({open:true, message:resp.data});
+        notify("An error occured");
+      } else {
+        notify("Save Order successful");
+        setTimeout(() => {
+          navigate(`/Dashboard`, { state: "userData" })
+        }, 2000);
+      }
     }
 
   }
@@ -306,6 +350,7 @@ const AddOrder = () => {
   return (
     <DashboardLayout>
       <DashboardNavbar />
+      <ModalPopup handleClose={handleClose} open={error.open} data={error.message}/>
         <MDBox pt={6} pb={3} sx={{display:"flex", alignItems:"center",
               flexFlow:"column"}}>
           <Grid container spacing={6} sx={{width:'90%'}}>

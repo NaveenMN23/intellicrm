@@ -63,14 +63,14 @@ function AddSubAdmin() {
 
   const fetchSubAdminDetails = async () => {
 
-    setLoading(true);
+    // setLoading(true);
 
     const resp = await APIService(EndPoints.FETCH_SUBADMIN_DETAILS +'?email='+state, RequestType.GET);
 
     if(resp.status == 200)
     {
       setSubAdminDetails(resp.data);
-      setLoading(false);
+      // setLoading(false);
     }
   }
 
@@ -103,7 +103,7 @@ function AddSubAdmin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     const {firstName, lastName, email, password, contactNumber, canEditCustomer, canEditProducts, canEditOrders} = subAdminDetails;
 
     // SALT should be created ONE TIME upon sign up
@@ -132,13 +132,13 @@ function AddSubAdmin() {
 
     const resp = await APIService(EndPoints.SAVE_SUBADMIN_DETAILS, RequestType.POST, formData);
     if(resp.status == 200){
-      setLoading(false);
+      // setLoading(false);
       notify("Sub Admin details saved or updated successfully");
       setTimeout(() => {
         navigate('/sub-admin-list')
       }, 2000);
     } else {
-      setLoading(false);
+      // setLoading(false);
        notify("An error occured");
     }
   }
