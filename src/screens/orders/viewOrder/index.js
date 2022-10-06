@@ -200,14 +200,14 @@ const ViewOrder = () => {
   const exportLabel = async () => {
     let selectedOrders = gridExistingRef.current.api.getSelectedRows().map( (item) =>  {
       return item.ordernumber;
-    });    
-    
+    });
+
     const resp = await APIService(EndPoints.GET_LABEL_DETAILS , RequestType.POST,JSON.stringify({
-      "Orders" : selectedOrders 
+      "Orders" : selectedOrders
     }) );
 
     if(resp.status == 200)
-    {    
+    {
       label(resp.data);
     }
   }
@@ -217,11 +217,11 @@ const ViewOrder = () => {
       return item.ordernumber;
     });
     const resp = await APIService(EndPoints.GET_INVOICE_DETAILS , RequestType.POST,JSON.stringify({
-      "Orders" : selectedOrders 
+      "Orders" : selectedOrders
     }) );
 
     if(resp.status == 200)
-    {    
+    {
       invoice(resp.data);
     }
   }
@@ -259,7 +259,7 @@ const ViewOrder = () => {
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
       //   navigate('/customerlist')
-      
+
       // }, 2000);
 
       const data =  resp.data
@@ -287,7 +287,7 @@ const ViewOrder = () => {
       //   navigate('/customerlist')
       // }, 2000);
       const data = resp.data;
-      
+
       const filterData = data.filter(el => el.status === status);
       setRowData({
         ...rowData,
@@ -351,15 +351,15 @@ const ViewOrder = () => {
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%"}}>
+                {userDetails.role !== 'customer' &&
                   <MDBox mt={4} mb={1} className='buttonSpaceEvenly'>
                     <MDButton variant="gradient" color="info" onClick={exportInvoice}>
                       Export Invoice
                     </MDButton>
-                    {userDetails.role !== 'customer' &&
                     <MDButton variant="gradient" color="info" onClick={exportLabel}>
                       Export Label
-                    </MDButton>}
-                  </MDBox>
+                    </MDButton>
+                  </MDBox>}
                 </MDBox>
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%", bgcolor: 'background.paper' }}>
                   <Tabs value={selectedNav} onChange={handleChange} aria-label="nav tabs example">
