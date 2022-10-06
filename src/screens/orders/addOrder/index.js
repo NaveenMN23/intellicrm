@@ -148,6 +148,8 @@ const AddOrder = () => {
     {headerName: 'Quantity', field:'quantity', minWidth: 150},
     {headerName: 'Refill', field:'refill', minWidth: 150},
     {headerName: 'Doctor Name', field:'doctorname', minWidth: 180},
+    {headerName: 'Online Pharmacy Name', field:'onlinepharmacyName', minWidth: 200},
+
   ]);
 
   const defaultColDef = useMemo(() => ({
@@ -206,7 +208,7 @@ const AddOrder = () => {
       nameonpackage:'', strength:'', unitsperpack :'', dosageform:'', activeingredients:'',
       productsourcedfrom:'', totalpacksordered:'', totalpricecustomerpays:'', priceperpackclientpays:'',
       shippingcostperorder:'', totalpriceclientpays:'', prescriptionattached:'', directionsofuse:'',
-      rxwarningcautionarynote:'', remarks:'', quantity:'',  refill:'', doctorname:''}],
+      rxwarningcautionarynote:'', remarks:'', quantity:'',  refill:'', doctorname:'',onlinepharmacyName:''}],
       addIndex: addIndex
       });
       console.log(res);
@@ -255,7 +257,10 @@ const AddOrder = () => {
             "nameonpackage": (el[17] !== null && el[17]!== undefined) ? el[17].toString():'', "strength": (el[18] !== null && el[18]!== undefined) ? el[18].toString():'', "unitsperpack": (el[19] !== null && el[19]!== undefined) ? el[19].toString():'', "dosageform": (el[20] !== null && el[20]!== undefined) ? el[20].toString():'', "activeingredients": (el[21] !== null && el[21]!== undefined) ? el[21].toString():'',
             "productsourcedfrom": (el[22] !== null && el[22]!== undefined) ? el[22].toString():'', "totalpacksordered": (el[23] !== null && el[23]!== undefined) ? el[23].toString():'', "totalpricecustomerpays": (el[24] !== null && el[24]!== undefined) ? el[24].toString():'', "priceperpackclientpays": (el[25] !== null && el[25]!== undefined) ? el[25].toString():'',
             "shippingcostperorder": (el[26] !== null && el[26]!== undefined) ? el[26].toString():'', "totalpriceclientpays": (el[27] !== null && el[27]!== undefined) ? el[27].toString():'', "prescriptionattached": (el[28] !== null && el[28]!== undefined) ? el[28].toString():'', "directionsofuse": (el[29] !== null && el[29]!== undefined) ? el[29].toString():'',
-            "rxwarningcautionarynote": (el[30] !== null && el[30]!== undefined) ? el[30].toString():'', "remarks": (el[31] !== null && el[31]!== undefined) ? el[31].toString():'', "quantity": (el[32] !== null && el[32]!== undefined) ? el[32].toString():'', "refill": (el[33] !== null && el[33]!== undefined) ? el[33].toString():'', "doctorname": (el[34] !== null && el[34]!== undefined) ? el[34].toString():''});
+            "rxwarningcautionarynote": (el[30] !== null && el[30]!== undefined) ? el[30].toString():'', "remarks": (el[31] !== null && el[31]!== undefined) ? el[31].toString():'', "quantity": (el[32] !== null && el[32]!== undefined) ? el[32].toString():'', "refill": (el[33] !== null && el[33]!== undefined) ? el[33].toString():'', "doctorname": (el[34] !== null && el[34]!== undefined) ? el[34].toString():''
+            ,"onlinepharmacyName" : (el[35] !== null && el[35]!== undefined) ? el[35].toString():''
+          }
+            );
             console.log("Rows uploaded:" + el);
           }
         }

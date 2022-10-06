@@ -1,6 +1,9 @@
 import printPdf from './../../components/PdfPrinter';
 
 const invoice = (props) => {
+
+    let subtotal =0;
+    let shippingCost =0;
   const invoiceFormat = props.map((el) => {
     let result = `<div>
     <div id="companyName">
@@ -12,13 +15,13 @@ const invoice = (props) => {
       <div style="font-size:12px;line-height:0px">${el.customerName}</div>
       <div style="font-size:12px;line-height:0px">${el.address}</div>
       <div style="font-size:12px;line-height:0px">${el.city}</div>
-      <div style="font-size:12px;line-height:0px">${el.country}</div>
+     
     </div>
     <div id="title">
       <div style="font-size:18px;text-align:center;text-transform:UPPERCASE;text-decoration:underline;font-weight:bold">CHECK YOUR ORDER CAREFULLY</div>
     </div>
     <div id="customerId">
-      <div style="font-size:12px;text-decoration:underline">${el.orderId}</div>
+      <div style="font-size:12px;text-decoration:underline">${el.refernce}</div>
     </div>
     <div id="prescription">
       <table border="1" style="border-collapse:collapse">
@@ -35,7 +38,7 @@ const invoice = (props) => {
         </tr>`
 
         result = result + el.invoiceProducts.map((e2) => {
-        
+          subtotal= subtotal + parseFloat(e2.subtotal);
         return `<tr>
           <td style="font-size:12px;">${e2.category}</td>
           <td style="font-size:12px;">${e2.usName}</td>
@@ -43,8 +46,8 @@ const invoice = (props) => {
           <td style="font-size:12px;">${e2.nameonPackage}</td>
           <td style="font-size:12px;">${e2.strength}</td>
           <td style="font-size:12px;">${e2.origin}</td>
-          <td style="font-size:12px;">${e2.unitsperpack}</td>
-          <td style="font-size:12px;">${e2.totalPacks}</td>
+          <td style="font-size:12px;">${e2.unitspack}</td>
+          <td style="font-size:12px;">${e2.totalpacks}</td>
           <td style="font-size:12px;">${e2.subtotal}</td>
         </tr>`
         });
@@ -68,14 +71,14 @@ const invoice = (props) => {
     </div>
     <div id="Total">
       <div style="font-size:12px;text-align:right">Subtotal:
-        <span style="font-size:12px">${el.subtotalCost}</span>
+        <span style="font-size:12px">${el.totalCost}</span>
       </div>
       <div style="font-size:12px;text-align:right">Shipping:
-        <span style="font-size:12px">${el.shipping}</span>
+        <span style="font-size:12px">${el.shippingCost}</span>
       </div>
       <hr>
       <div style="font-size:12px;text-align:right">Total:
-        <span style="font-size:12px">${el.shipping + el.subtotalCost}</span>
+        <span style="font-size:12px">${parseFloat(el.shippingCost) + parseFloat(el.totalCost)}</span>
       </div>
     </div>
     <div id="footer">
