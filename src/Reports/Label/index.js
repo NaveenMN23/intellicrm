@@ -13,9 +13,9 @@ const label = (props) => {
         <div style="font-size:14px;font-weight:bold;text-align:center;">${el.category} ${el.nameOnPackage} ${el.dosageForm} ${el.strength}</div>
         <div style="font-size:14px;line-height:0px">
           <span>Quantity Dispensed: </span>
-          <span style="font-weight:bold;">${el.customerId}</span>
+          <span style="font-weight:bold;">Total(${el.totalPacks} Packs of ${el.quantity} ) </span>
           <span>Refills: </span>
-          <span>${el.refills}</span>
+          <span>${el.refill}</span>
         </div>
         <div style="font-size:14px;font-weight:bold;">${el.directionsOfUse}</div>
       </div>
