@@ -33,6 +33,8 @@ const invoice = (props) => {
           <th style="font-size:12px;">Strength</th>
           <th style="font-size:12px;">Origin</th>
           <th style="font-size:12px;">Units/pack</th>
+          <th style="font-size:12px;">ExpiryDate</th>
+          <th style="font-size:12px;">BatchNo</th>
           <th style="font-size:12px;">Total packs</th>
           <th style="font-size:12px;">Subtotal Cost</th>
         </tr>`
@@ -47,6 +49,8 @@ const invoice = (props) => {
           <td style="font-size:12px;">${e2.strength}</td>
           <td style="font-size:12px;">${e2.origin}</td>
           <td style="font-size:12px;">${e2.unitspack}</td>
+          <td style="font-size:12px;">${e2.expiryDate}</td>
+          <td style="font-size:12px;">${e2.batch}</td>
           <td style="font-size:12px;">${e2.totalpacks}</td>
           <td style="font-size:12px;">${e2.subtotal}</td>
         </tr>`
@@ -54,21 +58,7 @@ const invoice = (props) => {
         
     result = result + `</table>
     </div>
-    <div id="Details">
-      <table>
-       <tr>
-        <td style="width:670px">
-         <p style="font-size:12px;text-align:left;">
-          Expiry date: ${el.expiryDate}
-          <span style="float:right">Batch No: ${el.batchNo}</span>
-         </p>
-        <div style="font-size:12px">
-        ${el.notes}
-        </div>
-        </td>
-      </tr>
-      </table>
-    </div>
+
     <div id="Total">
       <div style="font-size:12px;text-align:right">Subtotal:
         <span style="font-size:12px">${el.totalCost}</span>

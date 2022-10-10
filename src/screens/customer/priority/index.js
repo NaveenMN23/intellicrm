@@ -179,21 +179,6 @@ export default function CustomerPriority(){
     const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_PRIORITY_DETAILS, RequestType.GET);
     if(resp.status == 200){
 
-      // const data = [
-      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'},
-      //   {customerEmail: 'item@gmail.com', customerName: 'item', priority:'1'},
-      //   {customerEmail: 'test@gmail.com', customerName: 'test', priority:'2'}
-      // ];
-
       var data = resp.data;
 
       setRowData({
@@ -226,12 +211,18 @@ export default function CustomerPriority(){
   //   gridExistingRef.current.api.exportDataAsCsv();
   // }, []);
 
-  const savePriority = () => {
+  const savePriority = async () => {
     setRowData({
       ...rowData,
       "newRowData": tempUpdate
     });
-    console.log(tempUpdate);
+    const resp = await APIService(EndPoints.UPDATE_CUSTOMER_PRIORITY_DETAILS, RequestType.POST, tempUpdate);
+    if(resp.status == 200){
+      notify("Customer's priority updated successfully");
+
+    } else {
+       notify("An error occured");
+    }
   }
 
   // useEffect(() => {
