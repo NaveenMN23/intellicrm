@@ -59,7 +59,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
   
   //const Admin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-subadmin','add-product','edit-product','view-order','add-order','customer-uploads','customer-priority','log-out'];
-  const subAdmin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-product','edit-product','add-order','view-order','customer-uploads','customer-priority','log-out']
+  const subAdmin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-subadmin','add-product','edit-product','view-order','add-order','customer-uploads','customer-priority','log-out']
   const customer = ['sign-in','dashboard','add-order','view-order','edit-product','log-out'];
 
   let textColor = "white";
