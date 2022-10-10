@@ -158,7 +158,11 @@ function AddCustomer() {
       ...customerDetails,
       "uploadFile" :  selectedFile,
     });
-    notify("File upload success");
+    if(selectedFile !== null && selectedFile !== undefined)
+      notify("File upload success");
+    else {
+      notify("Please select a file");
+    }
     // setLoading(false);
   }
 
@@ -256,7 +260,7 @@ function AddCustomer() {
             <MDBox mb={2}>
               <MDInput type="text" name="contactNumber" value={customerDetails.contactNumber}
                 onChange={handleInputChange} required="true" label="Contact No" variant="standard"
-                inputProps={{ inputmode: 'numeric', pattern: '[0-9]*', minLength: 10, maxLength: 10 }} fullWidth />
+                inputProps={{ inputmode: 'numeric', pattern: '[0-9]*', minLength: 8 }} fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="address" value={customerDetails.address}
