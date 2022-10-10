@@ -18,7 +18,7 @@ import DashboardLayout from "./../../../components/DashboardLayout";
 import DashboardNavbar from "./../../../components/DashboardNavbar";
 
 // import { FormControl, FormControlLabel, Radio, RadioGroup, FormLabel } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled as mistyled } from '@mui/material/styles';
 import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import FormControlLabel, {
   FormControlLabelProps,
@@ -41,6 +41,7 @@ import { useNavigate } from "react-router-dom";
 
 import {APIService} from "./../../../services/rootService";
 import {EndPoints, RequestType} from "./../../../services/apiConfig";
+import {Loader} from './../../../components/Loader';
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
   checked: boolean;
@@ -63,7 +64,7 @@ const initialValues = {
   uploadFile: ""
 }
 
-const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => (
+const StyledFormControlLabel = mistyled((props: StyledFormControlLabelProps) => (
   <FormControlLabel {...props} />
 ))(({ theme, checked }) => ({
   '.MuiFormControlLabel-label': checked && {
@@ -75,23 +76,6 @@ const StyledFormControlLabel = styled((props: StyledFormControlLabelProps) => (
     lineHeight: '1.4375em',
   },
 }));
-
-// function MyFormControlLabel(props: FormControlLabelProps) {
-//   const radioGroup = useRadioGroup();
-//
-//   let checked = false;
-//
-//   if (radioGroup) {
-//     checked = radioGroup.value === props.value;
-//   }
-//
-//   // setCustomerDetails({
-//   //   ...customerDetails,
-//   //   "accountStatus" : radioGroup.value,
-//   // });
-//
-//   return <StyledFormControlLabel checked={checked} {...props} />;
-// }
 
 const options = [
   {
@@ -109,6 +93,8 @@ function AddCustomer() {
   // Navigate module
   let navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const [customerDetails, setCustomerDetails] = useState(initialValues);
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -121,11 +107,16 @@ function AddCustomer() {
   //Fetch Customer Details
   const fetchCustomerDetails = async () => {
 
+    // setLoading(true);
+
     const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'?email='+state, RequestType.GET);
 
     if(resp.status == 200)
     {
       setCustomerDetails(resp.data);
+      // setLoading(false);
+    } else{
+      // setLoading(false);
     }
   }
 
@@ -161,15 +152,23 @@ function AddCustomer() {
   }
 
   const handleFileUpload = (e) => {
+    // setLoading(true);
     e.preventDefault();
     setCustomerDetails({
       ...customerDetails,
       "uploadFile" :  selectedFile,
     });
+    if(selectedFile !== null && selectedFile !== undefined)
+      notify("File upload success");
+    else {
+      notify("Please select a file");
+    }
+    // setLoading(false);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // setLoading(true);
     const {userId, firstName, lastName, email, password, contactNumber, address, city, state, country,
       creditLimit, accountStatus, soareceviedAmount, uploadFile} = customerDetails;
 
@@ -202,12 +201,14 @@ function AddCustomer() {
     console.log(formData)
 
     const resp = await APIService(EndPoints.SAVE_CUSTOMER_DETAILS, RequestType.POST, formData);
-    if(resp.status == 200){
+    if(resp.status === 200){
+      // setLoading(false);
       notify("Customer details saved or updated successfully");
        setTimeout(() => {
         navigate('/customer-list')
       }, 2000);
     } else {
+       // setLoading(false);
        notify("An error occured");
     }
   }
@@ -217,10 +218,11 @@ function AddCustomer() {
       <DashboardNavbar />
     {/* <CoverLayout image={bgImage}> */}
     <ToastContainer />
+    <Loader loading={loading}/>
     <MDBox pt={6} pb={3} sx={{display:"flex", alignItems:"center",
           flexFlow:"column"}}>
         <Grid container spacing={6} sx={{width:'60%'}}>
-          <Grid item xs={12}>
+        <Grid item xs={12}>
       <Card>
         <MDBox
           variant="gradient"
@@ -258,7 +260,7 @@ function AddCustomer() {
             <MDBox mb={2}>
               <MDInput type="text" name="contactNumber" value={customerDetails.contactNumber}
                 onChange={handleInputChange} required="true" label="Contact No" variant="standard"
-                inputProps={{ inputmode: 'numeric', pattern: '[0-9]*', minLength: 10, maxLength: 10 }} fullWidth />
+                inputProps={{ inputmode: 'numeric', pattern: '[0-9]*', minLength: 8 }} fullWidth />
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="text" name="address" value={customerDetails.address}
@@ -286,18 +288,11 @@ function AddCustomer() {
                 {options.map((o) => (
                   <FormControlLabel value={o.id} label={o.key} key={o.key} control={<Radio required={true}/>} />
                 ))}
-                {/*{((state && customerDetails && customerDetails.accountStatus) || customerDetails) && <RadioGroup name="use-radio-group"
-                defaultValue={customerDetails.accountStatus !== "" ? customerDetails.accountStatus : "Hold"}
-                onChange={handleCheckboxChange}>
-                  {options.map((o) => (
-                    <FormControlLabel value={o.id} label={o.key} key={o.key} control={<Radio />} />
-                  ))}
-                </RadioGroup>}*/}
               </RadioGroup>
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="number" name="soareceviedAmount" value={customerDetails.soareceviedAmount}
-                onChange={handleInputChange} required="true" label="Amount Received for SOA" variant="standard" fullWidth />
+                onChange={handleInputChange} label="Amount Received for SOA" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2} fullWidth>
               <InputLabel sx={{lineHeight: '2.4375em'}}>Upload File</InputLabel>
@@ -312,28 +307,12 @@ function AddCustomer() {
                 Create/Save User
               </MDButton>
             </MDBox>
-            {/* <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Already have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-in"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign In
-                </MDTypography>
-              </MDTypography>
-            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>
       </Grid>
         </Grid>
         </MDBox>
-    {/* </CoverLayout> */}
     </DashboardLayout>
   );
 }
