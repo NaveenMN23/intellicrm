@@ -283,7 +283,7 @@ function AddCustomer() {
                 onChange={handleInputChange} required="true" label="Credit Limit" variant="standard" fullWidth />
             </MDBox>
             <MDBox mb={2}>
-              <InputLabel sx={{lineHeight: '2.4375em'}}>Account Status</InputLabel>
+              <InputLabel sx={{lineHeight: '2.4375em'}}>Account Status *</InputLabel>
               <RadioGroup name="use-radio-group" defaultValue="first" onChange={handleCheckboxChange}>
                 {options.map((o) => (
                   <FormControlLabel value={o.id} label={o.key} key={o.key} control={<Radio required={true}/>} />
