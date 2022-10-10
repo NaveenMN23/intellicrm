@@ -45,11 +45,11 @@ export default function CustomerUploads(){
   const [rowData, setRowData] = useState(initialValues);
 
   const [columnDefs, setColumnDefs] = useState([
-    {field: 'customerId', minWidth: 180},
-    {field: 'productId', minWidth: 180},
-    {field: 'productName', minWidth: 180},
-    {field: 'productPrice', minWidth: 180},
-    {field: 'qtyAssign', minWidth: 180}
+    {field: 'email', minWidth: 180},
+    {field: 'productid', minWidth: 180},
+    {field: 'productname', minWidth: 180},
+    {field: 'productprice', minWidth: 180},
+    {field: 'qtyassign', minWidth: 180}
   ]);
 
   // const defaultColDef = useMemo(() => ({
@@ -177,7 +177,7 @@ export default function CustomerUploads(){
   // }, []);
 
   const getCustomerUploads = async () => {
-    const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_PRODUCT_DETAILS+"?customerId=1", RequestType.GET);
+    const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_PRODUCT_DETAILS+"?customerId="+localStorage.getItem("userEmail"), RequestType.GET);
     if(resp.status == 200){
       // notify("Customer details saved or updated successfully");
       // setTimeout(() => {
