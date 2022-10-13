@@ -101,14 +101,16 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
 
-
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
     if(userEmail === '' || userEmail === null || userEmail === undefined){
       navigate('/log-out');
     }
-    fetchCustomerDetails();
   });
+
+  useEffect(() => {
+    fetchCustomerDetails();
+  },[]);
 
     const fetchCustomerDetails = async () => {
 
