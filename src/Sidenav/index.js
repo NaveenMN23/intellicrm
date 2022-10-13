@@ -108,7 +108,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       navigate('/log-out');
     }
     fetchCustomerDetails();
-  },[]);
+  });
 
     const fetchCustomerDetails = async () => {
 
