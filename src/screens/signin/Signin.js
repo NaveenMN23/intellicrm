@@ -7,7 +7,7 @@ import Card from "@mui/material/Card";
 import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Grid";
 import MuiLink from "@mui/material/Link";
-import { useLocation, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 // Material Dashboard 2 React components
@@ -37,7 +37,7 @@ const initialValue = {
 function Basic() {
   // Navigate module
   // To get the props from previous page
-  const { logout } = useLocation();
+  const { logout } = useNavigate();
 
   const [controller, dispatch] = useMaterialUIController();
 
