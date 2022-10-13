@@ -97,7 +97,10 @@ function Basic() {
 
     }
     else if (resp.status === 500) {
-      notify("Some error occured");
+      notify("Some error occured. Please try again later");
+    }
+    else if (resp.status === 400) {
+      notify("Invalid Username or Password. Please try again");
     }
     else {
       notify(resp.data.message);
@@ -106,6 +109,7 @@ function Basic() {
 
   return (
     <BasicLayout image={bgImage}>
+      <ToastContainer/>
       <Card>
         <MDBox
           variant="gradient"
