@@ -14,6 +14,7 @@ import AddOrder from "./../screens/orders/addOrder";
 import ViewOrder from "./../screens/orders/viewOrder";
 import CustomerUploads from "./../screens/customer/uploads";
 import CustomerPriority from "./../screens/customer/priority";
+import Soa from "./../screens/customer/soa";
 
 // @mui icons
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
@@ -26,6 +27,7 @@ import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LowPriorityOutlinedIcon from '@mui/icons-material/LowPriorityOutlined';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import AddIcon from '@mui/icons-material/Add';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 
@@ -127,6 +129,14 @@ const routes = [
     icon: <LowPriorityOutlinedIcon fontSize="small">customer-priority</LowPriorityOutlinedIcon>,
     route: "/customer-priority",
     component: < CustomerPriority />,
+  },
+  {
+    type: "collapse",
+    name: "SOA",
+    key: "soa",
+    icon: <PaymentsIcon fontSize="small">customer-priority</PaymentsIcon>,
+    route: "/soa",
+    component: < Soa />,
   },
   {
     type: "collapse",
