@@ -72,7 +72,7 @@ const ExistingOrder = (props) => {
         suppressExcelExport={true}
         animateRows = {true}
         defaultColDef = {defaultReadonlyColDef}
-        rowSelection={'multiple'}
+        rowSelection={'single'}
         suppressRowClickSelection={true}
         onRowSelected={onRowSelected}
         style={{ fontSize: '15px', width: '100' }}/>
