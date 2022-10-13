@@ -37,7 +37,9 @@ const initialValue = {
 function Basic() {
   // Navigate module
   // To get the props from previous page
-  const { logout } = useNavigate();
+  const state = useNavigate();
+
+  console.log("stttttt",state);
 
   const [controller, dispatch] = useMaterialUIController();
 
