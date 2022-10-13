@@ -55,9 +55,6 @@ const Soa = () => {
     const [columnDefs, setColumnDefs] = useState([
       {headerName: 'Order', field:'orderId', minWidth: 150},
       {headerName: 'Date', field: 'orderDate', minWidth: 200,
-        headerCheckboxSelection: true,
-        checkboxSelection: true,
-        showDisabledCheckboxes: true,
         filter: 'agDateColumnFilter', filterParams: filterParams,
       },
       {headerName: 'Product ID', field:'productId', minWidth: 200},

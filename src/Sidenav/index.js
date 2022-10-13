@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useEffect, useState } from "react";
 
 // react-router-dom components
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, useNavigate, NavLink } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -50,6 +50,7 @@ import {APIService} from "./../services/rootService";
 import {EndPoints, RequestType} from "./../services/apiConfig";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
+  const navigate = useNavigate();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor,LoginUserId, LoginUserRole,canEditCustomer,canEditOrders,canEditProducts } = controller;
   const location = useLocation();
@@ -102,8 +103,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
 
   useEffect(() => {
-    fetchCustomerDetails(); },
-    []);
+    const userEmail = localStorage.getItem("userEmail");
+    if(userEmail === '' || userEmail === null || userEmail === undefined){
+      navigate('/log-out');
+    }
+    fetchCustomerDetails();
+  },[]);
 
     const fetchCustomerDetails = async () => {
 
