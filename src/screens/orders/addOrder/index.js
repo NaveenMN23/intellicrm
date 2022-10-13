@@ -55,7 +55,7 @@ const style = {
 
 const convertToRem = (pxValue) => pxValue / 16;
 
-const tempUpdate = [];
+let tempUpdate = [];
 
 function LinkTab(props) {
   return (
@@ -124,6 +124,10 @@ const AddOrder = () => {
   const [getSelectedRows, setSelectedRows] = useState([]);
 
   const [error, setError] = useState({open:false, message:''});
+
+  useEffect(() => {
+    setRowData(initialValues);
+  },[]);
 
   const filterParams = {
     comparator: (filterLocalDateAtMidnight, cellValue) => {
@@ -263,7 +267,8 @@ const AddOrder = () => {
           ...rowData,
           "fileUpload":{
             "uploadedFileName": fileName,
-            "isFormInvalid": false
+            "isFormInvalid": false,
+            "newRowData": [],
           }
         });
         renderFile(fileObj);
@@ -272,7 +277,8 @@ const AddOrder = () => {
           ...rowData,
           "fileUpload":{
             "uploadedFileName": "",
-            "isFormInvalid": true
+            "isFormInvalid": true,
+            "newRowData": [],
           }
         });
       }
@@ -287,6 +293,7 @@ const AddOrder = () => {
         console.log(err);
       } else {
         console.log("Rows uploaded:" + resp.rows);
+        tempUpdate = [];
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "date"){
             tempUpdate.push({"date": (el[0] !== null && el[0]!== undefined) ? new Date(el[0]) : '', "referencenumber": (el[1] !== null && el[1]!== undefined) ? el[1].toString():'', "onlinepharmacy": (el[2] !== null && el[2]!== undefined) ? el[2].toString():'', "onlinepharmacyphonenumber": (el[3] !== null && el[3]!== undefined) ? el[3].toString():'', "ordernumber": (el[4] !== null && el[4]!== undefined) ? el[4].toString():'',

@@ -41,7 +41,7 @@ const initialValues = {
 
 const convertToRem = (pxValue) => pxValue / 16;
 
-const tempUpdate = [];
+let tempUpdate = [];
 
 export default function AddProduct(){
 
@@ -54,6 +54,10 @@ export default function AddProduct(){
   const notify = (message) => toast(message);
 
   let navigate = useNavigate();
+
+  useEffect(() => {
+    setRowData(initialValues);
+  },[]);
 
   const filterParams = {
     comparator: (filterLocalDateAtMidnight, cellValue) => {
@@ -197,6 +201,7 @@ export default function AddProduct(){
         //   strength:'',
         //   quantity:''
         // }
+        tempUpdate = [];
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "productid"){
             tempUpdate.push({"productid":el[0].toString(),"category":el[1].toString(),"equsbrandname":el[2].toString(),
