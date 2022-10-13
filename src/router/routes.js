@@ -3,6 +3,7 @@
 import Dashboard from "./../screens/dashboard";
 // import Tables from "./../screens/tables";
 import SignIn from "./../screens/signin";
+import LogOut from "./../screens/logout";
 import AddCustomer from "./../screens/admin/addCustomer";
 import AddSubAdmin from "./../screens/admin/addSubAdmin";
 import CustomerList from "./../screens/listview/customer";
@@ -132,8 +133,8 @@ const routes = [
     name: "Log out",
     key: "log-out",
     icon: <LogoutOutlinedIcon fontSize="small">log-out</LogoutOutlinedIcon>,
-    route: "/authentication/sign-in",
-    component: <SignIn logout="logout"/>,
+    route: "/logout",
+    component: <LogOut />,
   },
 ];
 

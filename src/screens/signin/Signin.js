@@ -7,7 +7,6 @@ import Card from "@mui/material/Card";
 import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Grid";
 import MuiLink from "@mui/material/Link";
-import { useNavigate } from "react-router-dom";
 
 
 // Material Dashboard 2 React components
@@ -35,11 +34,6 @@ const initialValue = {
 }
 
 function Basic() {
-  // Navigate module
-  // To get the props from previous page
-  const state = useNavigate();
-
-  console.log("stttttt",state);
 
   const [controller, dispatch] = useMaterialUIController();
 
@@ -59,14 +53,6 @@ function Basic() {
     // }
     // localStorage.removeItem("userEmail");
   // });
-
-  useEffect(() => {
-    console.log("logout",logout);
-    if(logout !== null){
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userDetails");
-    }
-  }, [logout])
 
   // Navigate module
   let navigate = useNavigate();
