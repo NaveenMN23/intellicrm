@@ -145,6 +145,7 @@ const ViewOrder = () => {
     {headerName: 'Address 2', field:'address2', minWidth: 150},
     {headerName: 'City', field:'city', minWidth: 100},
     {headerName: 'Province', field:'province', minWidth: 150},
+    {headerName: 'Country', field:'country', minWidth: 150},
     {headerName: 'Zip Code', field:'zipCode', minWidth: 150},
     {headerName: 'Prescriber Name', field:'prescribername', minWidth: 180},
     {headerName: 'Product ID', field:'productid', minWidth: 150},

@@ -157,7 +157,8 @@ export default function AddProduct(){
           ...rowData,
           "fileUpload":{
             "uploadedFileName": fileName,
-            "isFormInvalid": false
+            "isFormInvalid": false,
+            "newRowData": [],
           }
         });
         renderFile(fileObj);
@@ -166,7 +167,8 @@ export default function AddProduct(){
           ...rowData,
           "fileUpload":{
             "uploadedFileName": "",
-            "isFormInvalid": true
+            "isFormInvalid": true,
+            "newRowData": [],
           }
         });
       }
@@ -200,7 +202,7 @@ export default function AddProduct(){
             tempUpdate.push({"productid":el[0].toString(),"category":el[1].toString(),"equsbrandname":el[2].toString(),
               "activeingredient":el[3],"nameonpackage":el[4],"strength":el[5],"dosageform":el[6],
               "unitsperpack":el[7],"productsourcedfrom":el[8],"manufacturer":el[9],"licenceholder":el[10],
-              "batch":el[11],"expirydaterange":new Date(el[12]),"cifpriceperpack":el[13],
+              "batch":el[11],"expirydaterange":el[12],"cifpriceperpack":el[13],
               "sellingpriceperpack":el[14],"weight":el[15],"boe":el[16].toString(),"rxwarningcautionarynote":el[17], "qty":el[18]});
             console.log("Rows uploaded:" + tempUpdate);
 
