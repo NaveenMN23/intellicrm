@@ -133,7 +133,7 @@ const routes = [
     key: "log-out",
     icon: <LogoutOutlinedIcon fontSize="small">log-out</LogoutOutlinedIcon>,
     route: "/authentication/sign-in",
-    component: <SignIn />,
+    component: <SignIn logout="logout"/>,
   },
 ];
 
