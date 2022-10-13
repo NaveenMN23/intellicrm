@@ -59,6 +59,7 @@ function Basic() {
   // });
 
   useEffect(() => {
+    console.log("logout",logout);
     if(logout !== null){
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userDetails");
