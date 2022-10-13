@@ -128,16 +128,19 @@ const Soa = () => {
 
                   <MDBox pt={4} pb={3} px={3} sx={{ width: "100%", bgcolor: 'background.paper' }}>
                     <MDBox px={1}>
-                      {rowData && rowData.oldRowData &&
-                        <AgGridReact
-                        ref={gridRef}
-                        onGridReady={onGridReady}
-                        rowData = {rowData.oldRowData}
-                        columnDefs = {columnDefs}
-                        animateRows = {true}
-                        pagination={true}
-                        defaultColDef = {defaultReadonlyColDef}
-                        style={{ fontSize: '15px', width: '100%' }}/>}
+                      <MDBox pt={3} className='ag-theme-alpine'
+                        style={{fontSize: '14px', height: '400px', width: '100%'}}>
+                        {rowData && rowData.oldRowData &&
+                          <AgGridReact
+                          ref={gridRef}
+                          onGridReady={onGridReady}
+                          rowData = {rowData.oldRowData}
+                          columnDefs = {columnDefs}
+                          animateRows = {true}
+                          pagination={true}
+                          defaultColDef = {defaultReadonlyColDef}
+                          style={{ fontSize: '15px', width: '100%' }}/>}
+                      </MDBox>
                     </MDBox>
                   </MDBox>
                 </Card>
