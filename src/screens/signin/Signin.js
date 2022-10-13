@@ -49,18 +49,19 @@ function Basic() {
 
   const notify = (message) => toast(message);
 
-  useEffect(() => {
-    if(LoginUserId != '')
-    {
-      setUserData({Username :LoginUserId});
-      navigate(`/Dashboard`, { state: "userData" })
-    }
+  // useEffect(() => {
+    // if(LoginUserId !== '')
+    // {
+    //   setUserData({Username :LoginUserId});
+    //   navigate(`/Dashboard`, { state: "userData" })
+    // }
     // localStorage.removeItem("userEmail");
-  });
+  // });
 
   useEffect(() => {
     if(logout !== null){
       localStorage.removeItem("userEmail");
+      localStorage.removeItem("userDetails");
     }
   }, [logout])
 
