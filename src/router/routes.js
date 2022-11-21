@@ -12,6 +12,8 @@ import AddProduct from "./../screens/products/addProduct";
 import EditProduct from "./../screens/products/editProduct";
 import AddOrder from "./../screens/orders/addOrder";
 import ViewOrder from "./../screens/orders/viewOrder";
+import TrackingNumber from './../screens/orders/trackingNumber';
+import OrderReport from './../screens/orders/orderReport';
 import CustomerUploads from "./../screens/customer/uploads";
 import CustomerPriority from "./../screens/customer/priority";
 import Soa from "./../screens/customer/soa";
@@ -113,6 +115,22 @@ const routes = [
     icon: <ShoppingBagOutlinedIcon fontSize="small">view-order</ShoppingBagOutlinedIcon>,
     route: "/view-order",
     component: < ViewOrder />,
+  },
+  {
+    type: "collapse",
+    name: "Update Trackingno",
+    key: "update-trackingno",
+    icon: <ShoppingBagOutlinedIcon fontSize="small">update-trackingno</ShoppingBagOutlinedIcon>,
+    route: "/update-trackingno",
+    component: < TrackingNumber />,
+  },
+  {
+    type: "collapse",
+    name: "Order Report",
+    key: "order-report",
+    icon: <ShoppingBagOutlinedIcon fontSize="small">order-report</ShoppingBagOutlinedIcon>,
+    route: "/order-report",
+    component: < OrderReport />,
   },
   {
     type: "collapse",

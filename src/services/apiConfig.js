@@ -16,6 +16,7 @@ export const EndPoints = {
     DELETE_SUBADMIN: 'SuperAdmin/DeleteUserDetails?email=',
     SAVE_ORDER : 'Orders/CreateOrder',
     GET_ORDER:'Orders/GetOrderDetails',
+    GET_ORDER_BY_DATE:'Orders/GetOrderDetailsByDate',
     GET_INVOICE_DETAILS :'Orders/GetInvoiceDetails',
     GET_LABEL_DETAILS:'Orders/GetLableDetails',
     UPDATE_ORDER:'Orders/UpdateOrderDetails',

@@ -13,9 +13,3 @@
   justify-content: center;
   top: auto;
 }
-
-.buttonSpaceRight{
-  display: flex;
-  justify-content: right;
-  top: auto;
-}
