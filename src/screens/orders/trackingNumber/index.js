@@ -72,7 +72,7 @@ const ExistingOrder = (props) => {
         suppressExcelExport={true}
         animateRows = {true}
         defaultColDef = {defaultReadonlyColDef}
-        rowSelection={'multiple'}
+        rowSelection={'single'}
         suppressRowClickSelection={true}
         onRowSelected={onRowSelected}
         style={{ fontSize: '15px', width: '100' }}/>
@@ -89,7 +89,7 @@ const downloadBtn = () => {
   );
 }
 
-const ViewOrder = () => {
+const TrackingNumber = () => {
 
   const [selectedNav, setSelectedNav] = useState(0);
 
@@ -129,7 +129,7 @@ const ViewOrder = () => {
 
   const [printColumnDefs, setPrintColumnDefs] = useState([
     {headerName: 'Date', field: 'orderDate', minWidth: 200,
-      headerCheckboxSelection: true,
+      headerCheckboxSelection: false,
       checkboxSelection: true,
       showDisabledCheckboxes: true,
       filter: 'agDateColumnFilter', filterParams: filterParams,
@@ -169,7 +169,6 @@ const ViewOrder = () => {
     {headerName: 'Quantity', field:'quantity', minWidth: 150},
     {headerName: 'Refill', field:'refill', minWidth: 150},
     {headerName: 'Doctor Name', field:'doctorname', minWidth: 180},
-    {headerName: 'Tracking Number', field:'trackingNo', minWidth: 200},
     {headerName: 'Download Invoice', field: 'invoice', minWidth: 250, cellRenderer: downloadBtn}
   ]);
 
@@ -395,23 +394,22 @@ const ViewOrder = () => {
                   coloredShadow="info"
                 >
                   <MDTypography variant="h6" color="white">
-                    View Order
+                    Update Tracking No
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%"}}>
+                  {userDetails.role.toString() !== 'customer' &&
                   <MDBox mt={4} mb={1} className='buttonSpaceEvenly'>
-                    <MDButton variant="gradient" color="info" onClick={exportInvoice}>
-                      Export Invoice
-                    </MDButton>
-                    {userDetails.role.toString() !== 'customer' &&
-                    <MDButton variant="gradient" color="info" onClick={exportLabel}>
-                      Export Label
-                    </MDButton>}
-                    {userDetails.role.toString() !== 'customer' &&
-                    <MDButton variant="gradient" color="info" onClick={holdOrder} >
-                      Hold Order
-                    </MDButton>}
-                  </MDBox>
+                    <MDBox className='buttonSpaceCenter'>
+                      <MDBox>
+                        <MDInput type="text" name="trackingno" value={trackingNo} onChange={handleInputChange}
+                          label="Tracking Number" variant="standard" fullWidth />
+                      </MDBox>
+                      <MDButton variant="gradient" color="info" onClick={updateOrder} >
+                        Update Order
+                      </MDButton>
+                    </MDBox>
+                  </MDBox>}
                 </MDBox>
                 <MDBox pt={4} pb={3} px={3} sx={{ width: "100%", bgcolor: 'background.paper' }}>
                   <Tabs value={selectedNav} onChange={handleChange} aria-label="nav tabs example">
@@ -435,4 +433,4 @@ const ViewOrder = () => {
 }
 
 
-export default ViewOrder;
+export default TrackingNumber;

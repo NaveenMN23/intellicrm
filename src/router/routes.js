@@ -3,6 +3,7 @@
 import Dashboard from "./../screens/dashboard";
 // import Tables from "./../screens/tables";
 import SignIn from "./../screens/signin";
+import LogOut from "./../screens/logout";
 import AddCustomer from "./../screens/admin/addCustomer";
 import AddSubAdmin from "./../screens/admin/addSubAdmin";
 import CustomerList from "./../screens/listview/customer";
@@ -11,8 +12,11 @@ import AddProduct from "./../screens/products/addProduct";
 import EditProduct from "./../screens/products/editProduct";
 import AddOrder from "./../screens/orders/addOrder";
 import ViewOrder from "./../screens/orders/viewOrder";
+import TrackingNumber from './../screens/orders/trackingNumber';
+import OrderReport from './../screens/orders/orderReport';
 import CustomerUploads from "./../screens/customer/uploads";
 import CustomerPriority from "./../screens/customer/priority";
+import Soa from "./../screens/customer/soa";
 
 // @mui icons
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
@@ -25,6 +29,7 @@ import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import LowPriorityOutlinedIcon from '@mui/icons-material/LowPriorityOutlined';
+import PaymentsIcon from '@mui/icons-material/Payments';
 import AddIcon from '@mui/icons-material/Add';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 
@@ -113,6 +118,22 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Update Trackingno",
+    key: "update-trackingno",
+    icon: <ShoppingBagOutlinedIcon fontSize="small">update-trackingno</ShoppingBagOutlinedIcon>,
+    route: "/update-trackingno",
+    component: < TrackingNumber />,
+  },
+  {
+    type: "collapse",
+    name: "Order Report",
+    key: "order-report",
+    icon: <ShoppingBagOutlinedIcon fontSize="small">order-report</ShoppingBagOutlinedIcon>,
+    route: "/order-report",
+    component: < OrderReport />,
+  },
+  {
+    type: "collapse",
     name: "Customer Uploads",
     key: "customer-uploads",
     icon: <CloudUploadOutlinedIcon fontSize="small">customer-uploads</CloudUploadOutlinedIcon>,
@@ -129,11 +150,19 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "SOA",
+    key: "soa",
+    icon: <PaymentsIcon fontSize="small">customer-priority</PaymentsIcon>,
+    route: "/soa",
+    component: < Soa />,
+  },
+  {
+    type: "collapse",
     name: "Log out",
     key: "log-out",
     icon: <LogoutOutlinedIcon fontSize="small">log-out</LogoutOutlinedIcon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
+    route: "/logout",
+    component: <LogOut />,
   },
 ];
 

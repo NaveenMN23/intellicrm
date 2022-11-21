@@ -34,6 +34,7 @@ const initialValue = {
 }
 
 function Basic() {
+
   const [controller, dispatch] = useMaterialUIController();
 
   const { LoginUserId  } = controller;
@@ -44,14 +45,14 @@ function Basic() {
 
   const notify = (message) => toast(message);
 
-  useEffect(() => {
-    if(LoginUserId != '')
-    {
-      setUserData({Username :LoginUserId});
-      navigate(`/Dashboard`, { state: "userData" })
-    }
+  // useEffect(() => {
+    // if(LoginUserId !== '')
+    // {
+    //   setUserData({Username :LoginUserId});
+    //   navigate(`/Dashboard`, { state: "userData" })
+    // }
     // localStorage.removeItem("userEmail");
-  });
+  // });
 
   // Navigate module
   let navigate = useNavigate();
@@ -89,14 +90,17 @@ function Basic() {
       setcanEditOrders(dispatch, resp.data.canEditOrders);
       setcanEditProducts(dispatch, resp.data.canEditProducts);
       localStorage.setItem("userDetails",JSON.stringify(resp.data));
-      
+
       setTimeout(() => {
         navigate(`/Dashboard`, { state: "userData" })
       }, 2000)
 
     }
     else if (resp.status === 500) {
-      notify("Some error occured");
+      notify("Some error occured. Please try again later");
+    }
+    else if (resp.status === 400) {
+      notify("Invalid Username or Password. Please try again");
     }
     else {
       notify(resp.data.message);
@@ -105,6 +109,7 @@ function Basic() {
 
   return (
     <BasicLayout image={bgImage}>
+      <ToastContainer/>
       <Card>
         <MDBox
           variant="gradient"

@@ -55,7 +55,7 @@ const style = {
 
 const convertToRem = (pxValue) => pxValue / 16;
 
-const tempUpdate = [];
+let tempUpdate = [];
 
 function LinkTab(props) {
   return (
@@ -125,6 +125,10 @@ const AddOrder = () => {
 
   const [error, setError] = useState({open:false, message:''});
 
+  useEffect(() => {
+    setRowData(initialValues);
+  },[]);
+
   const filterParams = {
     comparator: (filterLocalDateAtMidnight, cellValue) => {
       const dateAsString = cellValue;
@@ -162,6 +166,7 @@ const AddOrder = () => {
     {headerName: 'Address 2', field:'address2', minWidth: 150},
     {headerName: 'City', field:'city', minWidth: 100},
     {headerName: 'Province', field:'province', minWidth: 150},
+    {headerName: 'Country', field:'country', minWidth: 150},
     {headerName: 'Zip Code', field:'zipcode', minWidth: 150},
     {headerName: 'Prescriber Name', field:'prescribername', minWidth: 180},
     {headerName: 'Product ID', field:'productid', minWidth: 150},
@@ -241,7 +246,7 @@ const AddOrder = () => {
     const res = gridRef.current.api.applyTransaction({
       add: [{ date:'', referencenumber:'', onlinepharmacy:'', onlinepharmacyphonenumber:'', ordernumber:'',
       customername:'', customerphonenumber:'', emailaddress:'', address1:'', address2:'', city:'',
-      province:'', zipcode:'', prescribername:'', productid:'', equsbrandname:'', category:'',
+      province:'', country:'', zipcode:'', prescribername:'', productid:'', equsbrandname:'', category:'',
       nameonpackage:'', strength:'', unitsperpack :'', dosageform:'', activeingredients:'',
       productsourcedfrom:'', totalpacksordered:'', totalpricecustomerpays:'', priceperpackclientpays:'',
       shippingcostperorder:'', totalpriceclientpays:'', prescriptionattached:'', directionsofuse:'',
@@ -262,7 +267,8 @@ const AddOrder = () => {
           ...rowData,
           "fileUpload":{
             "uploadedFileName": fileName,
-            "isFormInvalid": false
+            "isFormInvalid": false,
+            "newRowData": [],
           }
         });
         renderFile(fileObj);
@@ -271,7 +277,8 @@ const AddOrder = () => {
           ...rowData,
           "fileUpload":{
             "uploadedFileName": "",
-            "isFormInvalid": true
+            "isFormInvalid": true,
+            "newRowData": [],
           }
         });
       }
@@ -286,16 +293,18 @@ const AddOrder = () => {
         console.log(err);
       } else {
         console.log("Rows uploaded:" + resp.rows);
+        tempUpdate = [];
         for(const el of resp.rows){
           if(el[0] && el[0].toString().toLowerCase().replace(/\s/g,'') !== "date"){
             tempUpdate.push({"date": (el[0] !== null && el[0]!== undefined) ? new Date(el[0]) : '', "referencenumber": (el[1] !== null && el[1]!== undefined) ? el[1].toString():'', "onlinepharmacy": (el[2] !== null && el[2]!== undefined) ? el[2].toString():'', "onlinepharmacyphonenumber": (el[3] !== null && el[3]!== undefined) ? el[3].toString():'', "ordernumber": (el[4] !== null && el[4]!== undefined) ? el[4].toString():'',
             "customername": (el[5] !== null && el[5]!== undefined) ? el[5].toString():'', "customerphonenumber": (el[6] !== null && el[6]!== undefined) ? el[6].toString():'', "emailaddress": (el[7] !== null && el[7]!== undefined) ? el[7].toString():'', "address1": (el[8] !== null && el[8]!== undefined) ? el[8].toString():'', "address2": (el[9] !== null && el[9]!== undefined) ? el[9].toString():'', "city": (el[10] !== null && el[10]!== undefined) ? el[10].toString():'',
-            "province": (el[11] !== null && el[11]!== undefined) ? el[11].toString():'', "zipcode": (el[12] !== null && el[12]!== undefined) ? el[12].toString():'', "prescribername": (el[13] !== null && el[13]!== undefined) ? el[13].toString():'', "productid": (el[14] !== null && el[14]!== undefined) ? el[14].toString():'', "equsbrandname": (el[15] !== null && el[15]!== undefined) ? el[15].toString():'', "category": (el[16] !== null && el[16]!== undefined) ? el[16].toString():'',
-            "nameonpackage": (el[17] !== null && el[17]!== undefined) ? el[17].toString():'', "strength": (el[18] !== null && el[18]!== undefined) ? el[18].toString():'', "unitsperpack": (el[19] !== null && el[19]!== undefined) ? el[19].toString():'', "dosageform": (el[20] !== null && el[20]!== undefined) ? el[20].toString():'', "activeingredients": (el[21] !== null && el[21]!== undefined) ? el[21].toString():'',
-            "productsourcedfrom": (el[22] !== null && el[22]!== undefined) ? el[22].toString():'', "totalpacksordered": (el[23] !== null && el[23]!== undefined) ? el[23].toString():'', "totalpricecustomerpays": (el[24] !== null && el[24]!== undefined) ? el[24].toString():'', "priceperpackclientpays": (el[25] !== null && el[25]!== undefined) ? el[25].toString():'',
-            "shippingcostperorder": (el[26] !== null && el[26]!== undefined) ? el[26].toString():'', "totalpriceclientpays": (el[27] !== null && el[27]!== undefined) ? el[27].toString():'', "prescriptionattached": (el[28] !== null && el[28]!== undefined) ? el[28].toString():'', "directionsofuse": (el[29] !== null && el[29]!== undefined) ? el[29].toString():'',
-            "rxwarningcautionarynote": (el[30] !== null && el[30]!== undefined) ? el[30].toString():'', "remarks": (el[31] !== null && el[31]!== undefined) ? el[31].toString():'', "quantity": (el[32] !== null && el[32]!== undefined) ? el[32].toString():'', "refill": (el[33] !== null && el[33]!== undefined) ? el[33].toString():'', "doctorname": (el[34] !== null && el[34]!== undefined) ? el[34].toString():''
-            ,"onlinepharmacyName" : (el[35] !== null && el[35]!== undefined) ? el[35].toString():''
+            "province": (el[11] !== null && el[11]!== undefined) ? el[11].toString():'', "country": (el[12] !== null && el[12]!== undefined) ? el[12].toString():'', "zipcode": (el[13] !== null && el[13]!== undefined) ? el[13].toString():'', "prescribername": (el[14] !== null && el[14]!== undefined) ? el[14].toString():'', "productid": (el[15] !== null && el[15]!== undefined) ? el[15].toString():'', "equsbrandname": (el[16] !== null && el[16]!== undefined) ? el[16].toString():'',
+            "category": (el[17] !== null && el[17]!== undefined) ? el[17].toString():'',
+            "nameonpackage": (el[18] !== null && el[18]!== undefined) ? el[18].toString():'', "strength": (el[19] !== null && el[19]!== undefined) ? el[19].toString():'', "unitsperpack": (el[20] !== null && el[20]!== undefined) ? el[20].toString():'', "dosageform": (el[21] !== null && el[21]!== undefined) ? el[21].toString():'', "activeingredients": (el[22] !== null && el[22]!== undefined) ? el[22].toString():'',
+            "productsourcedfrom": (el[23] !== null && el[23]!== undefined) ? el[23].toString():'', "totalpacksordered": (el[24] !== null && el[24]!== undefined) ? el[24].toString():'', "totalpricecustomerpays": (el[25] !== null && el[25]!== undefined) ? el[25].toString():'', "priceperpackclientpays": (el[26] !== null && el[26]!== undefined) ? el[26].toString():'',
+            "shippingcostperorder": (el[27] !== null && el[27]!== undefined) ? el[27].toString():'', "totalpriceclientpays": (el[28] !== null && el[28]!== undefined) ? el[28].toString():'', "prescriptionattached": (el[29] !== null && el[29]!== undefined) ? el[29].toString():'', "directionsofuse": (el[30] !== null && el[30]!== undefined) ? el[30].toString():'',
+            "rxwarningcautionarynote": (el[31] !== null && el[31]!== undefined) ? el[31].toString():'', "remarks": (el[32] !== null && el[32]!== undefined) ? el[32].toString():'', "quantity": (el[33] !== null && el[33]!== undefined) ? el[33].toString():'', "refill": (el[34] !== null && el[34]!== undefined) ? el[34].toString():'', "doctorname": (el[35] !== null && el[35]!== undefined) ? el[35].toString():''
+            ,"onlinepharmacyName" : (el[36] !== null && el[36]!== undefined) ? el[36].toString():''
           }
             );
             console.log("Rows uploaded:" + el);

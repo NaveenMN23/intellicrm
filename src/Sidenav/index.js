@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useEffect, useState } from "react";
 
 // react-router-dom components
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, useNavigate, NavLink } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -50,17 +50,18 @@ import {APIService} from "./../services/rootService";
 import {EndPoints, RequestType} from "./../services/apiConfig";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
+  const navigate = useNavigate();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor,LoginUserId, LoginUserRole,canEditCustomer,canEditOrders,canEditProducts } = controller;
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
-  
+
   const [renderRoutes, setRenderRoutes] = useState(null);
 
-  
+
   //const Admin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-subadmin','add-product','edit-product','view-order','add-order','customer-uploads','customer-priority','log-out'];
   const subAdmin = ['sign-in','dashboard','customer-list','sub-admin-list','add-customer','add-subadmin','add-product','edit-product','view-order','add-order','customer-uploads','customer-priority','log-out']
-  const customer = ['sign-in','dashboard','add-order','view-order','edit-product','log-out'];
+  const customer = ['sign-in','dashboard','add-order','view-order','edit-product','soa','log-out'];
 
   let textColor = "white";
 
@@ -100,17 +101,23 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
 
-  
   useEffect(() => {
-    fetchCustomerDetails(); },
-    []);
+    const userEmail = localStorage.getItem("userEmail");
+    if(userEmail === '' || userEmail === null || userEmail === undefined){
+      navigate('/log-out');
+    }
+  });
+
+  useEffect(() => {
+    fetchCustomerDetails();
+  },[]);
 
     const fetchCustomerDetails = async () => {
 
     console.log(LoginUserRole);
     const resp = await APIService(EndPoints.FETCH_CUSTOMER_DETAILS +'?email='+localStorage.getItem("userEmail"), RequestType.GET).then(
 
-      (resp) => 
+      (resp) =>
                 {
                   if(resp.status === 200)
                   {
@@ -125,7 +132,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
                     }
 
                     const route = routes.map(({ type, name, icon, title, noCollapse, key, href, route }) => {
-    
+
                       if(resp.data.role == "subadmin" )
                       {
                         // if((key=='add-customer' && !canEditCustomer ))
@@ -146,9 +153,15 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
                           return;
                         }
                       }
-                      
+                      if(resp.data.role === "admin")
+                      {
+                        if(key === 'soa'){
+                          return;
+                        }
+                      }
+
                       let returnValue;
-                  
+
                       if (type === "collapse") {
                         returnValue = href ? (
                           <Link
@@ -212,7 +225,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
-  
+
   return (
     <SidenavRoot
       {...rest}
@@ -251,7 +264,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           (darkMode && !transparentSidenav && whiteSidenav)
         }
       />
-      {renderRoutes && <List>{renderRoutes}</List>} 
+      {renderRoutes && <List>{renderRoutes}</List>}
     </SidenavRoot>
   );
 }
