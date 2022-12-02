@@ -5,47 +5,14 @@ import MDTypography from "./../../../components/MDTypography";
 import MDAvatar from "./../../../components/MDAvatar";
 import MDBadge from "./../../../components/MDBadge";
 
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 
-import { useNavigate } from "react-router-dom";
+
 import {APIService} from "./../../../services/rootService";
 import {EndPoints, RequestType} from "./../../../services/apiConfig";
 
-const initialValues = [{
-  userId:0,
-  firstName: "",
-  lastName: "",
-  email: "",
-  contactNumber: "",
-  rightsForCustomerAccount: true,
-}]
-
-export default function Data() {
-
-  const [custmerDetails, setCustmerDetails] = useState([]);
-
-
-  useEffect(() => {
-      console.log("came here");
-      fetchAllCustmerDetails();
-
-  },[])
-
-  const fetchAllCustmerDetails = async () => {
-
-    const resp = await APIService(EndPoints.GET_ALL_CUSTOMER_DETAILS , RequestType.GET);
-
-    if(resp.status == 200)
-    {
-      setCustmerDetails(resp.data);
-    }
-  }
-
-const editCustomerData = (email) => {
-  console.log(email);
-  navigate(`/add-customer`, { state: email });
-}
-
+export default function SubAdminData() {
 
   // Navigate module
   let navigate = useNavigate();
@@ -75,27 +42,63 @@ const editCustomerData = (email) => {
     { Header: "Name", accessor: "author", width: "45%", align: "left" },
     { Header: "Status", accessor: "status", align: "center" },
     // { Header: "Type", accessor: "employed", align: "center" },
-    { Header: "action", accessor: "action", align: "center" },
+    { Header: "Edit", accessor: "edit", align: "center" },
+    { Header: "Delete", accessor: "delete", align: "center" },
   ];
+
+  const [subAdminDetails, setsubAdminDetails] = useState([]);
+
+
+  useEffect(() => {
+      console.log("came here");
+      fetchAllsubAdminDetails();
+
+  },[])
+
+  const fetchAllsubAdminDetails = async () => {
+
+    const resp = await APIService(EndPoints.GET_ALL_SUBADMIN_DETAILS , RequestType.GET);
+
+    if(resp.status == 200)
+    {
+      setsubAdminDetails(resp.data);
+    }
+  }
+
+  const editSubAdmin = (email) => {
+    console.log(email);
+    navigate(`/add-subadmin`, { state: email });
+  }
+
+  const deleteSubAdmin = async (email) => {
+    console.log(email);
+    const resp = await APIService(EndPoints.DELETE_SUBADMIN , RequestType.POST);
+    if(resp.status == 200)
+    {
+      fetchAllsubAdminDetails();
+    }
+  }
 
   let rows = [];
 
-  custmerDetails && custmerDetails?.map((customer) => {
+  subAdminDetails && subAdminDetails?.map((subadmin) => {
       rows.push(
-        {author: <Author image={customer.image} name={customer.firstName} email={customer.email} />,
+        {author: <Author image={subadmin.image} name={subadmin.firstName} email={subadmin.email} />,
         status: (
           <MDBox ml={-1}>
-            <MDBadge badgeContent={customer.accountStatus}
-            color={customer.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
+            <MDBadge badgeContent={subadmin.accountStatus}
+            color={subadmin.accountStatus === "Active" ? "success" : "Hold"} variant="gradient" size="sm" />
           </MDBox>
         ),
-        action: (
-          <MDButton variant="gradient" color="info" onClick={() => {editCustomerData(customer.email)}}>
+        edit: (
+          <MDButton variant="gradient" color="info" onClick={() => {editSubAdmin(subadmin.email)}}>
             Edit
           </MDButton>
-          // <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-          //   Edit
-          // </MDTypography>
+        ),
+        delete: (
+          <MDButton variant="gradient" color="info" onClick={() => {deleteSubAdmin(subadmin.email)}}>
+            Delete
+          </MDButton>
         ),}
       )
     });
@@ -104,5 +107,4 @@ const editCustomerData = (email) => {
     columns,
     rows
   }
-
 }
