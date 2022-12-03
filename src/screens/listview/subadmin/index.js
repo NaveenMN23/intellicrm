@@ -28,10 +28,10 @@ import Footer from "./../../../components/Footer";
 import DataTable from "./../../../components/Tables/DataTable";
 
 // Data
-import subAdminTableData from "./subAdminTableData";
+import authorsTableData from "./authorsTableData";
 
 function SubAdminList() {
-  const { columns, rows } = subAdminTableData();
+  const { columns, rows } = authorsTableData();
 
   return (
     <DashboardLayout>
