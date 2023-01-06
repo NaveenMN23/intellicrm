@@ -112,7 +112,7 @@ function Dashboard() {
                 color="success"
                 icon="store"
                 title="Completed Order"
-                count={response.data.ordersCompleted}
+                count={response.data.orderCompleted}
                 percentage={{
 
                 }}
