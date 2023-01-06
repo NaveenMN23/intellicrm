@@ -21,6 +21,7 @@ export const EndPoints = {
     GET_LABEL_DETAILS:'Orders/GetLableDetails',
     UPDATE_ORDER:'Orders/UpdateOrderDetails',
     GET_SOA_DETAILS:'SuperAdmin/GetSOADetails',
+    GET_DASHBOARD: 'SuperAdmin/GetDashBoardDetails',
 }
 
 /*
