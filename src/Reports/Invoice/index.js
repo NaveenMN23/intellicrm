@@ -15,7 +15,7 @@ const invoice = (props) => {
       <div style="font-size:12px;line-height:0px">${el.customerName}</div>
       <div style="font-size:12px;line-height:0px">${el.address}</div>
       <div style="font-size:12px;line-height:0px">${el.city}</div>
-     
+
     </div>
     <div id="title">
       <div style="font-size:18px;text-align:center;text-transform:UPPERCASE;text-decoration:underline;font-weight:bold">CHECK YOUR ORDER CAREFULLY</div>
@@ -55,7 +55,7 @@ const invoice = (props) => {
           <td style="font-size:12px;">${e2.subtotal}</td>
         </tr>`
         });
-        
+
     result = result + `</table>
     </div>
 
@@ -78,7 +78,12 @@ const invoice = (props) => {
         For any other queries regarding your order, please call ${el.pharmacyName} at phone number ${el.pharmacyNumber}..and speak to a customer relationship agent.
       </div>
     </div>
-  </div>`;
+  </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />`;
 
   return result;
   });
