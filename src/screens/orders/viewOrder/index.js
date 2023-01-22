@@ -168,7 +168,7 @@ const ViewOrder = () => {
     {headerName: 'Remarks', field:'remarks', minWidth: 150},
     {headerName: 'Quantity', field:'quantity', minWidth: 150},
     {headerName: 'Refill', field:'refill', minWidth: 150},
-    {headerName: 'Doctor Name', field:'doctorname', minWidth: 180},
+    {headerName: 'Doctor Name', field:'doctorName', minWidth: 180},
     {headerName: 'Tracking Number', field:'trackingNo', minWidth: 200},
     {headerName: 'Download Invoice', field: 'invoice', minWidth: 250, cellRenderer: downloadBtn}
   ]);
