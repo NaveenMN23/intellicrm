@@ -164,7 +164,7 @@ const ViewOrder = () => {
     {headerName: 'Total Price Client Pays', field:'totalpriceclientpays', minWidth: 280},
     {headerName: 'Prescription Attached', field:'prescriptionattached', minWidth: 280},
     {headerName: 'Directions Of Use', field:'directionsofuse', minWidth: 200},
-    {headerName: 'RxWarning/ Cautionary Note', field:'rxWarningcautionarynote', minWidth: 300},
+    {headerName: 'RxWarning/ Cautionary Note', field:'rxwarningcautionarynote', minWidth: 300},
     {headerName: 'Remarks', field:'remarks', minWidth: 150},
     {headerName: 'Quantity', field:'quantity', minWidth: 150},
     {headerName: 'Refill', field:'refill', minWidth: 150},
